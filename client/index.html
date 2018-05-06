@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO chat</title>
+</head>
+
+<body>
+    <form id="connectSocketForm">
+        <output for="connectSocketBtn" id="connectSocketOutput"></output>
+        <br>
+        <input type="submit" id="connectSocketBtn" value="Connect Socket" />
+    </form>
+
+    <form id="generateSeedForm" hidden>
+        <output for="generateSeedInput" id="generateSeedOutput"></output>
+        <br>
+        <input type="text" id="generateSeedInput" value="" placeholder="Enter a series of random words" pattern=".{10,}" required
+        />
+        <br>
+        <input type="submit" id="generateSeedBtn" value="Generate Seed" />
+    </form>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        $(function () {
+            let socket = null;
+            let seedMinLength = 10;
+
+            let $connectSocketForm = $('#connectSocketForm');
+            let $connectSocketOutput = $('#connectSocketOutput');
+
+            let $generateSeedForm = $('#generateSeedForm');
+            let $generateSeedInput = $('#generateSeedInput');
+            let $generateSeedOutput = $('#generateSeedOutput');
+
+            $connectSocketForm.on('submit', event => {
+                event.preventDefault();
+
+                socket = io();
+                socket
+                    .on('connection status', function (status) {
+                        $connectSocketOutput.val(status);
+                    });
+
+                init();
+            })
+
+            function init() {
+                $generateSeedForm
+                    .removeAttr('hidden')
+                    .on('submit', event => {
+                        event.preventDefault();
+                        socket
+                            .emit('generate seed', $generateSeedInput.val())
+                            .on('generate seed', function (msg) {
+                                $generateSeedOutput.val(msg);
+                            })
+                    })
+            }
+        });
+    </script>
+</body>
+
+</html>
