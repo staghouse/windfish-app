@@ -12,6 +12,9 @@
     "dependencies": {
         "dotenv": "^5.0.1",
         "express": "^4.15.2",
+        "express-force-ssl": "^0.3.2",
+        "fs": "0.0.1-security",
+        "https": "^1.0.0",
         "socket.io": "^2.1.0",
         "tmi.js": "^1.2.1"
     },

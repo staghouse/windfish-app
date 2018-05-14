@@ -14,19 +14,31 @@ class ircParser {
         this.channel = null;
         this.timer = null;
         this.timeSinceLast = null;
-        this.whitelist = null;
-        this.disableWhitelist = true;
+        this.whitelist = false;
+        this.disableWhitelist = false;
         this.botActivated = false;
         this.allowModAsAdmin = true;
         this.lastBotMessage = null;
         this.disableBotFeedbackOnSend = true;
-        this.botName = 'windfishbot';
-        this.approvedCommand = '!tracker';
-        this.storageKeyName = 'windfishTwitchWhitelist';
-        this.timeSinceLast = 0;
-        this.commandDelay = 5;
+        this.approvedCommands = ['!tracker', '!t'];
 
         Object.assign(this, options);
+    }
+
+    updateWhitelist(whitelist) {
+        console.log(whitelist);
+
+        this.whitelist = whitelist.whitelist;
+
+        switch (whitelist.response.type) {
+            case 'add':
+                this.parseMessage('add', whitelist.response.username);
+                break;
+
+            case 'remove':
+                this.parseMessage('remove', whitelist.response.username);
+                break;
+        }
     }
 
     /***********************************************************************************************
@@ -69,27 +81,21 @@ class ircParser {
             let argument1 = sentMessage[1];
             let argument2 = sentMessage[2];
 
-            if (commandCheck == that.approvedCommand) {
-                if (
-                    user.username === this.botName ||
-                    !that.timeSinceLast ||
-                    that.timeSinceLast !== that.commandDelay
-                ) {
-                    let userData = {
-                        isBroadcaster: user.badges
-                            ? (user.badges.broadcaster = '1' ? true : false)
-                            : false,
-                        isSubscriber: user.subscriber,
-                        isWhitelisted: null,
-                        isAuthorized: null,
-                        isMod: user.mod,
-                        username: user.username,
-                        argument1: argument1,
-                        argument2: argument2,
-                    };
+            if (that.approvedCommands.indexOf(commandCheck) > -1) {
+                let userData = {
+                    isBroadcaster: user.badges
+                        ? (user.badges.broadcaster = '1' ? true : false)
+                        : false,
+                    isSubscriber: user.subscriber,
+                    isWhitelisted: null,
+                    isAuthorized: null,
+                    isMod: user.mod,
+                    username: user.username,
+                    argument1: argument1,
+                    argument2: argument2,
+                };
 
-                    that.doUserCommand(userData);
-                }
+                that.doUserCommand(userData);
             }
         });
     }
@@ -98,140 +104,88 @@ class ircParser {
     doUserCommand(userData) {
         let self = this;
 
-        // let whitelisted = self.whitelist.indexOf(userData.username) > -1;
+        let whitelisted = self.whitelist.indexOf(userData.username) > -1;
 
         userData.isAuthorized =
             userData.isBroadcaster || (self.allowModAsAdmin && userData.isMod);
         userData.isWhitelisted =
             userData.isAuthorized || self.disableWhitelist || whitelisted;
 
-        if (!self.botActivated) {
-            /***********
+        if (!userData.argument1) {
+            self.parseMessage('online');
+        } else if (userData.argument1 === 'commands') {
+            self.parseMessage('commands');
+        } else if (userData.isAuthorized) {
+            /*******************
              *
-             * Needs to activate
+             * Admin Commands
              *
-             ***********/
+             *******************/
             switch (userData.argument1) {
-                case 'activate':
-                case 'deactivate':
-                    if (userData.isAuthorized) {
-                        self.parseMessage(userData.argument1);
-
-                        self.botActivated =
-                            userData.argument1 == 'activate' ? true : false;
-                    }
+                case 'add':
+                    self.socket.emit(
+                        'update whitelist add',
+                        userData.argument2
+                    );
                     break;
 
-                default:
-                    if (
-                        !self.timeSinceLast ||
-                        self.timeSinceLast >= self.inactiveCommandDelay
-                    ) {
-                        self.parseMessage('inactive');
-                    }
+                case 'remove':
+                    self.socket.emit(
+                        'update whitelist remove',
+                        userData.argument2
+                    );
+                    break;
+
+                case 'enable':
+                    self.disableWhitelist = false;
+                    self.parseMessage('enable');
+                    break;
+
+                case 'disable':
+                    self.disableWhitelist = true;
+                    self.parseMessage('disable');
+                    break;
+
+                case 'activate':
+                    self.botActivated = true;
+                    self.parseMessage('activate');
+                    break;
+
+                case 'deactivate':
+                    self.botActivated = false;
+                    self.parseMessage('deactivate');
+                    break;
+
+                case 'dismiss':
+                    self.disconnect();
                     break;
             }
+        } else {
+            self.parseMessage('default');
+        }
+
+        if (!self.botActivated) {
+            self.parseMessage('inactive');
         } else {
             /****************
              *
              * Public commands
              *
              ****************/
-            if (!userData.argument1 || userData.argument1 === 'commands') {
-                self.parseMessage('commands');
-            } else {
-                /********************
-                 *
-                 * Registered Commands
-                 *
-                 ********************/
-                switch (userData.argument1) {
-                    /*******************
-                     *
-                     * Whitelist commands
-                     *
-                     *******************/
-                    case 'add':
-                    case 'remove':
-                    case 'disable':
-                    case 'enable':
-                        if (userData.isAuthorized) {
-                            if (
-                                userData.argument1 === 'disable' &&
-                                userData.argument2 === 'whitelist'
-                            ) {
-                                self.disableWhitelist = true;
-                                self.parseMessage('disable');
-                            } else if (
-                                userData.argument1 === 'enable' &&
-                                userData.argument2 === 'whitelist'
-                            ) {
-                                self.disableWhitelist = false;
-                                self.parseMessage('enable');
-                            } else {
-                                // self.getSetWhitelist(
-                                //     userData.argument1,
-                                //     userData.argument2
-                                // );
-                            }
-                        } else {
-                            self.parseMessage(
-                                'unauthorized',
-                                userData.username
-                            );
-                            return;
-                        }
-                        break;
+            if (userData.argument1 === 'update') {
+                if (userData.isWhitelisted) {
+                    if (!self.disableBotFeedbackOnSend) {
+                        self.parseMessage('send', userData.username);
+                    }
 
-                    /*********************
-                     *
-                     * Whitelisted commands
-                     *
-                     *********************/
-                    default:
-                        if (userData.isWhitelisted) {
-                            if (!self.disableBotFeedbackOnSend) {
-                                self.parseMessage('send', userData.username);
-                            }
-
-                            self.socket.emit(
-                                'update tracker data',
-                                userData.argument1
-                            );
-                        }
-
-                        /******************************
-                         *
-                         * Whitelisted command attempted
-                         *
-                         ******************************/
-                        if (!userData.isWhitelisted) {
-                            self.parseMessage('help', userData.username);
-                        }
-                        break;
+                    self.socket.emit('update tracker data', userData.argument2);
+                } else {
+                    self.parseMessage('help', userData.username);
                 }
+            } else {
+                self.parseMessage('invalid', userData.username);
             }
         }
-
-        // Spam filter
-        // self.startDelayTimer();
-    }
-
-    // A throttle counter to keep track of the messages sent to the Tracker
-    startDelayTimer() {
-        let self = this;
-
-        self.timeSinceLast = 0;
-
-        clearInterval(self.timer);
-
-        self.timer = setInterval(() => {
-            if (self.timeSinceLast !== self.commandDelay) {
-                self.timeSinceLast++;
-            } else {
-                clearInterval(self.timer);
-            }
-        }, 1000);
     }
 
     sendMessage(message) {
@@ -266,8 +220,8 @@ class ircParser {
             // +------------------+
             case 'online':
                 this.sendMessage(
-                    `The Windfish has joined. The broadcaster must type "${
-                        this.approvedCommand
+                    `The Windfish has joined the channel. The broadcaster must type "${
+                        this.approvedCommands[0]
                     } activate" to allow the chat to edit the tracker.`
                 );
                 break;
@@ -275,7 +229,7 @@ class ircParser {
             case 'activate':
                 this.sendMessage(
                     `Windfish and "${
-                        this.approvedCommand
+                        this.approvedCommands[0]
                     }" command is now active!`
                 );
                 break;
@@ -287,7 +241,7 @@ class ircParser {
             case 'inactive':
                 this.sendMessage(
                     `Windfish is inactive. The channel broadcaster must type "${
-                        this.approvedCommand
+                        this.approvedCommands[0]
                     } activate" to allow the chat to adjust the tracker.`
                 );
                 break;
@@ -311,11 +265,9 @@ class ircParser {
                 );
                 break;
 
-            case 'unauthorized':
+            case 'invalid':
                 this.sendMessage(
-                    `Sorry ${username}, this is a reserved command for admins ${
-                        this.allowModAsAdmin ? 'and moderators' : ''
-                    }.`
+                    `Sorry ${username}, this is not a valid command.`
                 );
                 break;
 
@@ -337,28 +289,14 @@ class ircParser {
                 break;
 
             case 'remove':
-                this.sendMessage(
-                    `Removed ${username} from the whitelist! Maybe they should have bonked a few less trees...`
-                );
+                this.sendMessage(`Removed ${username} from the whitelist!`);
                 break;
 
-            case 'exists':
-                this.sendMessage(`${username} is already on the whitelist!`);
-                break;
-
-            case 'not-exists':
-                this.sendMessage(`${username} is not on the whitelist!`);
-                break;
-
-            case 'error-exp':
-                this.sendMessage(
-                    `Whitelist data could not be retrieved or edited, but the server was able to connect!`
-                );
-                break;
-
-            case 'error':
-                this.sendMessage(`Ganon has kidnapped the whitelist!`);
-                break;
+            // +---------+
+            // |         |
+            // |  Basic  |
+            // |         |
+            // +---------+
 
             case 'send':
                 this.sendMessage(`WHRRRRRRLLL, ${username}!`);
