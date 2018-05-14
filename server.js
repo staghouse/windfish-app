@@ -3,7 +3,7 @@ require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
-const ircParser = require('./irc-parser');
+const bot = require('./class/bot');
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -11,9 +11,15 @@ const io = require('socket.io')(http);
 
 let sessions = {};
 
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
+// Client Pages
+app.use(express.static(path.join(__dirname, 'client/tracker/dist')));
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist/index.html'));
+    res.sendFile(path.join(__dirname, 'client/docs/index.html'));
+});
+
+app.get('/windfish', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/tracker/dist/tracker.html'));
 });
 
 http.listen(process.env.PORT, () => {
@@ -88,7 +94,7 @@ http.listen(process.env.PORT, () => {
             socket.on('connection bot', config => {
                 let channels = [];
 
-                twitchConnection = new ircParser(config);
+                twitchConnection = new bot(config);
 
                 channels.push(`#${config.channel}`);
 

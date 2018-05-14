@@ -1,0 +1,86 @@
+#windfish-docs {
+    footer {
+        background-color: transparent;
+        color: white;
+
+        h6 {
+            font-family: $displayStack;
+            margin: 0 auto 30px;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .footer-category {
+            text-align: center;
+
+            .float-image {
+                position: absolute;
+                right: 30px;
+                bottom: -44px;
+                width: 100%;
+                max-width: 280px;
+                height: auto;
+                display: block;
+
+                @include mediaMax(569px) {
+                    position: relative;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                    margin: 0 auto -104px;
+                }
+            }
+
+            ol,
+            ul {
+                display: flex;
+                max-width: 570px;
+                margin: 0 auto;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: center;
+
+                li {
+                    box-sizing: border-box;
+                    text-align: center;
+                    flex: 1;
+
+                    @include mediaMax(569px) {
+                        flex: auto;
+                        width: 50%;
+
+                        &:first-of-type {
+                            margin-bottom: 50px;
+                        }
+                    }
+
+                    p {
+                        text-align: left;
+                    }
+
+                    img {
+                        width: auto;
+                        max-height: 100px;
+                    }
+                }
+            }
+        }
+
+        .legal {
+            text-align: center;
+            background-color: white;
+            color: $darkBlue;
+
+            .follow {
+                max-width: 30px;
+                display: block;
+                margin: 0 15px 20px;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+    }
+}

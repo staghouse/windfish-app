@@ -1,0 +1,52 @@
+#windfish-docs {
+	#masthead {
+		background-color: transparent;
+		padding-top: 60px;
+		
+		.masthead-image {
+			max-width: 570px;
+			text-align: center;
+			margin: 0 auto;
+
+			img {
+				max-width: 400px;
+				width: 100%;
+				height: auto;
+			}
+		}
+
+		.masthead-copy {
+			max-width: 570px;
+			margin: 30px auto 0;
+			text-align: center;
+
+			& > span {
+				font-family: $displayStack;
+				font-size: 24px;
+				display: inline-block;
+				margin: 0 20px;
+
+				@include mediaMax( 569px ) {
+					display: block;
+					margin: 0 auto;
+				}
+			}
+
+			h1 {
+				font-family: $displayStack;
+				font-size: 90px;
+				margin-bottom: 30px;
+
+				@include mediaMax( 569px ) {
+					font-size: 70px;
+				}
+			}
+
+			h2 {
+				font-size: 24px;
+				line-height: 1.3em;
+				margin-bottom: 30px;
+			}
+		}
+	}
+}

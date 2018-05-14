@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=x-ua-compatible content="ie=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta property=og:url content=https://windfish.io>
+    <title>Windfish // Windfish.io - A game tracker for The Legend of Zelda: Link's Awakening DX Randomizer</title>
+    <meta property=og:title content="Windfish Tracker | Windfish.io">
+    <meta name=description content="Windfish is a web-based game tracker designed for streaming The Legend of Zelda: Link's Awakening DX that tracks the overworld, items and much more!">
+    <meta property=og:description content="Windfish is a web-based game tracker designed for streaming The Legend of Zelda: Link's Awakening DX that tracks the overworld, items and much more!">
+    <meta name=keywords content="The Legend of Zelda: Link's Awakening,Zelda 4,Z4 Tracker,Speedruns,Randomizer,HTML5,CSS3,ES6,JavaScript">
+    <meta property=og:image content=/static/images/display/master.jpg>
+    <link rel=apple-touch-icon sizes=180x180 href=/static/images/favicons/apple-icon-180x180.png>
+    <link rel=icon type=image/png sizes=32x32 href=/static/images/favicons/favicon-32x32.png>
+    <link rel=icon type=image/png sizes=16x16 href=/static/images/favicons/favicon-16x16.png>
+    <meta name=msapplication-TileColor content=#ffffff>
+    <meta name=theme-color content=#ffffff>
+    <link href="dist/assets/css/main.css" inline/>
+</head>
+
+<body id="windfish-docs">
+    <nav>
+        <div class="grid-container">
+            <a href="." class="title-link">
+                <div class="short-title">Windfish</div>
+            </a>
+            <ol>
+                <a href="./windfish" class="nav-link">
+                    <li>Use It Now</li>
+                </a>
+                <a href="#features" class="nav-link">
+                    <li>Features</li>
+                </a>
+                <a href="https://github.com/ericlakatos/windfish-issues/issues" class="nav-link">
+                    <li>Feedback</li>
+                </a>
+            </ol>
+        </div>
+    </nav>
+
+    <section id="masthead">
+        <div class="grid-container">
+            <div class="masthead-image">
+                <img src="/static/images/display/windfish.png" alt="The Windfish" title="The Windfish" />
+            </div>
+            <div class="masthead-copy">
+                <h1>Windfish</h1>
+                <h2>Windfish is a game tracker that works in all major web browsers and is designed for tracking progress in
+                    The Legend of Zelda: Link's Awakening DX
+                    <a href="https://sites.google.com/view/z4randomizer" target="_blank">
+                        <u>randomizer</u>
+                    </a>
+                </h2>
+
+                <a href="./windfish" class="btn-link">
+                    <div class="btn btn-green">
+                        <span>Use It Now</span>
+                    </div>
+                </a>
+
+                <span>or</span>
+
+                <a href="windfish/windfish.zip" class="btn-link">
+                    <div class="btn btn-download">
+                        <span>Download</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="grid-container">
+            <h3>Features</h3>
+        </div>
+
+        <!-- Overworld -->
+        <div class="inner-row first">
+            <div class="grid-container">
+                <div class="inner-copy">
+                    <h4>Overworld</h4>
+                    <p>Keep tabs on places you've been, places you're going and what was found when you got there!</p>
+                    <ul>
+                        <li>50+ map markers</li>
+                        <ul>
+                            <li>Dungeons, chests, NPCs, entrances and landmarks</li>
+                            <li>Entrances are linked together; hovering shows both points</li>
+                            <li>Dungeon markers indentify their accessibility based on your current items</li>
+                        </ul>
+                        <li>Multiple overlays including entrances and collectibles</li>
+                        <li>Use different map images to ease your navigation</li>
+                    </ul>
+                </div>
+                <img class="feature-image" src="/static/images/display/tracker-overworld.png" alt="Overworld tracker" title="Overworld tracker"
+                />
+            </div>
+        </div>
+
+        <!-- Items -->
+        <div class="inner-row">
+            <div class="grid-container">
+                <div class="inner-copy">
+                    <h4>Items</h4>
+                    <p>Just activate an item or event and forget about pulling up your menu to check again!</p>
+                    <ul>
+                        <li>Different layout modes to expand on what you want to track</li>
+                        <ul>
+                            <li>Default: Required Items &amp; Dungeons</li>
+                            <li>Extended: Collectibles &amp; Keys</li>
+                            <li>Super-Extended: Pieces of Heart, Songs &amp; Events</li>
+                        </ul>
+                        <li>Track the amount of potential unique chests in dungeons</li>
+                    </ul>
+                </div>
+                <img class="feature-image" src="/static/images/display/tracker-items.png" alt="Item tracker" title="Item tracker" />
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="inner-row">
+            <div class="grid-container">
+                <div class="inner-copy">
+                    <h4>Timer</h4>
+                    <p>Track your current run with just a click!</p>
+                    <ul>
+                        <li>Timer can start and stop whenever you like</li>
+                        <li>Save your best time to compare against later</li>
+                        <li>Current time will change color based on approach to previous time</li>
+                    </ul>
+                </div>
+                <img class="feature-image" src="/static/images/display/tracker-timer.png" alt="Timer tracker" title="Timer tracker" />
+            </div>
+        </div>
+
+        <!-- Twitch -->
+        <div class="inner-row">
+            <div class="grid-container">
+                <div class="inner-copy">
+                    <h4>Twitch.tv Integration</h4>
+                    <p>Streaming your game? Let your chat help you track your items!</p>
+                    <ul>
+                        <li>Customizable chat commands</li>
+                        <li>Commands can activate anything in the Items tracker</li>
+                        <li>WindFishBot automatically joins your channel</li>
+                        <li>Add/remove users to a Whitelist</li>
+                    </ul>
+                </div>
+                <img class="feature-image" src="/static/images/display/tracker-twitch.png" alt="Twitch.tv logo" title="Twitch.tv logo" />
+            </div>
+        </div>
+
+        <!-- Other -->
+        <div class="inner-row last">
+            <div class="grid-container">
+                <div class="inner-copy">
+                    <h4>Other Features</h4>
+                    <p>Let the Windfish work for you!</p>
+                    <ul>
+                        <li>Persistent settings</li>
+                        <li>Visual customizations</li>
+                        <li>More to come...</li>
+                    </ul>
+                </div>
+                <img class="float-image" src="/static/images/display/link-floating.gif" title="Link floating in the ocean" />
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="legal footer-category">
+            <div class="grid-container">
+                <h6>Follow me</h6>
+                <ul>
+                    <a class="follow" href="https://twitter.com/EricLakatos" target="_blank">
+                        <img src="/static/images/logos/social/logo-twitter.svg" alt="Twitter icon" title="Twitter icon" />
+                    </a>
+                    <a class="follow" href="https://twitch.tv/Staghouse" target="_blank">
+                        <img src="/static/images/logos/social/logo-twitch.svg" alt="Twitch.tv icon" title="Twitch.tv icon" />
+                    </a>
+                    <a class="follow" href="https://github.com/EricLakatos/" target="_blank">
+                        <img src="/static/images/logos/social/logo-github.svg" alt="GitHub icon" title="GitHub icon" />
+                    </a>
+                </ul>
+                <ul>
+                    <li>Images &copy; Nintendo (where applicable)</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
