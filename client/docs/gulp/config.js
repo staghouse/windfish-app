@@ -1,24 +1,27 @@
 const srcFiles = 'src';
 const srcAssets = srcFiles + '/assets';
+const buildFiles = 'build';
+const buildAssets = buildFiles + '/assets';
 const distFiles = 'dist';
 const distAssets = distFiles + '/assets';
 
 module.exports = {
-    deleteFiles: {
+    delete: {
+        build: [buildFiles],
         dist: [distFiles],
     },
     sass: {
         src: srcAssets + '/sass/',
-        dest: distAssets + '/css',
+        dest: buildAssets + '/css',
         options: {
             noCache: true,
             compass: false,
             bundleExec: true,
-            sourcemap: false,
+            sourcemap: true,
         },
     },
     autoprefixer: {
-        browsers: ['> 1%', 'last 2 versions', 'ie > 10'],
+        browsers: ['> 1%', 'last 2 versions'],
         cascade: true,
     },
     watch: {
@@ -26,7 +29,7 @@ module.exports = {
     },
     optimize: {
         css: {
-            src: distAssets + '/css/**/*.css',
+            src: buildAssets + '/css/**/*.css',
             dest: distAssets + '/css/',
             options: {
                 keepSpecialComments: 0,

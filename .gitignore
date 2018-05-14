@@ -25,4 +25,5 @@ node_modules
 .env
 
 # client files
-client/dist/
+client/docs/build/
+dist/
