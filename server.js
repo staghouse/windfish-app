@@ -2,32 +2,19 @@ require('dotenv').config();
 
 const path = require('path');
 const fs = require('fs');
-
 const crypto = require('crypto');
-
 const ircParser = require('./irc-parser');
-
-// const key = fs.readFileSync('certs/localhost.key');
-// const cert = fs.readFileSync('certs/localhost.crt');
-// const options = {
-//     key: key,
-//     cert: cert,
-// };
-
-// const forceSsl = require('express-force-ssl');
 const express = require('express');
 const app = express();
-// app.use(forceSsl);
-
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 let sessions = {};
 
-// app.use(express.static(path.join(__dirname, 'client', 'static')));
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'client', 'index.html'));
-// });
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist/index.html'));
+});
 
 http.listen(process.env.PORT, () => {
     console.log(`listening on *:${process.env.PORT}`);

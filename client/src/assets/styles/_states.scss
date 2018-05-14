@@ -1,0 +1,24 @@
+body {
+    &[data-compact-markers='true'] {
+        .context-menu {
+            .extra {
+                display: none;
+            }
+        }
+    }
+
+    &[data-dungeon-requirements-tracking='true'] {
+        #overworld-tracker {
+            .marker[data-id='01'],
+            .marker[data-id='02'],
+            .marker[data-id='03'],
+            .marker[data-id='04'],
+            .marker[data-id='05'],
+            .marker[data-id='06'],
+            .marker[data-id='07'],
+            .marker[data-id='08'] {
+                background-color: $blue-1 !important;
+            }
+        }
+    }
+}

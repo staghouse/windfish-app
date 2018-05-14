@@ -1,0 +1,71 @@
+#warning-overlay {
+    @extend %full-abs;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    padding: 10px;
+    box-sizing: border-box;
+
+    .warn-box {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: $gold-1;
+        color: black;
+        font-size: 18px;
+        text-align: center;
+
+        @include clearfix;
+
+        span {
+            display: block;
+            background-color: $gold-2;
+            margin-top: 30px;
+            padding: 10px;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .hide-warning-msg {
+            margin-top: 20px;
+            border: 1px solid $gold-1;
+            background-color: $gold-2;
+            color: white;
+            padding: 10px;
+            clear: both;
+            display: table;
+            cursor: pointer;
+        }
+
+        h5 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        h6 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p,
+        li {
+            font-size: 18px;
+        }
+
+        &.list {
+            text-align: left;
+
+            ol,
+            ul {
+                padding-left: 20px;
+
+                li {
+                    list-style: initial;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}

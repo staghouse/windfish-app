@@ -21,9 +21,8 @@ coverage
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
-Gemfile.lock
-package-lock.json
-*.psd
-build
+# env
 .env
-certs
+
+# client files
+client/dist/

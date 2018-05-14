@@ -1,0 +1,62 @@
+// setup
+@import '_reset';
+@import '_vars';
+@import '_images';
+@import '_mixins';
+@import '_font';
+@import '_states';
+
+// components
+@import '_modal';
+@import '_settings';
+
+html {
+    min-width: 320px;
+
+    &,
+    body {
+        @extend %full-abs;
+        overflow-x: hidden;
+        background-color: $blue-1;
+        color: white;
+        background-image: url($image-asset-path+'display/bg-tile-kanalet.gif');
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        background-position: center;
+        font-family: $font-family;
+
+        .tracker {
+            width: 100%;
+            padding: 10px;
+            position: relative;
+            box-sizing: border-box;
+
+            @include clearfix;
+
+            &::before {
+                content: '';
+                display: none;
+                background-color: inherit;
+                position: absolute;
+                left: 0;
+                right: auto;
+                top: -20px;
+                bottom: auto;
+                font-size: 16px;
+                color: white;
+                padding: 7px 10px 0;
+                z-index: 3;
+                pointer-events: none;
+            }
+        }
+
+        #chat-embed {
+            max-width: $tracker-max-width;
+            margin: 0 auto;
+            margin-bottom: 30px;
+        }
+    }
+}
