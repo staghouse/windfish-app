@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import { warn } from '../utils';
+import { notice } from '../utils';
 export default {
     name: 'MenuBar',
     methods: {
         displayHelp() {
-            warn(
+            notice(
                 '<h5>How to use the trackers</h5>' +
                     '<h6>Overworld</h6>' +
                     '<ol>' +

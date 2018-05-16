@@ -56,7 +56,7 @@ export function hasRequirements(itemStore, requirements) {
 // |  Bulletproof modal  |
 // |                     |
 // +---------------------+
-export function warn(str, customClass) {
+export function notice(str, customClass) {
     var className = customClass || '';
     document.body.insertAdjacentHTML(
         'beforeend',

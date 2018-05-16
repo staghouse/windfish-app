@@ -1,15 +1,17 @@
 Vue.config.devtools = true;
 Vue.config.productionTip = false;
 
+import 'dotenv';
+
 import Vue from 'vue';
 import VueSocketio from 'vue-socket.io';
 import App from './App';
 import store from './store';
 import plugins from './plugins';
 
-import { warn } from './utils';
+import { notice } from './utils';
 
-Vue.use(VueSocketio, '/');
+Vue.use(VueSocketio, process.env.SOCKET_SERVER_PATH);
 
 /* eslint-disable no-new */
 new Vue({
@@ -34,6 +36,8 @@ new Vue({
             this.$store.dispatch('update broadcast data', newItemData);
         },
         'update tracker data': function(spriteCommand) {
+            console.log(spriteCommand);
+
             this.$store.dispatch('update item data', {
                 id: spriteCommand,
                 fromSocket: true,
@@ -53,7 +57,7 @@ new Vue({
 }).$mount('#app');
 
 // function versionNotice() {
-//     warn(
+//     notice(
 //         '<h5>New in v3.1.4</h5>' +
 //             '<ol>' +
 //             '<li>Fixed the bomb marker on the map. It will now show the asset.</li>' +

@@ -30,7 +30,7 @@ module.exports = {
     optimize: {
         css: {
             src: buildAssets + '/css/**/*.css',
-            dest: distAssets + '/css/',
+            dest: buildAssets + '/css/',
             options: {
                 keepSpecialComments: 0,
             },

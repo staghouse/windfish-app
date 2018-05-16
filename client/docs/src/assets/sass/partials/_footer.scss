@@ -1,7 +1,8 @@
 #windfish-docs {
     footer {
-        background-color: transparent;
-        color: white;
+        background-color: white;
+        color: $darkBlue;
+        padding: 60px 0;
 
         h6 {
             font-family: $displayStack;
@@ -68,8 +69,6 @@
 
         .legal {
             text-align: center;
-            background-color: white;
-            color: $darkBlue;
 
             .follow {
                 max-width: 30px;

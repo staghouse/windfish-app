@@ -1,26 +1,22 @@
 {
     "name": "windfish-app",
     "version": "2.0.0",
-    "description": "WindFish App",
+    "description": "Windfish.io",
     "engines": {
-        "node": "10.0.0"
+        "node": "10.0.0",
+        "npm": "6.0.1"
     },
-    "main": "index.js",
+    "main": "server.js",
     "scripts": {
         "start": "node server.js"
     },
     "dependencies": {
+        "colors": "^1.2.5",
         "dotenv": "^5.0.1",
         "express": "^4.15.2",
-        "express-force-ssl": "^0.3.2",
-        "fs": "0.0.1-security",
         "https": "^1.0.0",
         "socket.io": "^2.1.0",
         "tmi.js": "^1.2.1"
     },
-    "keywords": [
-        "node",
-        "heroku",
-        "express"
-    ]
+    "keywords": ["node", "heroku", "express"]
 }

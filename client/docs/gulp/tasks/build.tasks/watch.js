@@ -4,5 +4,5 @@ const watch = require('gulp-watch');
 const runSequence = require('run-sequence').use(gulp);
 
 gulp.task('watch', function() {
-    gulp.watch(config.sass, ['sass']);
+    gulp.watch(config.sass, ['default']);
 });

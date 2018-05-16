@@ -3,9 +3,10 @@ const runSequence = require('run-sequence').use(gulp);
 
 gulp.task('default', function(callback) {
     runSequence(
-        'delete',
-        ['sass', 'optimize:css'],
-        'inline-css',
+        ['delete:build', 'delete:dist'],
+        ['sass'],
+        ['optimize:css'],
+        ['inline-css'],
         'watch',
         callback
     );

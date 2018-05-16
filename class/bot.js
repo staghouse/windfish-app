@@ -1,26 +1,21 @@
 const TMI = require('tmi.js');
 
-/****************************************************************************************************
- *
- * The Twitch Class is a controller self connects to Twitch.tv through the TMI library via Twitch APIs
- *
- ****************************************************************************************************/
+// TODO: Event Queue that is Promise based on the client say method
+
 class Bot {
     constructor(options) {
+        this.debug = true;
         this.socket = null;
-        //
+        this.identity = null;
         this.client = null;
-        this.debug = false;
         this.channel = null;
-        this.timer = null;
-        this.timeSinceLast = null;
         this.whitelist = false;
         this.disableWhitelist = false;
-        this.botActivated = false;
+        this.botActivated = true;
         this.allowModAsAdmin = true;
         this.lastBotMessage = null;
-        this.disableBotFeedbackOnSend = true;
-        this.approvedCommands = ['!tracker', '!t'];
+        this.disableBotFeedbackOnSend = false;
+        this.approvedCommands = ['!tracker', '!t', '!hud'];
 
         Object.assign(this, options);
     }
@@ -41,25 +36,17 @@ class Bot {
         }
     }
 
-    /***********************************************************************************************
-     *
-     * Connect to Twitch via TMI
-     *
-     * @param {Object} config - Values needed for TMI to connect to Twitch
-     * @param {Object} api - The Tracker class for bidirectional utilization
-     *
-     ***********************************************************************************************/
-    connect(config = {}) {
+    connect(config) {
         let self = this;
 
-        this.channel = config.channels[0]; // ehhhhhhh
+        this.identity = config.identity.username.toLowerCase();
+        this.channel = config.channels[0];
         this.socket = config.socket;
 
         this.client = new TMI.client(config);
         this.client
             .connect()
             .then(data => {
-                self.parseMessage('online');
                 self.watchChat();
             })
             .catch(error => {
@@ -73,146 +60,176 @@ class Bot {
 
     watchChat() {
         let that = this;
-        let channel = that.channel;
 
         that.client.on('chat', (channel, user, message, self) => {
             let sentMessage = message.split(' ');
             let commandCheck = sentMessage[0];
-            let argument1 = sentMessage[1];
-            let argument2 = sentMessage[2];
 
-            if (that.approvedCommands.indexOf(commandCheck) > -1) {
-                let userData = {
-                    isBroadcaster: user.badges
-                        ? (user.badges.broadcaster = '1' ? true : false)
-                        : false,
-                    isSubscriber: user.subscriber,
-                    isWhitelisted: null,
-                    isAuthorized: null,
-                    isMod: user.mod,
-                    username: user.username,
-                    argument1: argument1,
-                    argument2: argument2,
-                };
+            if (user.username !== that.identity) {
+                let argument1 = sentMessage[1];
+                let argument2 = sentMessage[2];
 
-                that.doUserCommand(userData);
+                if (that.approvedCommands.indexOf(commandCheck) > -1) {
+                    let userData = {
+                        displayName: user['display-name'],
+                        username: user.username,
+                        isBroadcaster: user.badges
+                            ? Boolean(parseInt(user.badges.broadcaster))
+                            : false,
+                        isSubscriber: user.subscriber,
+                        isMod: user.mod,
+                        argument1: argument1,
+                        argument2: argument2,
+                        isWhitelisted: null,
+                        isAuthorized: null,
+                    };
+
+                    that.doUserCommand(userData);
+                }
             }
         });
     }
 
-    // A mini-controller for checking which command to execute on the trackers
     doUserCommand(userData) {
-        let self = this;
-
-        let whitelisted = self.whitelist.indexOf(userData.username) > -1;
+        let whitelisted = this.whitelist.indexOf(userData.username) > -1;
 
         userData.isAuthorized =
-            userData.isBroadcaster || (self.allowModAsAdmin && userData.isMod);
+            this.debug ||
+            userData.isBroadcaster ||
+            (this.allowModAsAdmin && userData.isMod);
         userData.isWhitelisted =
-            userData.isAuthorized || self.disableWhitelist || whitelisted;
+            userData.isAuthorized || this.disableWhitelist || whitelisted;
 
-        if (!userData.argument1) {
-            self.parseMessage('online');
-        } else if (userData.argument1 === 'commands') {
-            self.parseMessage('commands');
-        } else if (userData.isAuthorized) {
-            /*******************
-             *
-             * Admin Commands
-             *
-             *******************/
+        if (userData.isAuthorized) {
             switch (userData.argument1) {
                 case 'add':
-                    self.socket.emit(
+                    this.socket.emit(
                         'update whitelist add',
                         userData.argument2
                     );
                     break;
 
                 case 'remove':
-                    self.socket.emit(
+                    this.socket.emit(
                         'update whitelist remove',
                         userData.argument2
                     );
                     break;
 
                 case 'enable':
-                    self.disableWhitelist = false;
-                    self.parseMessage('enable');
+                    this.disableWhitelist = false;
+                    this.parseMessage('enable');
                     break;
 
                 case 'disable':
-                    self.disableWhitelist = true;
-                    self.parseMessage('disable');
+                    this.disableWhitelist = true;
+                    this.parseMessage('disable');
                     break;
 
                 case 'activate':
-                    self.botActivated = true;
-                    self.parseMessage('activate');
+                    this.botActivated = true;
+                    this.parseMessage('activate');
                     break;
 
                 case 'deactivate':
-                    self.botActivated = false;
-                    self.parseMessage('deactivate');
+                    this.botActivated = false;
+                    this.parseMessage('deactivate');
                     break;
 
                 case 'dismiss':
-                    self.disconnect();
+                    this.disconnect();
+                    break;
+
+                //
+                // case 'update':
+                //     if (!userData.argument2) {
+                //         this.parseMessage('invalid', userData.username);
+                //     } else {
+                //         this.parseMessage('send', userData.username);
+                //         this.socket.emit(
+                //             'update tracker data',
+                //             userData.argument2
+                //         );
+                //     }
+                //     break;
+
+                // default:
+                //     if (!userData.argument1) {
+                //         this.parseMessage('default');
+                //     } else {
+                //         this.parseMessage('invalid');
+                //     }
+                //     break;
+            }
+        }
+
+        if (userData.isWhitelisted && this.botActivated) {
+            switch (userData.argument1) {
+                case 'update':
+                    if (!userData.argument2) {
+                        this.parseMessage('invalid', userData.username);
+                    } else {
+                        this.parseMessage('send', userData.username);
+                        this.socket.emit(
+                            'update tracker data',
+                            userData.argument2
+                        );
+                    }
+                    break;
+
+                default:
+                    if (!userData.argument1) {
+                        this.parseMessage('default');
+                    } else {
+                        this.parseMessage('invalid');
+                    }
                     break;
             }
         } else {
-            self.parseMessage('default');
+            this.parseMessage('help', userData.displayName);
         }
 
-        if (!self.botActivated) {
-            self.parseMessage('inactive');
-        } else {
-            /****************
-             *
-             * Public commands
-             *
-             ****************/
-            if (userData.argument1 === 'update') {
-                if (userData.isWhitelisted) {
-                    if (!self.disableBotFeedbackOnSend) {
-                        self.parseMessage('send', userData.username);
-                    }
-
-                    self.socket.emit('update tracker data', userData.argument2);
-                } else {
-                    self.parseMessage('help', userData.username);
-                }
-            } else {
-                self.parseMessage('invalid', userData.username);
-            }
-        }
+        // if (!this.botActivated) {
+        //     this.parseMessage('inactive', userData.displayName);
+        // }
     }
 
     sendMessage(message) {
-        let that = this;
-        let prependString = '/me ~> ';
-        let fullMessage = prependString + message;
+        let channel = this.channel;
 
-        // Silly way to prevent identical messaging for Twitch spam filter
-        if (that.lastBotMessage === fullMessage) {
-            fullMessage = fullMessage.replace('~', '-');
+        // Pevent identical messaging for Twitch spam filter
+        if (this.lastBotMessage === message) {
+            message = message.replace('~', '-');
         }
 
-        that.lastBotMessage = fullMessage;
+        this.lastBotMessage = message;
 
-        if (typeof message === 'string') {
-            that.client.say(that.channel, fullMessage).catch(function(error) {
-                console.error(error);
-            });
-        } else {
-            console.error(
-                'Error :: sendMessage() tried to fire without a message.'
-            );
-        }
+        this.client.say(channel, message).catch(error => {
+            console.error(error);
+        });
     }
 
-    parseMessage(modifier = null, username) {
+    parseMessage(modifier, argument) {
         switch (modifier) {
+            // +-------------------+
+            // |                   |
+            // |  Public Messages  |
+            // |                   |
+            // +-------------------+
+            case 'help':
+                this.sendMessage(
+                    `/me ~> Hey ${
+                        this.channel
+                    }, it looks like ${argument} is trying to use the tracker. Would you like to add them to the whitelist?`
+                );
+                break;
+
+            case 'invalid':
+                this.sendMessage(
+                    `/me ~> Sorry ${argument}, this is not a valid command.`
+                );
+                break;
+
             // +------------------+
             // |                  |
             // |  Bot Activation  |
@@ -220,54 +237,31 @@ class Bot {
             // +------------------+
             case 'online':
                 this.sendMessage(
-                    `The Windfish has joined the channel. The broadcaster must type "${
+                    `/me ~> The Wind Fish has joined the channel, ${
+                        this.channel
+                    } must type "${
                         this.approvedCommands[0]
-                    } activate" to allow the chat to edit the tracker.`
+                    } activate" to activate it.`
                 );
                 break;
 
             case 'activate':
                 this.sendMessage(
-                    `Windfish and "${
+                    `/me ~> The Wind Fish and "${
                         this.approvedCommands[0]
                     }" command is now active!`
                 );
                 break;
 
             case 'deactivate':
-                this.sendMessage(`Windfish has been deactivated.`);
+                this.sendMessage(`/me ~> The Wind Fish has been deactivated.`);
                 break;
 
             case 'inactive':
                 this.sendMessage(
-                    `Windfish is inactive. The channel broadcaster must type "${
+                    `/me ~> The Wind Fish is inactive. The channel broadcaster must type "${
                         this.approvedCommands[0]
                     } activate" to allow the chat to adjust the tracker.`
-                );
-                break;
-
-            // +-------------------+
-            // |                   |
-            // |  Public Messages  |
-            // |                   |
-            // +-------------------+
-            case 'commands':
-                this.sendMessage(
-                    `For a list of Windfish commands check out http://windfish.io/COMMANDS.md`
-                );
-                break;
-
-            case 'help':
-                this.sendMessage(
-                    `Hey ${
-                        this.channel
-                    }, it looks like ${username} is trying to use the tracker. Would you like to add them to the whitelist?`
-                );
-                break;
-
-            case 'invalid':
-                this.sendMessage(
-                    `Sorry ${username}, this is not a valid command.`
                 );
                 break;
 
@@ -277,19 +271,21 @@ class Bot {
             // |                  |
             // +------------------+
             case 'enable':
-                this.sendMessage(`The whitelist has been enabled.`);
+                this.sendMessage(`/me ~> The whitelist has been enabled.`);
                 break;
 
             case 'disable':
-                this.sendMessage(`The whitelist has been disabled.`);
+                this.sendMessage(`/me ~> The whitelist has been disabled.`);
                 break;
 
             case 'add':
-                this.sendMessage(`Added ${username} to the whitelist!`);
+                this.sendMessage(`/me ~> Added ${argument} to the whitelist!`);
                 break;
 
             case 'remove':
-                this.sendMessage(`Removed ${username} from the whitelist!`);
+                this.sendMessage(
+                    `/me ~> Removed ${argument} from the whitelist!`
+                );
                 break;
 
             // +---------+
@@ -297,13 +293,18 @@ class Bot {
             // |  Basic  |
             // |         |
             // +---------+
-
             case 'send':
-                this.sendMessage(`WHRRRRRRLLL, ${username}!`);
+                this.sendMessage(`/me ~> WHRRRRRRLLL, ${argument}!`);
+                break;
 
+            // +-------------------+
+            // |                   |
+            // |  Nothing left...  |
+            // |                   |
+            // +-------------------+
             default:
                 this.sendMessage(
-                    `"Someday, thou may recall this island... self memory must be the real dream world."`
+                    `/me ~> "Someday, thou may recall this island... self memory must be the real dream world."`
                 );
                 break;
         }

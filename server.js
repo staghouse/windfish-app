@@ -1,29 +1,15 @@
 require('dotenv').config();
 
-const path = require('path');
-const fs = require('fs');
-const crypto = require('crypto');
+const { colors } = require('./utils');
 const bot = require('./class/bot');
-const express = require('express');
-const app = express();
+const app = require('./routes');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-let sessions = {};
-
-// Client Pages
-app.use(express.static(path.join(__dirname, 'client/tracker/dist')));
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/docs/index.html'));
-});
-
-app.get('/windfish', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/tracker/dist/tracker.html'));
-});
-
 http.listen(process.env.PORT, () => {
-    console.log(`listening on *:${process.env.PORT}`);
+    console.log(`The Wind Fish is dreaming on *:${process.env.PORT}\n\n`.warn);
+
+    let sessions = {};
 
     io.on('connection', socket => {
         let connectedClients = Object.keys(
@@ -31,13 +17,13 @@ http.listen(process.env.PORT, () => {
         );
         let connectedCount = connectedClients.length;
 
-        console.info(`User connected with ID: ${socket.id}`);
-        console.log(`Currently connected users: ${connectedCount}`);
+        console.log(`User connected with ID: ${socket.id}`.info);
+        console.log(`Currently connected users: ${connectedCount}`.info);
         console.log('Clients:');
         console.log(connectedClients);
 
         socket.on('disconnect', () => {
-            console.log(`User disconnected with ID: ${socket.id}`);
+            console.log(`User disconnected with ID: ${socket.id}`.warn);
 
             for (let key in sessions) {
                 let session = sessions[key];
@@ -50,7 +36,7 @@ http.listen(process.env.PORT, () => {
                     // If no users attached to the session
                     if (session.users.length < 1) {
                         // remove the session from memory
-                        console.log(`Deleting session ID: ${key}`);
+                        console.log(`Deleting session ID: ${key}`.warn);
                         delete sessions[key];
                     }
                 }
@@ -60,7 +46,7 @@ http.listen(process.env.PORT, () => {
         socket.on('connection broadcast', sessionId => {
             let twitchConnection = null;
 
-            console.info(`User connected with session ID: ${sessionId}`);
+            console.log(`User connected with session ID: ${sessionId}`.warn);
 
             sessions[sessionId] = sessions[sessionId] || {};
             sessions[sessionId].users = sessions[sessionId].users || [];
