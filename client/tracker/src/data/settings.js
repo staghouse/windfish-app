@@ -1,4 +1,13 @@
 export default {
+    user: {
+        savedTime: {
+            asString: '00:00:00',
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            milis: 0,
+        },
+    },
     configuration: {
         keepSettings: {
             heading: 'Persistant Settings',

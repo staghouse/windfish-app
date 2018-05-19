@@ -1,7 +1,7 @@
 <template lang="pug">
 #app
     MenuBar(v-on:toggleSettings='showSettingsMenu = !showSettingsMenu')
-    Settings(v-if='showSettingsMenu')
+    Settings(v-bind='{showSettingsMenu}')
     Trackers
 </template>
 

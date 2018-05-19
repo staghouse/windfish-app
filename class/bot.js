@@ -1,27 +1,55 @@
 const TMI = require('tmi.js');
+const { colors } = require('../utils');
 
 // TODO: Event Queue that is Promise based on the client say method
 
 class Bot {
     constructor(options) {
-        this.debug = true;
+        this.debug = false;
         this.socket = null;
         this.identity = null;
         this.client = null;
+        this.eventQueue = [];
         this.channel = null;
         this.whitelist = false;
         this.disableWhitelist = false;
-        this.botActivated = true;
+        this.botActivated = false;
         this.allowModAsAdmin = true;
         this.lastBotMessage = null;
         this.disableBotFeedbackOnSend = false;
+        this.awaitEventQueueUpdate = false;
         this.approvedCommands = ['!tracker', '!t', '!hud'];
+        this.permissions = {
+            pleb: ['update'],
+        };
 
         Object.assign(this, options);
     }
 
+    enqueue(data) {
+        if (data) {
+            console.log('Data added to the queue.'.warn);
+            this.eventQueue = [...this.eventQueue, data];
+        }
+
+        if (!this.awaitEventQueueUpdate && this.eventQueue.length > 0) {
+            console.log('Enqueuing next item.'.warn);
+            this.socket.emit('update tracker data', this.eventQueue[0]);
+            this.awaitEventQueueUpdate = true;
+        }
+    }
+
+    dequeue(data) {
+        this.eventQueue.shift();
+
+        this.awaitEventQueueUpdate = false;
+
+        console.log('Event finished.'.warn);
+        this.enqueue();
+    }
+
     updateWhitelist(whitelist) {
-        console.log(whitelist);
+        // console.log(whitelist);
 
         this.whitelist = whitelist.whitelist;
 
@@ -76,12 +104,12 @@ class Bot {
                         isBroadcaster: user.badges
                             ? Boolean(parseInt(user.badges.broadcaster))
                             : false,
-                        isSubscriber: user.subscriber,
                         isMod: user.mod,
                         argument1: argument1,
                         argument2: argument2,
                         isWhitelisted: null,
                         isAuthorized: null,
+                        isPleb: null,
                     };
 
                     that.doUserCommand(userData);
@@ -97,10 +125,33 @@ class Bot {
             this.debug ||
             userData.isBroadcaster ||
             (this.allowModAsAdmin && userData.isMod);
+
         userData.isWhitelisted =
             userData.isAuthorized || this.disableWhitelist || whitelisted;
 
-        if (userData.isAuthorized) {
+        userData.isPleb = !userData.isAuthorized;
+
+        if (userData.isWhitelisted) {
+            if (userData.isAuthorized) {
+                this.parseInputCommand(userData);
+            } else {
+                if (this.permissions.pleb.indexOf(useData.argument1) > -1) {
+                    this.parseInputCommand(userData);
+                } else {
+                    this.parseMessage('invalid', userData.displayName);
+                }
+            }
+        } else {
+            this.parseMessage('help', userData.displayName);
+        }
+    }
+
+    parseInputCommand(userData) {
+        if (!this.botActivated) {
+            this.parseMessage('inactive', userData.displayName);
+        }
+
+        if (userData.isAuthorized || this.botActivated) {
             switch (userData.argument1) {
                 case 'add':
                     this.socket.emit(
@@ -140,40 +191,12 @@ class Bot {
                     this.disconnect();
                     break;
 
-                //
-                // case 'update':
-                //     if (!userData.argument2) {
-                //         this.parseMessage('invalid', userData.username);
-                //     } else {
-                //         this.parseMessage('send', userData.username);
-                //         this.socket.emit(
-                //             'update tracker data',
-                //             userData.argument2
-                //         );
-                //     }
-                //     break;
-
-                // default:
-                //     if (!userData.argument1) {
-                //         this.parseMessage('default');
-                //     } else {
-                //         this.parseMessage('invalid');
-                //     }
-                //     break;
-            }
-        }
-
-        if (userData.isWhitelisted && this.botActivated) {
-            switch (userData.argument1) {
                 case 'update':
                     if (!userData.argument2) {
-                        this.parseMessage('invalid', userData.username);
+                        this.parseMessage('invalid', userData.displayName);
                     } else {
-                        this.parseMessage('send', userData.username);
-                        this.socket.emit(
-                            'update tracker data',
-                            userData.argument2
-                        );
+                        this.parseMessage('send', userData.displayName);
+                        this.enqueue(userData.argument2);
                     }
                     break;
 
@@ -185,13 +208,7 @@ class Bot {
                     }
                     break;
             }
-        } else {
-            this.parseMessage('help', userData.displayName);
         }
-
-        // if (!this.botActivated) {
-        //     this.parseMessage('inactive', userData.displayName);
-        // }
     }
 
     sendMessage(message) {

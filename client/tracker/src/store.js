@@ -18,15 +18,6 @@ export default new Vuex.Store({
         screensMarkersList: screensMarkersList,
         socketConnected: false,
         screenContext: null,
-        user: {
-            savedTime: {
-                asString: '00:00:00',
-                hours: 0,
-                minutes: 0,
-                seconds: 0,
-                milis: 0,
-            },
-        },
     },
     getters: {
         items: state => state.items,
@@ -56,11 +47,14 @@ export default new Vuex.Store({
         'update screen context': function(store, newContext) {
             store.commit('update screen context', newContext);
         },
+        'update user time': async function(store, savedTime) {
+            return await store.commit('update user time', savedTime);
+        },
         'update broadcast data': function(store, newItemsData) {
             store.commit('update broadcast data', newItemsData);
         },
-        'update item data': function(store, spriteToUpdate) {
-            store.commit('update item data', spriteToUpdate);
+        'update item data': async function(store, spriteToUpdate) {
+            return await store.commit('update item data', spriteToUpdate);
         },
     },
     mutations: {
@@ -81,6 +75,10 @@ export default new Vuex.Store({
         },
         'update screen context': function(state, data) {
             state.screenContext = data;
+        },
+        'update user time': function(state, data) {
+            state.settings.user.savedTime = data;
+            return true;
         },
         'update broadcast data': function(state, data) {
             state.items = data;
@@ -142,7 +140,10 @@ export default new Vuex.Store({
                     }
                 }
 
+                // this is the end of the "promise"
                 Vue.set(state.items, index, item);
+
+                return true;
             } else {
                 console.log(
                     `Could not find item and at index location: ${index}`

@@ -73,6 +73,7 @@ export default {
             hasConnectedSocket: false,
             hasInputedChannel: false,
             hasConnectedBot: false,
+            //
             stashedSeedValue: null,
             serverConnection: null,
             stashedChannelValue: null,

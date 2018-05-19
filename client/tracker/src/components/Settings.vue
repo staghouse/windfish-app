@@ -1,5 +1,6 @@
 <template lang="pug">
-.settings-menu
+.settings-menu(
+    v-bind:class="{show: showSettingsMenu }")
     <ServerOptions/>
     <SettingsList/>
 </template>
@@ -10,6 +11,7 @@ import SettingsList from './SettingsList';
 
 export default {
     name: 'Settings',
+    props: ['showSettingsMenu'],
     components: {
         ServerOptions,
         SettingsList,
@@ -22,6 +24,8 @@ export default {
 @import '../assets/styles/mixins';
 @import '../assets/styles/images';
 
+$showSpeed: 0.15s;
+
 .settings-menu {
     box-sizing: border-box;
     width: $settings-width;
@@ -29,11 +33,11 @@ export default {
     overflow-x: auto;
     overflow-y: scroll;
     position: fixed;
-    transition: left 0.2s;
-    right: 0;
+    right: -$settings-width;
     top: 0;
     bottom: 0;
     box-sizing: border-box;
+    transition: right $showSpeed ease-in-out;
     background-color: $blue-1;
     border-left: 1px solid $blue-2;
     color: white;
@@ -41,6 +45,11 @@ export default {
     padding: 70px 30px;
 
     @include clearfix;
+
+    &.show {
+        right: 0;
+        transition: right $showSpeed ease-in-out;
+    }
 
     h5 {
         box-sizing: border-box;

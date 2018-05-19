@@ -26,4 +26,3 @@ node_modules
 
 # client files
 client/docs/build/
-client/tracker/dist/

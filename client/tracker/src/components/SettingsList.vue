@@ -2,7 +2,7 @@
 
 .settings-list
     .settings-group(
-    v-for='(group, index) in $store.getters.settings',
+    v-for='(group, index) in filteredSettings',
     v-bind:key='index')
         h5(v-bind:data-group-name="index") {{index}}
         ol.inner-settings-list
@@ -81,6 +81,18 @@ export default {
         return {
             storageName: 'windfishUserSettings',
         };
+    },
+    computed: {
+        filteredSettings() {
+            let settings = this.$store.getters.settings;
+            let filteredSettings = {};
+
+            for (let key in settings) {
+                if (key !== 'user') filteredSettings[key] = settings[key];
+            }
+
+            return filteredSettings;
+        },
     },
     methods: {
         inputChange(event) {

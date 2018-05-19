@@ -36,13 +36,26 @@ new Vue({
             this.$store.dispatch('update broadcast data', newItemData);
         },
         'update tracker data': function(spriteCommand) {
-            console.log(spriteCommand);
+            // console.log(spriteCommand);
+            let self = this;
 
-            this.$store.dispatch('update item data', {
-                id: spriteCommand,
-                fromSocket: true,
-            });
-            this.$socket.emit('send broadcast data', this.$store.getters.items);
+            self.$store
+                .dispatch('update item data', {
+                    id: spriteCommand,
+                    fromSocket: true,
+                })
+                .then(resolved => {
+                    // console.log('done');
+                    self.$socket.emit('bot dequeue');
+
+                    self.$socket.emit(
+                        'send broadcast data',
+                        self.$store.getters.items
+                    );
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
     },
     store,

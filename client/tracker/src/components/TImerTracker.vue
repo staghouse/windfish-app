@@ -34,15 +34,15 @@ export default {
                 seconds: 0,
                 milis: 0,
             },
-            // change this fool
-            savedTime: this.$store.state.user.savedTime || {
-                asString: '00:00:00',
-                hours: 0,
-                minutes: 0,
-                seconds: 0,
-                milis: 0,
-            },
+            storageName: 'windfishUserSettings',
         };
+    },
+    computed: {
+        savedTime() {
+            return (
+                this.$store.getters.settings.user.savedTime || this.currentTime
+            );
+        },
     },
     methods: {
         toggleTimer() {
@@ -120,9 +120,24 @@ export default {
             this.$refs.currentTime.removeAttribute('data-pace');
             this.savedTime.asString = this.parseTimeAsString(this.savedTime);
             //
-            this.$store.getters.user.savedTime = this.savedTime;
-        },
+            this.$store.dispatch('update user time', this.savedTime);
 
+            let that = this;
+
+            if (this.$store.getters.settings.configuration.keepSettings.value) {
+                this.$store
+                    .dispatch('update user time', this.savedTime)
+                    .then(resolved => {
+                        window.localStorage.setItem(
+                            that.storageName,
+                            JSON.stringify(that.$store.getters.settings)
+                        );
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        },
         parseTimeAsString(time, shouldCalculate) {
             if (shouldCalculate) {
                 this.calculatePace(time);
