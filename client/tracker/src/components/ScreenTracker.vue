@@ -6,13 +6,11 @@
     ContextMenu(
     v-if="showContextMenu",
     v-on:closeContextMenu="showContextMenu = false"
-    v-on:newMarkerData="newMarkerData = $event"
     v-bind='{ contextMenuPosition }')
 
     .screens
         ScreenGrid(
-        v-on:showContextMenu='toggleContextMenu($event)',
-        v-bind="{newMarkerData}")
+        v-on:showContextMenu='toggleContextMenu($event)')
         ScreenOverlay
 
 </template>
@@ -29,7 +27,6 @@ export default {
     },
     data() {
         return {
-            newMarkerData: {},
             showContextMenu: false,
             contextMenuPosition: {
                 x: 0,

@@ -60,17 +60,6 @@ export default {
         },
     },
     methods: {
-        sendMarkerData(id, data) {
-            let markerData = {
-                id: id,
-                markers: data,
-            };
-
-            this.$emit('newMarkerData', markerData);
-
-            if (this.$store.getters.settings.screens.autoClose.value)
-                this.$emit('closeContextMenu');
-        },
         resetMarkers(event) {
             let screen = this.$store.getters.screenContext;
             let screenId = parseInt(screen.dataset.id);
@@ -81,7 +70,8 @@ export default {
 
             this.$store.dispatch('update screen markers', screenData);
 
-            this.sendMarkerData(screenId, data);
+            if (this.$store.getters.settings.screens.autoClose.value)
+                this.$emit('closeContextMenu');
         },
         selectMarker(event) {
             // Store the identifiers of the marker to pick
@@ -114,10 +104,8 @@ export default {
 
             this.$store.dispatch('update screen markers', screenData);
 
-            this.sendMarkerData(
-                screenId,
-                this.$store.getters.screensMarkersList[screenId]
-            );
+            if (this.$store.getters.settings.screens.autoClose.value)
+                this.$emit('closeContextMenu');
         },
     },
 };
@@ -170,7 +158,7 @@ export default {
             border-top-width: 0;
 
             .menu-item {
-                width: calc(100%/8);
+                width: calc(100% / 8);
                 font-size: 0;
 
                 &[data-type='dungeons'],

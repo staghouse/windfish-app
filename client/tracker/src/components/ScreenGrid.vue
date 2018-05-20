@@ -18,7 +18,7 @@ v-bind:class='{guttered: $store.getters.settings.screens.showGutter.value}')
     ref="screenWrap")
         Screen(
         v-for='(data, index) in screenData',
-        v-bind='{data, index, newMarkerData }',
+        v-bind='{data, index}',
         v-bind:key='index',
         v-on:markerIsHovered="highlightMatchingMarkers($event)"
         v-on:showContextMenu='$emit("showContextMenu", $event)')
@@ -35,7 +35,6 @@ export default {
     components: {
         Screen,
     },
-    props: ['newMarkerData'],
     data() {
         return {
             screenData: screenDataList,

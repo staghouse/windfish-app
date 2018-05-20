@@ -68,7 +68,7 @@ export default new Vuex.Store({
             state.items[data.index] = data;
         },
         'update screen markers': function(state, data) {
-            state.screensMarkersList[data.id] = data.markers;
+            Vue.set(state.screensMarkersList, data.id, data.markers);
         },
         'update setting value': function(state, data) {
             state.settings[data.index][data.id].value = data.value;

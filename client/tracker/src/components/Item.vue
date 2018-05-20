@@ -20,6 +20,7 @@ v-bind:style="{backgroundColor: $store.getters.settings.trackers.backgroundColor
 </template>
 
 <script>
+import { generateStateItemUpdateData } from '../utils';
 export default {
     name: 'Item',
     props: ['index'],
@@ -59,10 +60,12 @@ export default {
     },
     methods: {
         update() {
-            this.$store.dispatch('update item data', {
-                id: this.item.id,
-                fromSocket: false,
-            });
+            let dataToUpdate = generateStateItemUpdateData(
+                this.$store.getters.items,
+                this.item.id
+            );
+
+            this.$store.dispatch('update item data', dataToUpdate);
 
             if (this.$store.getters.socketConnected) {
                 console.info('Client is sending data to the Socket Server.');

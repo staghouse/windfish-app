@@ -11,7 +11,7 @@ ref="screen")
         .marker(
         @mouseenter='$emit("markerIsHovered", $event)',
         @mouseleave='$emit("markerIsHovered", null)',
-        v-for='(marker, i) in markerData.markers',
+        v-for='(marker, i) in markerData',
         v-bind:key='i',
         v-bind:data-id='marker.id',
         v-bind:data-index-id='position',
@@ -32,25 +32,26 @@ ref="screen")
 import screenDataList from '../data/screens';
 export default {
     name: 'Screen',
-    props: ['data', 'index', 'newMarkerData'],
+    props: ['data', 'index'],
     data() {
         return {
             screenData: screenDataList,
             screenCleared: false,
             position: this.index,
-            markerData: {
-                id: this.index,
-                markers: [],
-            },
         };
     },
-    watch: {
-        newMarkerData: function(newValue) {
-            if (newValue.id === this.markerData.id) {
-                this.markerData.markers = newValue.markers;
-            }
+    computed: {
+        markerData() {
+            return this.$store.getters.screensMarkersList[this.index];
         },
     },
+    // watch: {
+    //     newMarkerData: function(newValue) {
+    //         if (newValue.id === this.markerData.id) {
+    //             this.markerData = newValue.markers;
+    //         }
+    //     },
+    // },
 };
 </script>
 
