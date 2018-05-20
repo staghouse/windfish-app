@@ -4,14 +4,12 @@ Vue.config.productionTip = false;
 import 'dotenv';
 
 import Vue from 'vue';
-// import VueSocketio from 'vue-socket.io';
+import VueSocketio from 'vue-socket.io';
 import App from './App';
 import store from './store';
 import plugins from './plugins';
 
 import { notice, generateStateItemUpdateData } from './utils';
-
-import VueSocketio from '../../../node_modules/vue-socket.io/src/Main';
 
 Vue.use(VueSocketio, process.env.SOCKET_SERVER_PATH);
 
