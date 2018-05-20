@@ -13,7 +13,7 @@ class Bot {
         this.channel = null;
         this.whitelist = false;
         this.disableWhitelist = false;
-        this.botActivated = false;
+        this.botActivated = true;
         this.allowModAsAdmin = true;
         this.lastBotMessage = null;
         this.disableBotFeedbackOnSend = false;
@@ -26,10 +26,10 @@ class Bot {
         Object.assign(this, options);
     }
 
-    enqueue(data) {
-        if (data) {
+    enqueue(userData) {
+        if (userData) {
             console.log('Data added to the queue.'.warn);
-            this.eventQueue = [...this.eventQueue, data];
+            this.eventQueue = [...this.eventQueue, userData];
         }
 
         if (!this.awaitEventQueueUpdate && this.eventQueue.length > 0) {
@@ -39,7 +39,13 @@ class Bot {
         }
     }
 
-    dequeue(data) {
+    dequeue(userData) {
+        if (userData.resolved === true) {
+            this.parseMessage('send', userData.displayName);
+        } else {
+            this.parseMessage('invalid', userData.displayName);
+        }
+
         this.eventQueue.shift();
 
         this.awaitEventQueueUpdate = false;
@@ -147,8 +153,9 @@ class Bot {
     }
 
     parseInputCommand(userData) {
-        if (!this.botActivated) {
+        if (!userData.isAuthorized && !this.botActivated) {
             this.parseMessage('inactive', userData.displayName);
+            return;
         }
 
         if (userData.isAuthorized || this.botActivated) {
@@ -195,16 +202,15 @@ class Bot {
                     if (!userData.argument2) {
                         this.parseMessage('invalid', userData.displayName);
                     } else {
-                        this.parseMessage('send', userData.displayName);
-                        this.enqueue(userData.argument2);
+                        this.enqueue(userData);
                     }
                     break;
 
                 default:
                     if (!userData.argument1) {
-                        this.parseMessage('default');
+                        this.parseMessage('default', userData.displayName);
                     } else {
-                        this.parseMessage('invalid');
+                        this.parseMessage('invalid', userData.displayName);
                     }
                     break;
             }

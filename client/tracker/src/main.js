@@ -4,12 +4,14 @@ Vue.config.productionTip = false;
 import 'dotenv';
 
 import Vue from 'vue';
-import VueSocketio from 'vue-socket.io';
+// import VueSocketio from 'vue-socket.io';
 import App from './App';
 import store from './store';
 import plugins from './plugins';
 
-import { notice } from './utils';
+import { notice, generateStateItemUpdateData } from './utils';
+
+import VueSocketio from '../../../node_modules/vue-socket.io/src/Main';
 
 Vue.use(VueSocketio, process.env.SOCKET_SERVER_PATH);
 
@@ -35,27 +37,32 @@ new Vue({
         'update broadcast data': function(newItemData) {
             this.$store.dispatch('update broadcast data', newItemData);
         },
-        'update tracker data': function(spriteCommand) {
-            // console.log(spriteCommand);
+        'update tracker data': function(userData) {
             let self = this;
+            let dataToUpdate = generateStateItemUpdateData(
+                self.$store.getters.items,
+                userData.argument2
+            );
 
-            self.$store
-                .dispatch('update item data', {
-                    id: spriteCommand,
-                    fromSocket: true,
-                })
-                .then(resolved => {
-                    // console.log('done');
-                    self.$socket.emit('bot dequeue');
+            if (dataToUpdate.index !== null && dataToUpdate.item !== null) {
+                userData.resolved = true;
+                self.$store
+                    .dispatch('update item data', dataToUpdate)
+                    .then(() => {
+                        self.$socket.emit('bot dequeue', userData);
 
-                    self.$socket.emit(
-                        'send broadcast data',
-                        self.$store.getters.items
-                    );
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+                        self.$socket.emit(
+                            'send broadcast data',
+                            self.$store.getters.items
+                        );
+                    })
+                    .catch(error => {
+                        console.log('Promise failed: ' + error);
+                    });
+            } else {
+                userData.resolved = false;
+                self.$socket.emit('bot dequeue', userData);
+            }
         },
     },
     store,

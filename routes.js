@@ -6,11 +6,11 @@ app.use(express.static(path.join(__dirname, 'client/tracker/dist')));
 
 // Prod redirects
 app.get('/', function(req, res) {
-    res.redirect(302, 'https://ericlakatos.github.com/windfish');
+    res.redirect(302, 'https://ericlakatos.github.io/windfish');
 });
 
 app.get('/windfish', function(req, res) {
-    res.redirect(302, 'https://ericlakatos.github.com/windfish/windfish');
+    res.redirect(302, 'https://ericlakatos.github.io/windfish/windfish');
 });
 
 // Prod Beta client pages

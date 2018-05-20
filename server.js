@@ -107,8 +107,8 @@ http.listen(process.env.PORT, () => {
                     twitchConnection.updateWhitelist(whitelist);
                 });
 
-                socket.on('bot dequeue', () => {
-                    twitchConnection.dequeue();
+                socket.on('bot dequeue', userData => {
+                    twitchConnection.dequeue(userData);
                 });
             });
         });

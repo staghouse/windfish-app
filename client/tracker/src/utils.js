@@ -1,10 +1,70 @@
 import crypto from 'crypto';
 
-// +--------------------------------------------------------------------+
-// |                                                                    |
-// |  Compare requirements for dungeons against current tracked status  |
-// |                                                                    |
-// +--------------------------------------------------------------------+
+/****************************************************************
+ *
+ *  generateStateItemUpdateData
+ *
+ *  @param {Object} itemStore - Stateful item object from Vuex
+ *  @param {String} command - String data sent from Twitch chat
+ *
+ ****************************************************************/
+export function generateStateItemUpdateData(itemStore, command) {
+    let item = null;
+    let index = null;
+
+    itemStore.forEach((currentItem, itemIndex) => {
+        if (
+            currentItem.id === command ||
+            currentItem.commands.includes(command)
+        ) {
+            index = itemIndex;
+
+            item = Object.assign({}, currentItem);
+        }
+    });
+
+    if (item && index) {
+        // Update the list position or counter if applicable
+        let itemHasCounter = Number.isInteger(item.counter);
+
+        if (itemHasCounter) {
+            if (item.category === 'chest') {
+                item.currentCounter =
+                    item.currentCounter === 0
+                        ? item.counter
+                        : item.currentCounter - 1;
+            } else {
+                item.currentCounter =
+                    item.currentCounter < item.counter
+                        ? item.currentCounter + 1
+                        : 0;
+            }
+
+            // If the count can still go, keep the active state,
+            // otherwise make it look inactive;
+            item.listPosition = item.currentCounter > 0 ? 1 : 0;
+        } else {
+            item.listPosition =
+                item.list.length === item.listPosition
+                    ? 0
+                    : item.listPosition + 1;
+        }
+    }
+
+    return {
+        item: item,
+        index: index,
+    };
+}
+
+/****************************************************************************
+ *
+ *  hasRequirements
+ *
+ *  @param {Object} itemStore - Stateful item object from Vuex
+ *  @param {Object} requirements - Non-stateful object of data to reference
+ *
+ ****************************************************************************/
 export function hasRequirements(itemStore, requirements) {
     let met = false;
 
@@ -51,11 +111,14 @@ export function hasRequirements(itemStore, requirements) {
     }
 }
 
-// +---------------------+
-// |                     |
-// |  Bulletproof modal  |
-// |                     |
-// +---------------------+
+/**************************************************************************
+ *
+ *  notice
+ *
+ *  @param {String} str - String to apply in DOM markup
+ *  @param {String} customClass - Custom CSS class to apply to DOM markup
+ *
+ **************************************************************************/
 export function notice(str, customClass) {
     var className = customClass || '';
     document.body.insertAdjacentHTML(
@@ -73,15 +136,17 @@ export function notice(str, customClass) {
     });
 }
 
-// +----------------------------------------------------+
-// |                                                    |
-// |  Create a unique session ID for the client socket  |
-// |                                                    |
-// +----------------------------------------------------+
-export function createHash(seed) {
+/***********************************************************
+ *
+ *  createHash
+ *
+ *  Generate a SHA256 unique seed for WebSocket sessioning
+ *
+ ***********************************************************/
+export function createHash() {
     const salt = `${new Date()}${new Date().getMilliseconds()}`;
     const hash = crypto
-        .createHmac('sha256', seed || salt)
+        .createHmac('sha256', salt)
         .update(salt)
         .digest('hex');
 

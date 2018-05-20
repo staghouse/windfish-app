@@ -53,8 +53,8 @@ export default new Vuex.Store({
         'update broadcast data': function(store, newItemsData) {
             store.commit('update broadcast data', newItemsData);
         },
-        'update item data': async function(store, spriteToUpdate) {
-            return await store.commit('update item data', spriteToUpdate);
+        'update item data': async function(store, data) {
+            return await store.commit('update item data', data);
         },
     },
     mutations: {
@@ -78,77 +78,12 @@ export default new Vuex.Store({
         },
         'update user time': function(state, data) {
             state.settings.user.savedTime = data;
-            return true;
         },
         'update broadcast data': function(state, data) {
             state.items = data;
         },
         'update item data': function(state, data) {
-            let item = null;
-            let index = null;
-            let items = state.items;
-
-            // +-----------------------------------------------------+
-            // |                                                     |
-            // |  @todo: Think about putting this in a utility file  |
-            // |                                                     |
-            // +-----------------------------------------------------+
-
-            state.items.forEach((currentItem, itemIndex) => {
-                if (
-                    currentItem.id === data.id ||
-                    currentItem.commands.includes(data.id)
-                ) {
-                    index = itemIndex;
-
-                    item = Object.assign({}, currentItem);
-                }
-            });
-
-            if (item && index) {
-                // Okay, got our correct item...
-                if (data.fromSocket) {
-                    item.listPosition =
-                        item.list.length === item.listPosition
-                            ? 0
-                            : item.listPosition + 1;
-                } else {
-                    // i need to update the list position or counter if applicable
-                    let itemHasCounter = Number.isInteger(item.counter);
-
-                    if (itemHasCounter) {
-                        if (item.category === 'chest') {
-                            item.currentCounter =
-                                item.currentCounter === 0
-                                    ? item.counter
-                                    : item.currentCounter - 1;
-                        } else {
-                            item.currentCounter =
-                                item.currentCounter < item.counter
-                                    ? item.currentCounter + 1
-                                    : 0;
-                        }
-
-                        // If the count can still go, keep the active state,
-                        // otherwise make it look inactive;
-                        item.listPosition = item.currentCounter > 0 ? 1 : 0;
-                    } else {
-                        item.listPosition =
-                            item.list.length === item.listPosition
-                                ? 0
-                                : item.listPosition + 1;
-                    }
-                }
-
-                // this is the end of the "promise"
-                Vue.set(state.items, index, item);
-
-                return true;
-            } else {
-                console.log(
-                    `Could not find item and at index location: ${index}`
-                );
-            }
+            Vue.set(state.items, data.index, data.item);
         },
     },
 });
