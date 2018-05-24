@@ -1,26 +1,23 @@
 require('dotenv').config();
 
 const { colors } = require('./utils');
-const bot = require('./class/bot');
+const bot = require('./twitch-bot');
 const app = require('./routes');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const PORT = 3000;
 
-http.listen(process.env.PORT, () => {
-    console.log(`The Wind Fish is dreaming on *:${process.env.PORT}\n\n`.warn);
+http.listen(PORT, () => {
+    console.log(`The Wind Fish is dreaming on *:${PORT}\n\n`.warn);
 
     let sessions = {};
 
     io.on('connection', socket => {
-        let connectedClients = Object.keys(
-            socket.client.server.sockets.connected
-        );
-        let connectedCount = connectedClients.length;
+        let connectedCount = Object.keys(socket.client.server.sockets.connected)
+            .length;
 
         console.log(`User connected with ID: ${socket.id}`.info);
         console.log(`Currently connected users: ${connectedCount}`.info);
-        console.log('Clients:');
-        console.log(connectedClients);
 
         socket.on('disconnect', () => {
             console.log(`User disconnected with ID: ${socket.id}`.warn);

@@ -78,7 +78,7 @@ export default {
             background-color: $blue-1;
             background-size: contain;
             background-position: center;
-            background-image: url('../'+$image-marker-cleared);
+            background-image: url($image-marker-cleared);
             opacity: 1;
         }
     }
@@ -193,7 +193,7 @@ export default {
             background-color: $blue-1;
             background-size: contain;
             background-position: center;
-            background-image: url('../'+$image-marker-cleared);
+            background-image: url($image-marker-cleared);
         }
     }
 }

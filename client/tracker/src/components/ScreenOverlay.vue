@@ -2,8 +2,13 @@
 .overlays
 
     .overlay(
-    data-id="poh",
-    v-if="$store.getters.settings.screens.overlayPOH.value",
+    data-id="pohExterior",
+    v-if="$store.getters.settings.screens.overlayPOHExterior.value",
+    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+
+    .overlay(
+    data-id="pohInterior",
+    v-if="$store.getters.settings.screens.overlayPOHInterior.value",
     v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
 
     .overlay(
@@ -86,28 +91,32 @@ export default {
             top: calc(100% / 17);
         }
 
-        &[data-id='poh'] {
-            background-image: url('../'+$image-overworld-overlay-poh);
+        &[data-id='pohExterior'] {
+            background-image: url($image-overworld-overlay-poh-exterior);
+        }
+
+        &[data-id='pohInterior'] {
+            background-image: url($image-overworld-overlay-poh-interior);
         }
 
         &[data-id='shells'] {
-            background-image: url('../'+$image-overworld-overlay-shells);
+            background-image: url($image-overworld-overlay-shells);
         }
 
         &[data-id='advanced'] {
-            background-image: url('../'+$image-overworld-overlay-advanced);
+            background-image: url($image-overworld-overlay-advanced);
         }
 
         &[data-map-original='true'] {
-            background-image: url('../'+$image-overworld-original);
+            background-image: url($image-overworld-original);
         }
 
         &[data-map-improved='true'] {
-            background-image: url('../'+$image-overworld-improved);
+            background-image: url($image-overworld-improved);
         }
 
         &[data-map-detailed='true'] {
-            background-image: url('../'+$image-overworld-detailed);
+            background-image: url($image-overworld-detailed);
         }
     }
 }

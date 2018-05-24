@@ -72,13 +72,13 @@ export default {
     &[data-border='true'] {
         &[data-border-silver='true'] {
             .tracker {
-                border-image-source: url('../'+$image-border);
+                border-image-source: url($image-border);
             }
         }
 
         &[data-border-gold='true'] {
             .tracker {
-                border-image-source: url('../'+$image-border-gold);
+                border-image-source: url($image-border-gold);
             }
         }
     }

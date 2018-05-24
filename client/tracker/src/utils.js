@@ -1,5 +1,45 @@
 import crypto from 'crypto';
 
+/********************************************************
+ *
+ *  authGetUser
+ *
+ *  @param {String} uri - Server path to validate token
+ *  @param {String} token - OAUTH returned token
+ *
+ ********************************************************/
+export async function authGetUser(uri, token) {
+    let response = {
+        username: null,
+        authenticated: false,
+    };
+
+    let newResponse = await fetch(uri + '/twitch-user', {
+        method: 'post',
+        headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+    })
+        .then(res => {
+            return res.json();
+        })
+        .then(res => {
+            if (res.data.length > 0) {
+                response.username = res.data[0].login;
+                response.authenticated = true;
+            }
+
+            return response;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    return newResponse;
+}
+
 /****************************************************************
  *
  *  generateStateItemUpdateData

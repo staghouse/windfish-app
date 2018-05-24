@@ -53,10 +53,30 @@ html {
             }
         }
 
-        #chat-embed {
-            max-width: $tracker-max-width;
-            margin: 0 auto;
-            margin-bottom: 30px;
+        input[type='submit'],
+        button {
+            float: left;
+            display: block;
+            clear: both;
+            width: 50%;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid gray;
+            background-color: white;
+            color: black;
+            font-family: $font-family;
+            font-size: 15px;
+
+            &[disabled] {
+                opacity: 0.5 !important;
+                cursor: not-allowed !important;
+            }
+        }
+
+        a.button {
+            text-decoration: none;
+            color: inherit;
         }
     }
 }

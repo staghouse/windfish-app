@@ -11,12 +11,19 @@
         "start": "node server.js"
     },
     "dependencies": {
+        "body-parser": "^1.18.3",
         "colors": "^1.2.5",
+        "cors": "^2.8.4",
         "dotenv": "^5.0.1",
         "express": "^4.15.2",
         "https": "^1.0.0",
+        "node-fetch": "^2.1.2",
         "socket.io": "^2.1.0",
         "tmi.js": "^1.2.1"
     },
-    "keywords": ["node", "heroku", "express"]
+    "keywords": [
+        "node",
+        "heroku",
+        "express"
+    ]
 }

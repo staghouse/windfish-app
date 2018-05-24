@@ -125,13 +125,18 @@ export default {
             type: 'checkbox',
             value: false,
         },
-        overlayPOH: {
-            label: 'Show Piece of Hearts Overlay',
+        overlayPOHExterior: {
+            label: 'Show Pieces of Heart (Exterior)',
+            type: 'checkbox',
+            value: false,
+        },
+        overlayPOHInterior: {
+            label: 'Show Pieces of Heart (Interior)',
             type: 'checkbox',
             value: false,
         },
         overlayShells: {
-            label: 'Show Seashells Overlay',
+            label: 'Show Seashells',
             type: 'checkbox',
             value: false,
         },

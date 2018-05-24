@@ -126,10 +126,6 @@ export default [
                 title: 'Location requires Power Bracelet',
             },
             {
-                id: 'power_bracelet_l2',
-                title: 'Location requires Power Bracelet L2',
-            },
-            {
                 id: 'pegasus_boots',
                 title: 'Location requires Pegasus Boots',
             },
@@ -140,6 +136,10 @@ export default [
             {
                 id: 'hookshot',
                 title: 'Location requires Hookshot',
+            },
+            {
+                id: 'mirror_shield',
+                title: 'Location requires Mirror Shield',
             },
         ],
     },

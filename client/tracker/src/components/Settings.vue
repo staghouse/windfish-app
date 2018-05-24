@@ -1,19 +1,19 @@
 <template lang="pug">
 .settings-menu(
     v-bind:class="{show: showSettingsMenu }")
-    <ServerOptions/>
+    <BroadcastOptions v-bind="{ authedUser }"/>
     <SettingsList/>
 </template>
 
 <script>
-import ServerOptions from './ServerOptions';
+import BroadcastOptions from './BroadcastOptions';
 import SettingsList from './SettingsList';
 
 export default {
     name: 'Settings',
-    props: ['showSettingsMenu'],
+    props: ['showSettingsMenu', 'authedUser'],
     components: {
-        ServerOptions,
+        BroadcastOptions,
         SettingsList,
     },
 };
@@ -198,11 +198,11 @@ $showSpeed: 0.15s;
                 }
 
                 &[for='borderImageSilver'] {
-                    border-image-source: url('../'+$image-border);
+                    border-image-source: url($image-border);
                 }
 
                 &[for='borderImageGold'] {
-                    border-image-source: url('../'+$image-border-gold);
+                    border-image-source: url($image-border-gold);
                 }
             }
 

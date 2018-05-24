@@ -59,6 +59,8 @@ $image-marker-zoras-flippers: $image-asset-path +
     'markers/marker_zoras_flippers.png';
 $image-marker-hookshot: $image-asset-path + 'markers/marker_hookshot.png';
 $image-marker-bomb: $image-asset-path + 'markers/marker_bomb.png';
+$image-marker-mirror_shield: $image-asset-path +
+    'markers/marker_mirror_shield.png';
 
 $image-overworld-original: $image-asset-path +
     'overworld/overworld-original.png';
@@ -69,8 +71,10 @@ $image-overworld-detailed: $image-asset-path +
 
 $image-overworld-overlay-advanced: $image-asset-path +
     'overworld/overworld-advanced.gif';
-$image-overworld-overlay-poh: $image-asset-path +
-    'overworld/overworld-overlay-poh.png';
+$image-overworld-overlay-poh-exterior: $image-asset-path +
+    'overworld/overworld-overlay-poh-exterior.png';
+$image-overworld-overlay-poh-interior: $image-asset-path +
+    'overworld/overworld-overlay-poh-interior.png';
 $image-overworld-overlay-shells: $image-asset-path +
     'overworld/overworld-overlay-shells.png';
 // $image-overworld-overlay-entrances: $image-asset-path +

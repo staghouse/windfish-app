@@ -47,28 +47,6 @@
                 margin-bottom: 0;
             }
 
-            input[type='submit'],
-            button {
-                float: left;
-                display: block;
-                clear: both;
-                width: 50%;
-                margin-top: 10px;
-                cursor: pointer;
-                padding: 5px;
-                border-radius: 3px;
-                border: 1px solid gray;
-                background-color: white;
-                color: black;
-                font-family: $font-family;
-                font-size: 15px;
-
-                &[disabled] {
-                    opacity: 0.5 !important;
-                    cursor: not-allowed !important;
-                }
-            }
-
             .fields {
                 width: 100%;
 
