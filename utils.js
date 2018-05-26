@@ -34,6 +34,25 @@ console.log(
 `.info
 );
 
+/***********************************************************
+ *
+ *  createSessionID
+ *
+ *  Generate a unique session ID for WebSocket sessioning
+ *
+ ***********************************************************/
+const createSessionID = () => {
+    var text = '';
+    var possible =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (var i = 0; i < 100; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+};
+
 module.exports = {
     colors: colors,
+    createSessionID: createSessionID,
 };

@@ -1,0 +1,81 @@
+@import '_vars';
+
+// Images
+$image-border: $image-asset-path + 'display/border.gif';
+$image-border-gold: $image-asset-path + 'display/border-gold.gif';
+
+$image-background-tile-kanalet: $image-asset-path +
+    'display/bg-tile-kanalet.gif';
+$image-background-border-kanalet: $image-asset-path +
+    'display/bg-border-kanalet.gif';
+$image-background-tile-windfish: $image-asset-path +
+    'display/bg-tile-windfish.gif';
+$image-background-border-windfish: $image-asset-path +
+    'display/bg-border-windfish.gif';
+$image-background-tablet: $image-asset-path + 'display/bg-tablet.png';
+
+/*
+        NOTE: These are sprites from the core `sprites` directory.
+
+        The logic behind using a different directory is lost on me
+    */
+$image-marker-blocked: $image-asset-path + 'markers/marker_blocked.png';
+$image-marker-chest: $image-asset-path + 'markers/marker_chest.png';
+$image-marker-cleared: $image-asset-path + 'markers/marker_cleared.png';
+$image-marker-egg: $image-asset-path + 'markers/marker_egg.png';
+$image-marker-important: $image-asset-path + 'markers/marker_important.png';
+$image-marker-madbatter: $image-asset-path + 'markers/marker_madbatter.png';
+$image-marker-mamu: $image-asset-path + 'markers/marker_mamu.png';
+$image-marker-manbo: $image-asset-path + 'markers/marker_manbo.png';
+$image-marker-passage: $image-asset-path + 'markers/marker_passage.png';
+$image-marker-phone: $image-asset-path + 'markers/marker_phone.png';
+$image-marker-richard: $image-asset-path + 'markers/marker_richard.png';
+$image-marker-rooster: $image-asset-path + 'markers/marker_rooster.png';
+$image-marker-shop: $image-asset-path + 'markers/marker_shop.png';
+$image-marker-shrine: $image-asset-path + 'markers/marker_shrine.png';
+$image-marker-tracy: $image-asset-path + 'markers/marker_tracy.png';
+$image-marker-trendy: $image-asset-path + 'markers/marker_trendy.png';
+$image-marker-witch: $image-asset-path + 'markers/marker_witch.png';
+$image-marker-dungeon-color: $image-asset-path +
+    'markers/marker_colordungeon.png';
+$image-marker-papahl: $image-asset-path + 'markers/marker_papahl.png';
+$image-marker-mrspapahl: $image-asset-path + 'markers/marker_mrspapahl.png';
+$image-marker-madame: $image-asset-path + 'markers/marker_madame.png';
+$image-marker-sale: $image-asset-path + 'markers/marker_sale.png';
+$image-marker-chefbear: $image-asset-path + 'markers/marker_chefbear.png';
+$image-marker-christine: $image-asset-path + 'markers/marker_christine.png';
+$image-marker-mrwrite: $image-asset-path + 'markers/marker_mrwrite.png';
+$image-marker-boomerang: $image-asset-path + 'markers/marker_boomerang.png';
+$image-marker-sword: $image-asset-path + 'markers/marker_sword.png';
+$image-marker-rocs-feather: $image-asset-path +
+    'markers/marker_rocs_feather.png';
+$image-marker-power-bracelet: $image-asset-path +
+    'markers/marker_power_bracelet.png';
+$image-marker-power-bracelet-l2: $image-asset-path +
+    'markers/marker_power_bracelet_l2.png';
+$image-marker-pegasus-boots: $image-asset-path +
+    'markers/marker_pegasus_boots.png';
+$image-marker-zoras-flippers: $image-asset-path +
+    'markers/marker_zoras_flippers.png';
+$image-marker-hookshot: $image-asset-path + 'markers/marker_hookshot.png';
+$image-marker-bomb: $image-asset-path + 'markers/marker_bomb.png';
+$image-marker-mirror_shield: $image-asset-path +
+    'markers/marker_mirror_shield.png';
+
+$image-overworld-original: $image-asset-path +
+    'overworld/overworld-original.png';
+$image-overworld-improved: $image-asset-path +
+    'overworld/overworld-improved.png';
+$image-overworld-detailed: $image-asset-path +
+    'overworld/overworld-detailed.png';
+
+$image-overworld-overlay-advanced: $image-asset-path +
+    'overworld/overworld-advanced.gif';
+$image-overworld-overlay-poh-exterior: $image-asset-path +
+    'overworld/overworld-overlay-poh-exterior.png';
+$image-overworld-overlay-poh-interior: $image-asset-path +
+    'overworld/overworld-overlay-poh-interior.png';
+$image-overworld-overlay-shells: $image-asset-path +
+    'overworld/overworld-overlay-shells.png';
+$image-overworld-overlay-chests: $image-asset-path +
+    'overworld/overworld-overlay-chests.png';

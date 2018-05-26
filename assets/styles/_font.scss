@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Pixellari';
+    src: url($font-asset-path+'Pixellari.eot');
+    src: local('Pixellari'),
+        url($font-asset-path+'Pixellari.eot?#iefix') format('embedded-opentype'),
+        url($font-asset-path+'Pixellari.woff2') format('woff2'),
+        url($font-asset-path+'Pixellari.woff') format('woff'),
+        url($font-asset-path+'Pixellari.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Playball|Magra');
