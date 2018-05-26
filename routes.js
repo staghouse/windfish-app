@@ -9,6 +9,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 
+let host = process.env.PRODUCTION_HOST;
+let client_id = process.env.TWITCH_AUTH_CLIENT_ID_PROD;
+let client_secret = process.env.TWITCH_AUTH_CLIENT_SECRET_PROD;
+
+if (process.env.NODE_ENV !== 'production') {
+    host = 'http://localhost:3000';
+    client_id = process.env.TWITCH_AUTH_CLIENT_ID;
+    client_secret = process.env.TWITCH_AUTH_CLIENT_SECRET_PROD;
+}
+
 app.use(cors({ credentials: true, origin: true }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,8 +27,8 @@ app.use(bodyParser.json());
 app.get('/beta/auth/twitch', (req, res) => {
     res.redirect(
         `https://id.twitch.tv/oauth2/authorize` +
-            `?client_id=${process.env.TWITCH_AUTH_CLIENT_ID}` +
-            `&redirect_uri=http://localhost:3000/beta/tracker/` +
+            `?client_id=${client_id}` +
+            `&redirect_uri=${host}/beta/tracker/` +
             `&response_type=code` +
             `&scope=openid` +
             `&force_verify=true` +
@@ -39,11 +49,11 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
 
         fetch(
             `https://id.twitch.tv/oauth2/token` +
-                `?client_id=${process.env.TWITCH_AUTH_CLIENT_ID}` +
-                `&client_secret=${process.env.TWITCH_AUTH_CLIENT_SECRET}` +
+                `?client_id=${client_id}` +
+                `&client_secret=${client_secret}` +
                 `&code=${requested.code}` +
                 `&grant_type=authorization_code` +
-                `&redirect_uri=http://localhost:3000/beta/tracker/`,
+                `&redirect_uri=${host}/beta/tracker/`,
             {
                 method: 'POST',
             }
@@ -60,29 +70,23 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
 
                     switch (key) {
                         case 'aud':
-                            if (value !== process.env.TWITCH_AUTH_CLIENT_ID) {
-                                console.log('Failed: aud');
-                                authenticated = false;
-                            }
-                            break;
-
                         case 'azp':
-                            if (value !== process.env.TWITCH_AUTH_CLIENT_ID) {
-                                console.log('Failed: azp');
+                            if (value !== client_id) {
+                                console.log(`Failed: ${key}`);
                                 authenticated = false;
                             }
                             break;
 
                         case 'iss':
                             if (value !== process.env.TWITCH_AUTH_ISSUER) {
-                                console.log('Failed: iss');
+                                console.log(`Failed: ${key}`);
                                 authenticated = false;
                             }
                             break;
 
                         case 'nonce':
                             if (value !== response.nonce) {
-                                console.log('Failed: nonce');
+                                console.log(`Failed: ${key}`);
                                 authenticated = false;
                             }
                             break;

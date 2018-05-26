@@ -5,7 +5,8 @@
     "author": "test",
     "private": true,
     "scripts": {
-        "dev": "nodemon -w server.js -w nuxt.config.js server.js",
+        "dev":
+            "NODE_ENV=development nodemon -w server.js -w nuxt.config.js server.js",
         "build": "nuxt build",
         "start": "NODE_ENV=production node server.js",
         "generate": "nuxt generate",
