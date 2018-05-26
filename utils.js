@@ -1,4 +1,3 @@
-const crypto = require('crypto');
 const colors = require('colors');
 
 // set theme
@@ -35,17 +34,25 @@ console.log(
 `.info
 );
 
-createHash = () => {
-    const salt = `${new Date()}${new Date().getMilliseconds()}`;
-    const hash = crypto
-        .createHmac('sha256', salt)
-        .update(salt)
-        .digest('hex');
+/***********************************************************
+ *
+ *  createSessionID
+ *
+ *  Generate a unique session ID for WebSocket sessioning
+ *
+ ***********************************************************/
+const createSessionID = () => {
+    var text = '';
+    var possible =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    return hash;
+    for (var i = 0; i < 100; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
 };
 
 module.exports = {
     colors: colors,
-    createHash: createHash,
+    createSessionID: createSessionID,
 };
