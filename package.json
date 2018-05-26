@@ -4,6 +4,10 @@
     "description": "test",
     "author": "test",
     "private": true,
+    "engines": {
+        "node": "10.0.0",
+        "npm": "6.0.1"
+    },
     "scripts": {
         "dev":
             "NODE_ENV=development nodemon -w server.js -w nuxt.config.js server.js",
