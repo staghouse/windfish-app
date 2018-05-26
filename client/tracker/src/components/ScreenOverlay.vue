@@ -1,6 +1,5 @@
 <template lang="pug">
 .overlays
-
     .overlay(
     data-id="pohExterior",
     v-if="$store.getters.settings.screens.overlayPOHExterior.value",
@@ -14,6 +13,11 @@
     .overlay(
     data-id="shells",
     v-if="$store.getters.settings.screens.overlayShells.value",
+    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+
+    .overlay(
+    data-id="chests",
+    v-if="$store.getters.settings.screens.overlayChests.value",
     v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
 
     .overlay(
@@ -101,6 +105,10 @@ export default {
 
         &[data-id='shells'] {
             background-image: url($image-overworld-overlay-shells);
+        }
+
+        &[data-id='chests'] {
+            background-image: url($image-overworld-overlay-chests);
         }
 
         &[data-id='advanced'] {

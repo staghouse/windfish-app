@@ -3,7 +3,7 @@
 .settings-list
     .settings-group
         h5 Broadcast Mode
-        ol.inner-settings-list
+        ol.inner-settings-list(v-if="$store.getters.socketAvailable")
             h6 Shared Session
             
             textarea(
@@ -42,6 +42,9 @@
                 v-bind:disabled="!hasConnectedSocket",
                 v-bind:class="{connected: hasConnectedBot}") {{hasConnectedBot? "Disconnect Bot": "Connect Bot"}}
 
+        ol.inner-settings-list(v-else)
+            li
+                p.small Sorry, Broadcast Mode is currently unavailable
 </template>
 
 <script>
@@ -169,6 +172,10 @@ export default {
             margin: 0;
             font-size: 12px;
             margin-bottom: 10px;
+
+            &:only-of-type {
+                margin-bottom: 0;
+            }
         }
 
         .seedField {

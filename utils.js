@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const colors = require('colors');
 
 // set theme
@@ -34,6 +35,17 @@ console.log(
 `.info
 );
 
+createHash = () => {
+    const salt = `${new Date()}${new Date().getMilliseconds()}`;
+    const hash = crypto
+        .createHmac('sha256', salt)
+        .update(salt)
+        .digest('hex');
+
+    return hash;
+};
+
 module.exports = {
     colors: colors,
+    createHash: createHash,
 };

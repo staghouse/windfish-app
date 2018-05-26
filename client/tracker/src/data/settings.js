@@ -121,7 +121,12 @@ export default {
         },
         showEntrances: {
             heading: 'Overlay',
-            label: 'Show Entrances',
+            label: 'Highlight Entrances',
+            type: 'checkbox',
+            value: false,
+        },
+        overlayChests: {
+            label: 'Show Overworld Chests',
             type: 'checkbox',
             value: false,
         },

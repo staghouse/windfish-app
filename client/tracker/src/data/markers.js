@@ -70,34 +70,34 @@ export default [
                 id: 'mamu',
                 title: 'Location has Manu',
             },
-            {
-                id: 'mrspapahl',
-                title: 'Location has Mrs. Papahl',
-            },
-            {
-                id: 'madame',
-                title: "Location has Madame' Bow Wow",
-            },
-            {
-                id: 'sale',
-                title: 'Location has Sale',
-            },
-            {
-                id: 'chefbear',
-                title: 'Location has Chef Bear',
-            },
-            {
-                id: 'papahl',
-                title: 'Location has Papahl',
-            },
-            {
-                id: 'christine',
-                title: 'Location has Christine',
-            },
-            {
-                id: 'mrwrite',
-                title: 'Location has Mr. Write',
-            },
+            // {
+            //     id: 'mrspapahl',
+            //     title: 'Location has Mrs. Papahl',
+            // },
+            // {
+            //     id: 'madame',
+            //     title: "Location has Madame' Bow Wow",
+            // },
+            // {
+            //     id: 'sale',
+            //     title: 'Location has Sale',
+            // },
+            // {
+            //     id: 'chefbear',
+            //     title: 'Location has Chef Bear',
+            // },
+            // {
+            //     id: 'papahl',
+            //     title: 'Location has Papahl',
+            // },
+            // {
+            //     id: 'christine',
+            //     title: 'Location has Christine',
+            // },
+            // {
+            //     id: 'mrwrite',
+            //     title: 'Location has Mr. Write',
+            // },
             {
                 id: 'boomerang',
                 title: 'Location has boomerang salesman',

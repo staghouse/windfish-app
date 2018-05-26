@@ -278,6 +278,21 @@ binaryScreens.forEach((point, index) => {
         rowCount++;
     }
 
+    // // >.>
+    // if (
+    //     (rowCount === 1 && colCount === 5) ||
+    //     (rowCount === 2 && colCount === 14) ||
+    //     (rowCount === 4 && colCount === 5) ||
+    //     (rowCount === 5 && colCount === 2) ||
+    //     (rowCount === 6 && colCount === 13) ||
+    //     (rowCount === 6 && colCount === 14) ||
+    //     (rowCount === 7 && colCount === 13) ||
+    //     (rowCount === 8 && colCount === 2) ||
+    //     (rowCount === 15 && colCount === 6)
+    // ) {
+    //     hasChest = true;
+    // }
+
     let screen = {
         id: index + 1,
         hasEntrance: Boolean(parseInt(point)),

@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const { createHash } = require('./utils');
 const path = require('path');
 const fetch = require('node-fetch');
 const express = require('express');
@@ -19,34 +20,33 @@ app.get('/', function(req, res) {
     res.redirect(302, 'https://ericlakatos.github.io/windfish');
 });
 
-app.get('/windfish', function(req, res) {
+app.get('/windfish/', function(req, res) {
     res.redirect(302, 'https://ericlakatos.github.io/windfish/windfish');
 });
 
 // Prod Beta client pages
-app.get('/beta', (req, res) => {
+app.get('/beta/', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/docs/dist/index.html'));
 });
 
-app.get('/beta/windfish', (req, res) => {
+app.get('/beta/tracker/', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/tracker/dist/tracker.html'));
 });
 
-app.get('/beta/auth', (req, res) => {
+app.get('/beta/auth/twitch/', (req, res) => {
     res.redirect(
         302,
         `https://id.twitch.tv/oauth2/authorize?client_id=${
             process.env.TWITCH_AUTH_CLIENT_ID
-        }&redirect_uri=http://localhost:8080/beta/windfish&response_type=token+id_token&scope=openid&force_verify=true`
+        }&redirect_uri=http://localhost:8080/beta/tracker&response_type=token&scope=openid&force_verify=true&state=${createHash()}`
     );
 });
 
-app.post('/beta/auth/twitch-user', (req, res) => {
+app.post('/beta/auth/twitch/user/', (req, res) => {
+    let headers = {};
     let response = {
         token: req.body.token,
     };
-
-    headers = {};
 
     if (response.token) {
         headers['Authorization'] = `Bearer ${response.token}`;

@@ -17,6 +17,7 @@ export default new Vuex.Store({
         dungeonStates: dungeons(),
         screensMarkersList: screensMarkersList,
         socketConnected: false,
+        socketAvailable: true,
         screenContext: null,
     },
     getters: {
@@ -26,11 +27,14 @@ export default new Vuex.Store({
         screensMarkersList: state => state.screensMarkersList,
         screenContext: state => state.screenContext,
         socketConnected: state => state.socketConnected,
-        user: state => state.user,
+        socketAvailable: state => state.socketAvailable,
     },
     actions: {
         'update socket connection': function(store, newSocketStatus) {
             store.commit('update socket connection', newSocketStatus);
+        },
+        'update socket available': function(store, newServerStatus) {
+            store.commit('update socket available', newServerStatus);
         },
         'update dungeon states': function(store, newDungeonStates) {
             store.commit('update dungeon states', newDungeonStates);
@@ -60,6 +64,9 @@ export default new Vuex.Store({
     mutations: {
         'update socket connection': function(state, data) {
             state.socketConnected = data;
+        },
+        'update socket available': function(state, data) {
+            state.socketAvailable = data;
         },
         'update dungeon states': function(state, data) {
             state.dungeonStates = data;

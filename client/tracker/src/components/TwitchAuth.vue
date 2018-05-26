@@ -2,7 +2,7 @@
     div.twitch-auth(v-bind:class="{hide: hideAuthModal}")
         div.twitch-auth__wrap
             p.title Log in with Twitch.tv?
-            span (Chat integration)
+            span (Twitch chat integration)
             span.error(v-if="authHadError") Sorry, we couldn't valid you...
             a.button(v-bind:href="authURI")
                 button.login Log In
@@ -16,8 +16,8 @@ export default {
     name: 'TwitchAuth',
     data() {
         return {
-            authURI: '/beta/auth',
-            devAuthURI: 'http://localhost:3000/beta/auth',
+            authURI: '/beta/auth/twitch',
+            devAuthURI: 'http://localhost:3000/beta/auth/twitch',
             authHadError: false,
             hideAuthModal: true,
         };
@@ -30,33 +30,44 @@ export default {
             this.authURI = this.devAuthURI;
         }
 
-        if (url.hash) {
-            const params = url.hash.split('&');
+        fetch(this.authURI + '/ping')
+            .then(res => {
+                this.$store.dispatch('update socket available', true);
 
-            params.forEach(param => {
-                let p = param.split('=');
+                if (url.hash) {
+                    const params = url.hash.split('&');
 
-                if (p[0].includes('access_token')) {
-                    let token = p[1];
+                    params.forEach(param => {
+                        let p = param.split('=');
 
-                    response = authGetUser(this.authURI, token);
-                    response
-                        .then(res => {
-                            if (res.authenticated) {
-                                this.$emit('gotAuthedUser', res.username);
-                                this.hideAuthModal = true;
-                            } else {
-                                this.authHadError = true;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
+                        if (p[0].includes('access_token')) {
+                            let token = p[1];
+
+                            response = authGetUser(this.authURI, token);
+                            response
+                                .then(res => {
+                                    if (res.authenticated) {
+                                        this.$emit(
+                                            'gotAuthedUser',
+                                            res.username
+                                        );
+                                        this.hideAuthModal = true;
+                                    } else {
+                                        this.authHadError = true;
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                });
+                        }
+                    });
+                } else {
+                    this.hideAuthModal = false;
                 }
+            })
+            .catch(error => {
+                this.$store.dispatch('update socket available', false);
             });
-        } else {
-            this.hideAuthModal = false;
-        }
     },
 };
 </script>
@@ -128,6 +139,7 @@ export default {
             float: none;
             margin-left: auto;
             margin-right: auto;
+            margin-top: 10px;
         }
     }
 }

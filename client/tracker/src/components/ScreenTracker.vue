@@ -3,12 +3,12 @@
 .screen-tracker.tracker(
     ref="screenTracker")
 
-    ContextMenu(
-    v-if="showContextMenu",
-    v-on:closeContextMenu="showContextMenu = false"
-    v-bind='{ contextMenuPosition }')
 
     .screens
+        ContextMenu(
+        v-if="showContextMenu",
+        v-on:closeContextMenu="showContextMenu = false"
+        v-bind='{ contextMenuPosition }')
         ScreenGrid(
         v-on:showContextMenu='toggleContextMenu($event)')
         ScreenOverlay
@@ -49,15 +49,13 @@ export default {
 
             let x =
                 event.clientX > xGoldilocks
-                    ? event.clientX - 260
+                    ? event.clientX - 320
                     : event.clientX;
 
             let y =
-                event.clientY > yGoldilocks
-                    ? event.clientY - 550
+                event.clientY > yGoldilocks - hOffset * 2
+                    ? 0
                     : event.clientY - hOffset;
-
-            this.$store.dispatch('update screen context', event.currentTarget);
 
             if (width > this.$refs.screenTracker.offsetWidth) {
                 wOffset = (width - this.$refs.screenTracker.offsetWidth) / 2;
@@ -65,6 +63,8 @@ export default {
 
             this.contextMenuPosition.x = `${x - wOffset}px`;
             this.contextMenuPosition.y = `${y}px`;
+
+            this.$store.dispatch('update screen context', event.currentTarget);
         },
     },
 };

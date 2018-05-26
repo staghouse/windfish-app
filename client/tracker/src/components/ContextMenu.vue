@@ -5,9 +5,10 @@
     .close(
     @click='$emit("closeContextMenu")') x
 
+    button(
+    @click="resetMarkers") Reset Markers
+    
     .context-menu-wrap
-        .marker-reset-btn(
-        @click="resetMarkers") Reset Markers
 
         ol.context-categories
             .marker-category(
@@ -50,14 +51,6 @@ export default {
                 finished: false,
             },
         };
-    },
-    computed: {
-        positionLeft() {
-            return this.contextMenuPosition.x;
-        },
-        positionTop() {
-            return this.contextMenuPosition.y;
-        },
     },
     methods: {
         resetMarkers(event) {
@@ -119,7 +112,7 @@ export default {
 .context-menu {
     position: absolute;
     z-index: 300;
-    width: 260px;
+    width: 300px;
     left: 0;
     top: 0;
     right: auto;
@@ -128,7 +121,7 @@ export default {
     .close {
         height: 30px;
         width: 30px;
-        top: -30px;
+        top: -40px;
         font-size: 30px;
         text-align: center;
         color: red;
@@ -139,17 +132,10 @@ export default {
         cursor: pointer;
     }
 
-    .marker-reset-btn {
-        padding: 7px;
-        margin-bottom: 10px;
-        text-align: center;
-        border: 1px solid $blue-3;
-        background-color: $blue-2;
-        cursor: pointer;
-
-        &:hover {
-            background-color: $blue-1;
-        }
+    button {
+        position: absolute;
+        top: -40px;
+        left: 0;
     }
 
     .context-menu-wrap {
@@ -178,7 +164,7 @@ export default {
 
             &[data-id='npc'] {
                 .menu-item {
-                    width: calc(100% / 5);
+                    width: calc(100% / 8);
                 }
             }
 

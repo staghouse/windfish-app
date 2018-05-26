@@ -110,6 +110,12 @@ export default {
             box-sizing: border-box;
             text-align: center;
 
+            &:only-of-type {
+                .text {
+                    font-size: 18px;
+                }
+            }
+
             .text {
                 position: absolute;
                 left: 0;

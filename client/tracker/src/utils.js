@@ -14,7 +14,7 @@ export async function authGetUser(uri, token) {
         authenticated: false,
     };
 
-    let newResponse = await fetch(uri + '/twitch-user', {
+    let newResponse = await fetch(uri + '/user', {
         method: 'post',
         headers: {
             Accept: 'application/json, text/plain, */*',
