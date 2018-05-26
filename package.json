@@ -1,8 +1,8 @@
 {
-    "name": "test",
-    "version": "1.0.0",
-    "description": "test",
-    "author": "test",
+    "name": "Windfish.io",
+    "version": "4.0.0",
+    "description": "Windfish.io",
+    "author": "Eric Lakatos",
     "private": true,
     "engines": {
         "node": "10.0.0",
