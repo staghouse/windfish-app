@@ -6,14 +6,11 @@ const path = require('path');
 const fetch = require('node-fetch');
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const app = express();
 
 let client_referrer = process.env.TWITCH_AUTH_REFERRER_HOST;
 let client_id = process.env.TWITCH_AUTH_CLIENT_ID;
 let client_secret = process.env.TWITCH_AUTH_CLIENT_SECRET;
-
-app.use(cors({ credentials: true, origin: true }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -56,11 +53,11 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
                 return response.json();
             })
             .then(response => {
-                const jwt = jwt(response['id_token']);
+                const jwt_decoded = jwt(response['id_token']);
                 let authenticated = true;
 
-                for (let key in jwt) {
-                    const value = jwt[key];
+                for (let key in jwt_decoded) {
+                    const value = jwt_decoded[key];
 
                     switch (key) {
                         case 'aud':
@@ -87,10 +84,10 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
                     }
                 }
 
-                if (authenticated && response.jwt) {
+                if (authenticated && jwt_decoded.preferred_username) {
                     res.end(
                         JSON.stringify({
-                            username: response.jwt.preferred_username,
+                            username: jwt_decoded.preferred_username,
                         })
                     );
                 }
