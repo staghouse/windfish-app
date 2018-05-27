@@ -12,3 +12,6 @@ npm-debug.log
 
 # Environment variables
 .env
+
+$ Node Modules
+node_modules
