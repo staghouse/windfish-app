@@ -61,9 +61,8 @@ export default {
     color: white;
     font-size: 16px;
     width: 100%;
-    position: relative;
     z-index: 500;
-    position: fixed;
+    position: absolute;
     left: 0;
     right: 0;
     top: 0;

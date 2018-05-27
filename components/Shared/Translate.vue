@@ -1,5 +1,5 @@
 <template lang="pug">
-#analytics
+#translate
     #google_translate_element
     script.
         function googleTranslateElementInit() {
@@ -11,6 +11,6 @@
 </template>
 <script>
 export default {
-    name: 'Analytics',
+    name: 'Translate',
 };
 </script>

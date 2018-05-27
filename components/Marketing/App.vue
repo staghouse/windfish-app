@@ -7,7 +7,6 @@
         v-bind:key="key",
         v-bind="{ feature }")
     Footer
-    Analytics
 </template>
 
 <script>
@@ -16,7 +15,6 @@ import Navigation from '~/components/Marketing/Navigation';
 import Masthead from '~/components/Marketing/Masthead';
 import Section from '~/components/Marketing/Section';
 import Footer from '~/components/Marketing/Footer';
-import Analytics from '~/components/Shared/Analytics';
 
 export default {
     name: 'App',
@@ -25,7 +23,6 @@ export default {
         Masthead,
         Section,
         Footer,
-        Analytics,
     },
     data() {
         return {

@@ -67,17 +67,19 @@
                     output(v-bind:for='name') {{option.value}}
                     button(
                     @click='$store.getters.settings.trackers.backgroundColor.value = $store.getters.settings.trackers.backgroundColor.defaultValue') Reset
-
+    Translate
 </template>
 
 <script>
 import settings from '~/assets/js/data/settings';
+import Translate from '~/components/Shared/Translate';
 import SettingsList from '~/components/Tracker/SettingsList';
 
 export default {
     name: 'SettingsList',
     components: {
         SettingsList,
+        Translate,
     },
     data() {
         return {
