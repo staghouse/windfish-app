@@ -20,9 +20,9 @@ v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
 </template>
 
 <script>
-import TimerTracker from './TimerTracker';
-import ScreenTracker from './ScreenTracker';
-import ItemTracker from './ItemTracker';
+import TimerTracker from '~/components/Tracker/TimerTracker';
+import ScreenTracker from '~/components/Tracker/ScreenTracker';
+import ItemTracker from '~/components/Tracker/ItemTracker';
 
 export default {
     name: 'App',

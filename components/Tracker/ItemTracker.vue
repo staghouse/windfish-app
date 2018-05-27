@@ -12,7 +12,7 @@
 <script>
 import { requirements } from '~/assets/js/data/dungeons';
 import { hasRequirements, checkRequirements } from '~/assets/js/utils';
-import Item from './Item';
+import Item from '~/components/Tracker/Item';
 export default {
     components: {
         Item,

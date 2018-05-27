@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import TwitchAuth from './TwitchAuth';
-import MenuBar from './MenuBar';
-import Settings from './Settings';
-import Trackers from './Trackers';
+import TwitchAuth from '~/components/Tracker/TwitchAuth';
+import MenuBar from '~/components/Tracker/MenuBar';
+import Settings from '~/components/Tracker/Settings';
+import Trackers from '~/components/Tracker/Trackers';
 
 export default {
     name: 'App',

@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import ContextMenu from './ContextMenu';
-import ScreenOverlay from './ScreenOverlay';
-import ScreenGrid from './ScreenGrid';
+import ContextMenu from '~/components/Tracker/ContextMenu';
+import ScreenOverlay from '~/components/Tracker/ScreenOverlay';
+import ScreenGrid from '~/components/Tracker/ScreenGrid';
 export default {
     components: {
         ContextMenu,
