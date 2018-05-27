@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: 'TimerTracker',
+    name: 'TimeTracker',
     data() {
         return {
             timerRunning: false,

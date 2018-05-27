@@ -20,7 +20,7 @@ v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
 </template>
 
 <script>
-import TimerTracker from '~/components/Tracker/TimeTracker';
+import TimeTracker from '~/components/Tracker/TimeTracker';
 import ScreenTracker from '~/components/Tracker/ScreenTracker';
 import ItemTracker from '~/components/Tracker/ItemTracker';
 
