@@ -13,7 +13,7 @@
             "NODE_ENV=development nodemon -w server.js -w nuxt.config.js server.js",
         "build": "nuxt build",
         "start": "NODE_ENV=production node server.js",
-        "heroku-postbuild": "npm run build",
+        "heroku-postbuild": "nuxt build",
         "generate": "nuxt generate",
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
         "precommit": "npm run lint"
