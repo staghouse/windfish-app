@@ -23,9 +23,8 @@ if (config.dev) {
 app.use(nuxt.render);
 
 // Listen the server
-server.listen(port, () => {
-    console.log(`The Windfish is dreaming on *:${port}\n\n`.warn);
-});
+server.listen(port, process.env.HOST);
+console.log(`The Windfish is dreaming on *:${port}\n\n`.warn);
 
 let sessions = {};
 // Socket.io

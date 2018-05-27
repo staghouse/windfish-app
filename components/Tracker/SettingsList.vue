@@ -68,7 +68,7 @@
 
 <script>
 import settings from '~/assets/js/data/settings';
-import SettingsList from './SettingsList';
+import SettingsList from '~/components/Tracker/SettingsList';
 
 let defaultSettings = Object.assign({}, settings);
 

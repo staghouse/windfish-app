@@ -3,7 +3,7 @@ header.navigation
     nav.grid-container
         .short-title Windfish
         ol
-            a(href='./tracker')
+            a(href='/beta/tracker')
                 li Use It Now
             a(href='#features')
                 li Features

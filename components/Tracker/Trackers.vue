@@ -9,9 +9,9 @@ v-bind:data-layout-hybrid="$store.getters.settings.trackers.layoutHybrid.value",
 v-bind:data-layout-reverse="$store.getters.settings.trackers.layoutReverse.value",
 v-bind:data-layout-map="$store.getters.settings.trackers.layoutMap.value",
 v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
-
-    TimerTracker(
-    v-if="$store.getters.settings.trackers.timerVisible.value")
+    no-ssr
+        TimeTracker(
+        v-if="$store.getters.settings.trackers.timerVisible.value")
 
     .layout-wrap
         ScreenTracker
@@ -20,14 +20,14 @@ v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
 </template>
 
 <script>
-import TimerTracker from './TimerTracker';
-import ScreenTracker from './ScreenTracker';
-import ItemTracker from './ItemTracker';
+import TimeTracker from '~/components/Tracker/TimeTracker';
+import ScreenTracker from '~/components/Tracker/ScreenTracker';
+import ItemTracker from '~/components/Tracker/ItemTracker';
 
 export default {
     name: 'App',
     components: {
-        TimerTracker,
+        TimeTracker,
         ScreenTracker,
         ItemTracker,
     },

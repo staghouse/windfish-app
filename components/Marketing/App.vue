@@ -11,10 +11,10 @@
 
 <script>
 import marketing from '~/assets/js/data/marketing';
-import Navigation from './Navigation';
-import Masthead from './Masthead';
-import Section from './Section';
-import Footer from './Footer';
+import Navigation from '~/components/Marketing/Navigation';
+import Masthead from '~/components/Marketing/Masthead';
+import Section from '~/components/Marketing/Section';
+import Footer from '~/components/Marketing/Footer';
 
 export default {
     name: 'App',

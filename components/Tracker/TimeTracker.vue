@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: 'TimerTracker',
+    name: 'TimeTracker',
     data() {
         return {
             timerRunning: false,
@@ -68,6 +68,7 @@ export default {
                         seconds >= 60
                             ? Math.floor(seconds - minutes * 60)
                             : seconds;
+
                     this.currentTime.minutes =
                         minutes >= 60
                             ? Math.floor(minutes - hours * 60)

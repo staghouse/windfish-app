@@ -4,21 +4,24 @@ const { createSessionID } = require('./utils');
 const jwt = require('jwt-decode');
 const path = require('path');
 const fetch = require('node-fetch');
+const redirectSSL = require('redirect-ssl');
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const app = express();
 
-app.use(cors({ credentials: true, origin: true }));
+let client_referrer = process.env.TWITCH_AUTH_REFERRER_HOST;
+let client_id = process.env.TWITCH_AUTH_CLIENT_ID;
+let client_secret = process.env.TWITCH_AUTH_CLIENT_SECRET;
 
+app.use(redirectSSL);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/beta/auth/twitch', (req, res) => {
     res.redirect(
         `https://id.twitch.tv/oauth2/authorize` +
-            `?client_id=${process.env.TWITCH_AUTH_CLIENT_ID}` +
-            `&redirect_uri=http://localhost:3000/beta/tracker/` +
+            `?client_id=${client_id}` +
+            `&redirect_uri=${client_referrer}/beta/tracker/` +
             `&response_type=code` +
             `&scope=openid` +
             `&force_verify=true` +
@@ -39,11 +42,11 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
 
         fetch(
             `https://id.twitch.tv/oauth2/token` +
-                `?client_id=${process.env.TWITCH_AUTH_CLIENT_ID}` +
-                `&client_secret=${process.env.TWITCH_AUTH_CLIENT_SECRET}` +
+                `?client_id=${client_id}` +
+                `&client_secret=${client_secret}` +
                 `&code=${requested.code}` +
                 `&grant_type=authorization_code` +
-                `&redirect_uri=http://localhost:3000/beta/tracker/`,
+                `&redirect_uri=${client_referrer}/beta/tracker/`,
             {
                 method: 'POST',
             }
@@ -52,47 +55,41 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
                 return response.json();
             })
             .then(response => {
-                const jwt = jwt(response['id_token']);
+                const jwt_decoded = jwt(response['id_token']);
                 let authenticated = true;
 
-                for (let key in jwt) {
-                    const value = jwt[key];
+                for (let key in jwt_decoded) {
+                    const value = jwt_decoded[key];
 
                     switch (key) {
                         case 'aud':
-                            if (value !== process.env.TWITCH_AUTH_CLIENT_ID) {
-                                console.log('Failed: aud');
-                                authenticated = false;
-                            }
-                            break;
-
                         case 'azp':
-                            if (value !== process.env.TWITCH_AUTH_CLIENT_ID) {
-                                console.log('Failed: azp');
+                            if (value !== client_id) {
+                                console.log(`Failed: ${key}`);
                                 authenticated = false;
                             }
                             break;
 
                         case 'iss':
                             if (value !== process.env.TWITCH_AUTH_ISSUER) {
-                                console.log('Failed: iss');
+                                console.log(`Failed: ${key}`);
                                 authenticated = false;
                             }
                             break;
 
                         case 'nonce':
                             if (value !== response.nonce) {
-                                console.log('Failed: nonce');
+                                console.log(`Failed: ${key}`);
                                 authenticated = false;
                             }
                             break;
                     }
                 }
 
-                if (authenticated && response.jwt) {
+                if (authenticated && jwt_decoded.preferred_username) {
                     res.end(
                         JSON.stringify({
-                            username: response.jwt.preferred_username,
+                            username: jwt_decoded.preferred_username,
                         })
                     );
                 }

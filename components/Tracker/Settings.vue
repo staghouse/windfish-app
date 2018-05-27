@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import BroadcastOptions from './BroadcastOptions';
-import SettingsList from './SettingsList';
+import BroadcastOptions from '~/components/Tracker/BroadcastOptions';
+import SettingsList from '~/components/Tracker/SettingsList';
 
 export default {
     name: 'Settings',

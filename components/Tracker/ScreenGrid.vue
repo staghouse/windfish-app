@@ -27,7 +27,7 @@ v-bind:class='{guttered: $store.getters.settings.screens.showGutter.value}')
 
 <script>
 import screenDataList from '~/assets/js/data/screens';
-import Screen from './Screen';
+import Screen from '~/components/Tracker/Screen';
 
 let rows = 16;
 
