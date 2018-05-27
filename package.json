@@ -6,7 +6,8 @@
     "private": true,
     "engines": {
         "node": "10.0.0",
-        "npm": "6.0.1"
+        "npm": "6.0.1",
+        "nuxt": "1.4.0"
     },
     "scripts": {
         "dev":
