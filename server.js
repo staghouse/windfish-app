@@ -23,7 +23,7 @@ if (config.dev) {
 app.use(nuxt.render);
 
 // Listen the server
-server.listen(port, '0.0.0.0');
+server.listen(port, process.env.HOST);
 console.log(`The Windfish is dreaming on *:${port}\n\n`.warn);
 
 let sessions = {};
