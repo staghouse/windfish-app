@@ -9,9 +9,9 @@ v-bind:data-layout-hybrid="$store.getters.settings.trackers.layoutHybrid.value",
 v-bind:data-layout-reverse="$store.getters.settings.trackers.layoutReverse.value",
 v-bind:data-layout-map="$store.getters.settings.trackers.layoutMap.value",
 v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
-
-    TimerTracker(
-    v-if="$store.getters.settings.trackers.timerVisible.value")
+    no-ssr
+        TimerTracker(
+        v-if="$store.getters.settings.trackers.timerVisible.value")
 
     .layout-wrap
         ScreenTracker
