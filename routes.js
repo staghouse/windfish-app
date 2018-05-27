@@ -4,6 +4,7 @@ const { createSessionID } = require('./utils');
 const jwt = require('jwt-decode');
 const path = require('path');
 const fetch = require('node-fetch');
+const redirectSSL = require('redirect-ssl');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -12,6 +13,7 @@ let client_referrer = process.env.TWITCH_AUTH_REFERRER_HOST;
 let client_id = process.env.TWITCH_AUTH_CLIENT_ID;
 let client_secret = process.env.TWITCH_AUTH_CLIENT_SECRET;
 
+app.use(redirectSSL);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
