@@ -9,7 +9,6 @@ In this beta phase commands are still new and only trigger events of the sprite 
 *   Boomerang: boomerang, rang
 *   Bow: bow, D, rottenwatermelon
 *   Bow Wow: bowwow, cheesedog
-*   Color Dungeon: colordungeon, dcolor, dungeon0, dungeon9, d0, d9
 *   Dungeon 1: dungeon1, d1
 *   Dungeon 2: dungeon2, d2
 *   Dungeon 3: dungeon3, d3

@@ -15,6 +15,11 @@ export default {
             type: 'checkbox',
             value: false,
         },
+        // resetCurrentSettings: {
+        //     heading: 'Reset Current Settings',
+        //     type: 'button',
+        //     text: 'Reset',
+        // },
     },
     trackers: {
         timerVisible: {

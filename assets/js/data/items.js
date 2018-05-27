@@ -14,7 +14,7 @@
 export default [
     {
         id: 'goat_mode',
-        category: null,
+        category: 'goat',
         counter: null,
         list: ['goat_mode'],
         commands: ['goat', 'goatmode'],

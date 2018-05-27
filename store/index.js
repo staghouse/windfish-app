@@ -52,6 +52,9 @@ const store = () => {
             'update setting value': function(store, newOption) {
                 store.commit('update setting value', newOption);
             },
+            'reset settings': function(store, defaults) {
+                store.commit('reset settings', defaults);
+            },
             'update screen context': function(store, newContext) {
                 store.commit('update screen context', newContext);
             },
@@ -86,6 +89,9 @@ const store = () => {
             },
             'update setting value': function(state, data) {
                 state.settings[data.index][data.id].value = data.value;
+            },
+            'reset settings': function(state, data) {
+                state.settings = data;
             },
             'update screen context': function(state, data) {
                 state.screenContext = data;

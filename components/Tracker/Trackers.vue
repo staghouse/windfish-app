@@ -25,7 +25,7 @@ import ScreenTracker from '~/components/Tracker/ScreenTracker';
 import ItemTracker from '~/components/Tracker/ItemTracker';
 
 export default {
-    name: 'App',
+    name: 'Trackers',
     components: {
         TimeTracker,
         ScreenTracker,
@@ -45,7 +45,6 @@ export default {
     box-sizing: border-box;
     position: relative;
     max-width: $tracker-max-width;
-    // re-set by settings
     background-color: $blue-1;
 
     @include clearfix;

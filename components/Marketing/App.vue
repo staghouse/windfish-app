@@ -7,6 +7,7 @@
         v-bind:key="key",
         v-bind="{ feature }")
     Footer
+    Analytics
 </template>
 
 <script>
@@ -15,6 +16,7 @@ import Navigation from '~/components/Marketing/Navigation';
 import Masthead from '~/components/Marketing/Masthead';
 import Section from '~/components/Marketing/Section';
 import Footer from '~/components/Marketing/Footer';
+import Analytics from '~/components/Shared/Analytics';
 
 export default {
     name: 'App',
@@ -23,6 +25,7 @@ export default {
         Masthead,
         Section,
         Footer,
+        Analytics,
     },
     data() {
         return {
@@ -34,8 +37,14 @@ export default {
 
 <style lang="scss">
 @import '../../assets/styles/main.scss';
+@import '../../assets/styles/_images.scss';
 
 #app {
     font-family: $font-family-read;
+    background-image: url($image-marketing-bg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }
 </style>

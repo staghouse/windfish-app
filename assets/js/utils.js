@@ -99,7 +99,7 @@ export function generateStateItemUpdateData(itemStore, command) {
         }
     });
 
-    if (item && index) {
+    if (item) {
         // Update the list position or counter if applicable
         let itemHasCounter = Number.isInteger(item.counter);
 

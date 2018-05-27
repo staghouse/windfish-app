@@ -55,8 +55,12 @@
                 v-bind:ref='option.name',
                 @input='inputChange')
 
+                //- button(
+                //-     v-if='option.type === "button"'
+                //-     @click="activateSettingButton(name)") {{ option.text }}
+
                 label(
-                v-if='option.label && option.type !== "button"',
+                v-if='option.label',
                 v-bind:for='name') {{option.label}}
                 
                 .color-options(v-if="option.type === 'color'")
@@ -70,8 +74,6 @@
 import settings from '~/assets/js/data/settings';
 import SettingsList from '~/components/Tracker/SettingsList';
 
-let defaultSettings = Object.assign({}, settings);
-
 export default {
     name: 'SettingsList',
     components: {
@@ -80,6 +82,7 @@ export default {
     data() {
         return {
             storageName: 'windfishUserSettings',
+            // defaultSettings: settings,
         };
     },
     computed: {
@@ -95,6 +98,16 @@ export default {
         },
     },
     methods: {
+        // activateSettingButton(which) {
+        //     switch (which) {
+        //         case 'resetCurrentSettings':
+        //             this.$store.dispatch(
+        //                 'reset settings',
+        //                 this.defaultSettings
+        //             );
+        //             break;
+        //     }
+        // },
         inputChange(event) {
             let target = event.target;
             let option = {
@@ -140,7 +153,7 @@ export default {
             if (this.$store.getters.settings.configuration.keepSettings.value) {
                 this.storeUserData(this.$store.getters.settings);
             } else {
-                this.storeUserData(defaultSettings);
+                this.storeUserData(this.defaultSettings);
             }
         },
         storeUserData(data) {

@@ -5,7 +5,6 @@ v-bind:data-id="item.id",
 v-bind:data-category="item.category",
 v-bind:data-available="checkIfAvailable(item.category)",
 v-bind:data-vertical-layout="$store.getters.settings.items.verticalLayout.value",
-v-bind:data-show="$store.getters.settings.items.showGoatMode.value",
 v-bind:style="{backgroundColor: $store.getters.settings.trackers.backgroundColor.value}",
 @click="update")
     
@@ -41,6 +40,11 @@ export default {
     methods: {
         checkIfAvailable(category) {
             switch (category) {
+                case 'goat':
+                    return this.$store.getters.settings.items.showGoatMode
+                        .value;
+                    break;
+
                 case 'chest':
                     return this.$store.getters.settings.items.showChests.value;
                     break;
@@ -94,6 +98,7 @@ export default {
     user-select: none;
     cursor: pointer;
 
+    &[data-category='goat'],
     &[data-category='extended'],
     &[data-category='super-extended'],
     &[data-category='chest'] {
