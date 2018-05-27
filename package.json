@@ -6,15 +6,14 @@
     "private": true,
     "engines": {
         "node": "10.0.0",
-        "npm": "6.0.1",
-        "nuxt": "1.4.0"
+        "npm": "6.0.1"
     },
     "scripts": {
         "dev":
             "NODE_ENV=development nodemon -w server.js -w nuxt.config.js server.js",
         "build": "nuxt build",
-        "start": "npm run build && NODE_ENV=production node server.js",
-        "start-nuxt": "nuxt start",
+        "start": "NODE_ENV=production node server.js",
+        "heroku-postbuild": "npm run build",
         "generate": "nuxt generate",
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
         "precommit": "npm run lint"
@@ -27,7 +26,6 @@
         "express": "^4.16.3",
         "jwt-decode": "^2.2.0",
         "node-fetch": "^2.1.2",
-        "nodemon": "^1.17.5",
         "nuxt": "^1.4.0",
         "socket.io": "^2.1.1",
         "socket.io-client": "^2.1.1",
@@ -42,6 +40,7 @@
         "node-sass": "^4.9.0",
         "pug": "^2.0.0-beta6",
         "pug-loader": "^2.4.0",
-        "sass-loader": "^7.0.1"
+        "sass-loader": "^7.0.1",
+        "nodemon": "^1.17.5"
     }
 }
