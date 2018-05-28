@@ -2,8 +2,9 @@
 
 .settings-list
     .settings-group(
-    v-for='(group, index) in filteredSettings',
-    v-bind:key='index')
+    v-for='(group, index) in $store.getters.settings',
+    v-bind:key='index'
+    v-if="index.toLowerCase() !== 'user'")
         h5(v-bind:data-group-name="index") {{index}}
         ol.inner-settings-list
             li(
@@ -87,17 +88,18 @@ export default {
             // defaultSettings: settings,
         };
     },
-    computed: {
-        filteredSettings() {
-            let settings = this.$store.getters.settings;
-            let filteredSettings = {};
+    beforeMount() {
+        let settings = this.$store.getters.settings;
+        let storedSettings = window.localStorage.getItem(this.storageName);
 
-            for (let key in settings) {
-                if (key !== 'user') filteredSettings[key] = settings[key];
+        if (storedSettings !== 'undefined') {
+            let stored = JSON.parse(storedSettings);
+
+            if (Object.keys(stored).length === Object.keys(settings).length) {
+                console.log('Stored settings detected...');
+                this.$store.dispatch('update settings', stored);
             }
-
-            return filteredSettings;
-        },
+        }
     },
     methods: {
         // activateSettingButton(which) {

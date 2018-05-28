@@ -130,7 +130,7 @@ export default [
         category: 'extended',
         counter: 5,
         list: ['golden_leaf'],
-        commands: ['goldenleaf', 'leaf'],
+        commands: ['goldenleaf', 'leaf', 'goldenleaves', 'goldenleaf'],
         listPosition: 0,
         currentCounter: 0,
     },
@@ -147,7 +147,7 @@ export default [
         category: 'extended',
         counter: null,
         list: ['slime_key'],
-        commands: ['slime_key', 'key2'],
+        commands: ['slimekey', 'key2'],
         listPosition: 0,
     },
     {
@@ -188,7 +188,7 @@ export default [
         category: 'super-extended',
         counter: null,
         list: ['marin'],
-        commands: ['marin', 'windfishsong'],
+        commands: ['marin', 'balladofthewindfish', 'botwf', 'windfishsong'],
         listPosition: 0,
     },
     {
@@ -196,7 +196,7 @@ export default [
         category: 'super-extended',
         counter: null,
         list: ['manbo'],
-        commands: ['manbo', 'fishsong', 'basssong', 'bestsong'],
+        commands: ['manbo', 'manbosmambo', 'basssong', 'bestsong'],
         listPosition: 0,
     },
     {
@@ -204,7 +204,7 @@ export default [
         category: 'super-extended',
         counter: null,
         list: ['mamu'],
-        commands: ['mamu', 'frogsong'],
+        commands: ['mamu', 'songofsoul', 'frogsong', 'worstsong'],
         listPosition: 0,
     },
     {
@@ -212,7 +212,7 @@ export default [
         category: 'super-extended',
         counter: null,
         list: ['bowwow'],
-        commands: ['bowwow', 'cheesedog'],
+        commands: ['bowwow', 'dog', 'cheesedog'],
         listPosition: 0,
     },
     {
@@ -252,7 +252,7 @@ export default [
         category: null,
         counter: null,
         list: ['power_bracelet'],
-        commands: ['powerbracelet', 'bracelet', 'bracelet1'],
+        commands: ['powerbracelet', 'bracelet', 'bracelet1', 'pb1', 'pb'],
         listPosition: 0,
     },
     {
@@ -260,14 +260,7 @@ export default [
         category: null,
         counter: null,
         list: ['pegasus_boots'],
-        commands: [
-            'pegasusboots',
-            'boots',
-            'nikes',
-            'adidas',
-            'converse',
-            'speedshoes',
-        ],
+        commands: ['pegasusboots', 'boots'],
         listPosition: 0,
     },
     {
@@ -283,7 +276,7 @@ export default [
         category: null,
         counter: null,
         list: ['hookshot'],
-        commands: ['hookshot'],
+        commands: ['hookshot', 'ninjastar'],
         listPosition: 0,
     },
     {
@@ -291,7 +284,7 @@ export default [
         category: null,
         counter: null,
         list: ['power_bracelet_l2'],
-        commands: ['powerbracelet2', 'bracelet2'],
+        commands: ['powerbracelet2', 'bracelet2', 'pb2'],
         listPosition: 0,
     },
     {
@@ -307,7 +300,7 @@ export default [
         category: null,
         counter: null,
         list: ['magic_rod'],
-        commands: ['magicrod', 'rod', 'wand', 'firerod'],
+        commands: ['magicrod', 'rod', 'wang'],
         listPosition: 0,
     },
     {

@@ -277,7 +277,7 @@ class TwitchBot {
 
             case 'offline':
                 this.sendMessage(
-                    `/me ~> The Windfish is leaving the channel. WHRRRRRRLLL`
+                    `/me ~> The Windfish is leaving the channel. WHRRRRRRLLL.`
                 );
                 break;
 
@@ -285,7 +285,9 @@ class TwitchBot {
                 this.sendMessage(
                     `/me ~> The Windfish and "${
                         this.approvedCommands[0]
-                    }" command is now active!`
+                    }" command is now active! Whitelisted users can type "${
+                        this.approvedCommands[0]
+                    } update item_name" to update the tracker. For a list of commands check out https://bit.ly/2LBJH9O`
                 );
                 break;
 
