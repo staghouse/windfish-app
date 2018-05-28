@@ -34,8 +34,14 @@ export default {
 
 <style lang="scss">
 @import '../../assets/styles/main.scss';
+@import '../../assets/styles/_images.scss';
 
 #app {
     font-family: $font-family-read;
+    background-image: url($image-marketing-bg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }
 </style>

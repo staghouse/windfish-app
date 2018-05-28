@@ -20,7 +20,7 @@ ref="screen")
         v-bind:data-completable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].completable: false",
         v-bind:data-finished="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].finished: false",
         v-bind:class='{passage: (marker.id.length < 2), hovered: marker.hover}',
-        v-bind:style="{backgroundImage: `url('../../static/images/markers/marker_${marker.id}.png')`}")
+        v-bind:style="{backgroundImage: `url('/images/markers/marker_${marker.id}.png')`}")
             span.text(v-if='marker.id.length < 2') {{marker.id}}
 
         span.no-entrance(

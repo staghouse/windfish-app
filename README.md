@@ -1,6 +1,6 @@
 # Windfish.io
 
-> Windfish.io is a Node Server/Client built in Nuxt/Vue and uses WebSockets and a Twitch chat bot to track game plau while playing LADX Randomizer
+> Windfish.io is a Node Server/Client built in Nuxt/Vue and uses WebSockets and a Twitch chat bot to track game play while playing LADX Randomizer
 
 ## Build Setup
 

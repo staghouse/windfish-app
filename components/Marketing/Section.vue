@@ -131,11 +131,13 @@ section {
 
             &[data-id='misc'] {
                 // position: absolute;
-                margin-bottom: -240px;
+                max-width: 321px;
+                margin-bottom: -260px;
                 // right: 0;
 
                 @include mediaMax(799px) {
-                    margin-bottom: -125px;
+                    max-width: 260px;
+                    margin-bottom: -102px;
                 }
             }
 

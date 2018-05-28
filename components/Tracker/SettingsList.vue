@@ -2,8 +2,9 @@
 
 .settings-list
     .settings-group(
-    v-for='(group, index) in filteredSettings',
-    v-bind:key='index')
+    v-for='(group, index) in $store.getters.settings',
+    v-bind:key='index'
+    v-if="index.toLowerCase() !== 'user'")
         h5(v-bind:data-group-name="index") {{index}}
         ol.inner-settings-list
             li(
@@ -55,46 +56,62 @@
                 v-bind:ref='option.name',
                 @input='inputChange')
 
+                //- button(
+                //-     v-if='option.type === "button"'
+                //-     @click="activateSettingButton(name)") {{ option.text }}
+
                 label(
-                v-if='option.label && option.type !== "button"',
+                v-if='option.label',
                 v-bind:for='name') {{option.label}}
                 
                 .color-options(v-if="option.type === 'color'")
                     output(v-bind:for='name') {{option.value}}
                     button(
                     @click='$store.getters.settings.trackers.backgroundColor.value = $store.getters.settings.trackers.backgroundColor.defaultValue') Reset
-
+    Translate
 </template>
 
 <script>
 import settings from '~/assets/js/data/settings';
+import Translate from '~/components/Shared/Translate';
 import SettingsList from '~/components/Tracker/SettingsList';
-
-let defaultSettings = Object.assign({}, settings);
 
 export default {
     name: 'SettingsList',
     components: {
         SettingsList,
+        Translate,
     },
     data() {
         return {
             storageName: 'windfishUserSettings',
+            // defaultSettings: settings,
         };
     },
-    computed: {
-        filteredSettings() {
-            let settings = this.$store.getters.settings;
-            let filteredSettings = {};
+    beforeMount() {
+        let settings = this.$store.getters.settings;
+        let storedSettings = window.localStorage.getItem(this.storageName);
 
-            for (let key in settings) {
-                if (key !== 'user') filteredSettings[key] = settings[key];
+        if (storedSettings !== 'undefined') {
+            let stored = JSON.parse(storedSettings);
+
+            if (Object.keys(stored).length === Object.keys(settings).length) {
+                console.log('Stored settings detected...');
+                this.$store.dispatch('update settings', stored);
             }
-
-            return filteredSettings;
-        },
+        }
     },
     methods: {
+        // activateSettingButton(which) {
+        //     switch (which) {
+        //         case 'resetCurrentSettings':
+        //             this.$store.dispatch(
+        //                 'reset settings',
+        //                 this.defaultSettings
+        //             );
+        //             break;
+        //     }
+        // },
         inputChange(event) {
             let target = event.target;
             let option = {
@@ -140,7 +157,7 @@ export default {
             if (this.$store.getters.settings.configuration.keepSettings.value) {
                 this.storeUserData(this.$store.getters.settings);
             } else {
-                this.storeUserData(defaultSettings);
+                this.storeUserData(this.defaultSettings);
             }
         },
         storeUserData(data) {

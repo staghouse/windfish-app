@@ -12,9 +12,27 @@ module.exports = {
                 content: 'width=device-width, initial-scale=1',
             },
             {
+                name: 'og:title',
+                content:
+                    "Windfish.io :: Windfish.io - A game tracker for The Legend of Zelda: Link's Awakening DX Randomizer",
+            },
+            {
                 name: 'description',
                 content:
                     "Windfish is a web-based game tracker designed for streaming The Legend of Zelda: Link's Awakening DX that tracks the overworld, items and much more!",
+            },
+            {
+                name: 'og:description',
+                content:
+                    "Windfish is a web-based game tracker designed for streaming The Legend of Zelda: Link's Awakening DX that tracks the overworld, items and much more!",
+            },
+            {
+                name: 'og:image',
+                content: '/images/display/master.jpg',
+            },
+            {
+                name: 'og:url',
+                content: 'https://www.windfish.io',
             },
         ],
         link: [
@@ -47,5 +65,9 @@ module.exports = {
             }
         },
     },
-    modules: ['~/io'],
+    modules: ['~/io', '@nuxtjs/google-analytics'],
+
+    'google-analytics': {
+        id: 'UA-119957645-1',
+    },
 };

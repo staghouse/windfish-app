@@ -36,6 +36,6 @@ export default {
 @import '../../assets/styles/main.scss';
 
 #app {
-    padding: 70px 0;
+    padding: 70px 10px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template lang="pug">
 footer
     .grid-container
-        h6
+        p Images &copy; Nintendo (where applicable)
 </template>
 
 <script>
@@ -11,4 +11,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/styles/_vars';
+footer {
+    background-color: white;
+    padding: 60px 0;
+    text-align: center;
+
+    p {
+        color: $blue-1;
+    }
+}
 </style>
