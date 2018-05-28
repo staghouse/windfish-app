@@ -119,7 +119,10 @@ export default {
                     } else {
                         if (this.hasGeneratedSeed) {
                             this.$store
-                                .dispatch('update socket', io('localhost:3000'))
+                                .dispatch(
+                                    'update socket',
+                                    io(/* should default to root */)
+                                )
                                 .then(() => {
                                     this.$store.getters.socket.emit(
                                         'connection broadcast',
@@ -131,6 +134,7 @@ export default {
                                     );
                                     this.hasConnectedSocket = true;
                                     this.bindAllSockets();
+                                    this.bindDisconnect();
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -158,6 +162,12 @@ export default {
                     }
                     break;
             }
+        },
+        bindDisconnect() {
+            window.addEventListener('beforeunload', () => {
+                this.$store.getters.socket.emit('disconnect bot');
+                this.$store.getters.socket.disconnect();
+            });
         },
         bindAllSockets() {
             let self = this;

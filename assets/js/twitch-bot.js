@@ -4,7 +4,7 @@ const TMI = require('tmi.js');
 
 class TwitchBot {
     constructor(options) {
-        this.debug = false;
+        this.debug = true;
         this.socket = null;
         this.identity = null;
         this.client = null;
@@ -12,7 +12,7 @@ class TwitchBot {
         this.channel = null;
         this.whitelist = false;
         this.disableWhitelist = false;
-        this.botActivated = true;
+        this.botActivated = false;
         this.allowModAsAdmin = true;
         this.lastBotMessage = null;
         this.disableBotFeedbackOnSend = false;
@@ -54,8 +54,6 @@ class TwitchBot {
     }
 
     updateWhitelist(whitelist) {
-        // console.log(whitelist);
-
         this.whitelist = whitelist.whitelist;
 
         switch (whitelist.response.type) {
@@ -80,6 +78,7 @@ class TwitchBot {
         this.client
             .connect()
             .then(data => {
+                this.parseMessage('online', this.channel.substr(1));
                 self.watchChat();
             })
             .catch(error => {
@@ -88,6 +87,7 @@ class TwitchBot {
     }
 
     disconnect() {
+        this.parseMessage('offline');
         this.client.disconnect();
     }
 
@@ -269,29 +269,33 @@ class TwitchBot {
             // +------------------+
             case 'online':
                 this.sendMessage(
-                    `/me ~> The Wind Fish has joined the channel, ${
-                        this.channel
-                    } must type "${
+                    `/me ~> The Windfish has joined the channel, ${argument} must type "${
                         this.approvedCommands[0]
                     } activate" to activate it.`
                 );
                 break;
 
+            case 'offline':
+                this.sendMessage(
+                    `/me ~> The Windfish is leaving the channel. WHRRRRRRLLL`
+                );
+                break;
+
             case 'activate':
                 this.sendMessage(
-                    `/me ~> The Wind Fish and "${
+                    `/me ~> The Windfish and "${
                         this.approvedCommands[0]
                     }" command is now active!`
                 );
                 break;
 
             case 'deactivate':
-                this.sendMessage(`/me ~> The Wind Fish has been deactivated.`);
+                this.sendMessage(`/me ~> The Windfish has been deactivated.`);
                 break;
 
             case 'inactive':
                 this.sendMessage(
-                    `/me ~> The Wind Fish is inactive. The channel broadcaster must type "${
+                    `/me ~> The Windfish is inactive, ${argument} must type "${
                         this.approvedCommands[0]
                     } activate" to allow the chat to adjust the tracker.`
                 );

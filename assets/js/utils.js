@@ -32,7 +32,7 @@ export class BotWhitelist {
                     ? this.whitelist
                     : [];
 
-            whitelist.push(user);
+            whitelist.push(user.toLowerCase());
 
             if (whitelist.length > this.whitelist.length) {
                 this.response.success = true;
