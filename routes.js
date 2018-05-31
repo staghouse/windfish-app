@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 let client_referrer = process.env.TWITCH_AUTH_REFERRER_HOST;
+let referrer_scope = process.env.TWITCH_AUTH_REFERRER_SCOPE;
 let client_id = process.env.TWITCH_AUTH_CLIENT_ID;
 let client_secret = process.env.TWITCH_AUTH_CLIENT_SECRET;
 
@@ -21,7 +22,7 @@ app.get('/beta/auth/twitch', (req, res) => {
     res.redirect(
         `https://id.twitch.tv/oauth2/authorize` +
             `?client_id=${client_id}` +
-            `&redirect_uri=${client_referrer}/beta/tracker/` +
+            `&redirect_uri=${client_referrer}${referrer_scope}` +
             `&response_type=code` +
             `&scope=openid` +
             `&force_verify=true` +
@@ -46,7 +47,7 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
                 `&client_secret=${client_secret}` +
                 `&code=${requested.code}` +
                 `&grant_type=authorization_code` +
-                `&redirect_uri=${client_referrer}/beta/tracker/`,
+                `&redirect_uri=${client_referrer}${referrer_scope}`,
             {
                 method: 'POST',
             }

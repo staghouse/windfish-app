@@ -9,9 +9,9 @@
         v-if="showContextMenu",
         v-on:closeContextMenu="showContextMenu = false"
         v-bind='{ contextMenuPosition }')
+        ScreenOverlay
         ScreenGrid(
         v-on:showContextMenu='toggleContextMenu($event)')
-        ScreenOverlay
 
 </template>
 

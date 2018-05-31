@@ -1,15 +1,22 @@
 <template lang="pug">
 
 .menu-bar.menu-toggle
-    .help-toggle.item(
-    @click='displayHelp')
-
+    .toggle(
+    @click='displayHelp'
+    title="Show Help")
         img#help-toggle(
         src='~/static/images/display/icon-help.svg')
 
-    .settings-toggle.item(
-    @click='$emit("toggleSettings")')
-    
+    .toggle
+        a(href="https://github.com/ericlakatos/windfish-app/issues",
+        target="_blank"
+        title="Report a Problem")
+            img#help-toggle(
+            src='~/static/images/display/icon-issues.svg')
+
+    .toggle(
+    @click='$emit("toggleSettings")'
+    title="Show Settings")
         img#settings-toggle(
         src='~/static/images/display/icon-settings.svg')
 
@@ -67,24 +74,18 @@ export default {
     right: 0;
     top: 0;
     bottom: auto;
+    display: flex;
+    justify-content: flex-end;
 
-    .item {
+    .toggle {
+        flex: none;
         height: 100%;
+        margin-left: 20px;
 
         img {
             cursor: pointer;
             width: auto;
             height: 100%;
-        }
-
-        &:first-of-type {
-            float: left;
-            margin-left: 20px;
-        }
-
-        &:last-of-type {
-            float: right;
-            margin-right: 20px;
         }
     }
 }

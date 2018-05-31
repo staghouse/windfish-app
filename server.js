@@ -6,7 +6,6 @@ const bot = require('./assets/js/twitch-bot');
 const app = require('./routes');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const port = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
 
 // We instantiate Nuxt.js with the options
@@ -23,8 +22,11 @@ if (config.dev) {
 app.use(nuxt.render);
 
 // Listen the server
-server.listen(port, process.env.HOST);
-console.log(`The Windfish is dreaming on *:${port}\n\n`.warn);
+server.listen(process.env.PORT, process.env.HOST);
+console.log(
+    `The Windfish is dreaming on ${process.env.HOST}:${process.env.PORT}\n\n`
+        .warn
+);
 
 let sessions = {};
 // Socket.io

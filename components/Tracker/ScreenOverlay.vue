@@ -1,6 +1,11 @@
 <template lang="pug">
 .overlays
     .overlay(
+    data-id="advanced",
+    v-if="$store.getters.settings.screens.overlayAdvanced.value",
+    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+
+    .overlay(
     data-id="pohExterior",
     v-if="$store.getters.settings.screens.overlayPOHExterior.value",
     v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
@@ -19,18 +24,6 @@
     data-id="chests",
     v-if="$store.getters.settings.screens.overlayChests.value",
     v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
-
-    .overlay(
-    data-id="advanced",
-    v-if="$store.getters.settings.screens.overlayAdvanced.value",
-    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
-
-    .overlay.map(
-    v-bind:style="{opacity: $store.getters.settings.screens.mapOpacity.value}",
-    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}",
-    v-bind:data-map-original="$store.getters.settings.screens.mapTypeOriginal.value",
-    v-bind:data-map-improved="$store.getters.settings.screens.mapTypeImproved.value",
-    v-bind:data-map-detailed="$store.getters.settings.screens.mapTypeDetailed.value")
 
 </template>
 
@@ -73,7 +66,7 @@ export default {
 .overlays {
     @extend %full-abs;
     pointer-events: none;
-    z-index: 100;
+    z-index: 200;
 
     .overlay {
         @extend %full-abs;
@@ -82,11 +75,7 @@ export default {
         image-rendering: pixelated;
         user-select: none;
         pointer-events: none;
-        z-index: 100;
-
-        &.map {
-            z-index: 99;
-        }
+        z-index: 201;
 
         &.guttered {
             width: calc(100% - (100% / 17));
@@ -109,22 +98,12 @@ export default {
 
         &[data-id='chests'] {
             background-image: url($image-overworld-overlay-chests);
+            z-index: 200;
         }
 
         &[data-id='advanced'] {
             background-image: url($image-overworld-overlay-advanced);
-        }
-
-        &[data-map-original='true'] {
-            background-image: url($image-overworld-original);
-        }
-
-        &[data-map-improved='true'] {
-            background-image: url($image-overworld-improved);
-        }
-
-        &[data-map-detailed='true'] {
-            background-image: url($image-overworld-detailed);
+            z-index: 202;
         }
     }
 }

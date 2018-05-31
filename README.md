@@ -1,22 +1,38 @@
 # Windfish.io
 
-> Windfish.io is a Node Server/Client built in Nuxt/Vue and uses WebSockets and a Twitch chat bot to track game play while playing LADX Randomizer
+> Windfish.io is a Node WebSocket Server and Client built in Nuxt/Vue hosted on Heroku
+
+## Project Dependencies
+
+*   Node
+*   Nuxt/Vue
+*   Pug
+*   SCSS
+*   ES6
+*   Heroku (Host)
+*   Twitch OAUTH Token (Bot Testing)
 
 ## Build Setup
 
+First
+
 ```bash
 # install dependencies
-$ npm install # Or yarn install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
+$ npm install
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+Then
+
+```bash
+# serve with hot reload at 0.0.0.0:3000
+$ npm run dev
+```
+
+Finally
+
+```bash
+# test mock production build
+$ npm run heroku-mock
+```
+
+For more information on how Nuxt works, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).

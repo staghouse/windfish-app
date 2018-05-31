@@ -19,8 +19,8 @@ ref="screen")
         v-bind:data-accessible="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].accessible: false",
         v-bind:data-completable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].completable: false",
         v-bind:data-finished="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].finished: false",
-        v-bind:class='{passage: (marker.id.length < 2), hovered: marker.hover}',
-        v-bind:style="{backgroundImage: `url('/images/markers/marker_${marker.id}.png')`}")
+        v-bind:class='{passage: (marker.id.length < 2), hovered: marker.hover, canBeTracked: !$store.getters.settings.screens.dungeonTracking.value }',
+        v-bind:style="{backgroundImage: marker.id.length < 2? `none`: `url('/images/markers/marker_${marker.id}.png')`}")
             span.text(v-if='marker.id.length < 2') {{marker.id}}
 
         span.no-entrance(
@@ -153,23 +153,33 @@ export default {
             &[data-id='6'],
             &[data-id='7'],
             &[data-id='8'] {
-                background-color: darken(tomato, 10%);
+                &.canBeTracked {
+                    background-color: darken(tomato, 10%);
+                }
             }
 
             &[data-minimum='true'] {
-                background-color: darken(darkorange, 5%) !important;
+                &.canBeTracked {
+                    background-color: darken(darkorange, 5%) !important;
+                }
             }
 
             &[data-accessible='true'] {
-                background-color: darken(gold, 5%) !important;
+                &.canBeTracked {
+                    background-color: darken(gold, 5%) !important;
+                }
             }
 
             &[data-completable='true'] {
-                background-color: darken(mediumseagreen, 5%) !important;
+                &.canBeTracked {
+                    background-color: darken(mediumseagreen, 5%) !important;
+                }
             }
 
             &[data-finished='true'] {
-                background-color: $blue-1 !important;
+                &.canBeTracked {
+                    background-color: $blue-1 !important;
+                }
             }
 
             &.hovered {

@@ -1,9 +1,11 @@
 <template lang="pug">
-    div.twitch-auth(v-bind:class="{hide: hideAuthModal}")
+    div.twitch-auth(
+    v-bind:class="{hide: hideAuthModal}",
+    @click.stop.self="hideAuthModal = true")
         div.twitch-auth__wrap
             p.title Log in with Twitch.tv?
             span (Twitch chat integration)
-            span.error(v-if="authHadError") Sorry, we couldn't valid you...
+            span.error(v-if="authHadError") Sorry, we couldn't validate you...
             a.button(v-bind:href="authURI")
                 button.login Log In
             button.cancel(
@@ -73,6 +75,8 @@ export default {
     align-items: center;
     justify-content: center;
     text-align: center;
+    background-color: rgba(1, 6, 25, 0.5);
+    cursor: pointer;
 
     &.hide {
         display: none;

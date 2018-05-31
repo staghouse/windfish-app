@@ -65,7 +65,7 @@ module.exports = {
             }
         },
     },
-    modules: ['~/io', '@nuxtjs/google-analytics'],
+    modules: [/*'~/io', */ '@nuxtjs/google-analytics'],
 
     'google-analytics': {
         id: 'UA-119957645-1',
