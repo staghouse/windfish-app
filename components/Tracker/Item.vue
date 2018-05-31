@@ -4,6 +4,8 @@
 v-bind:data-id="item.id",
 v-bind:data-category="item.category",
 v-bind:data-available="checkIfAvailable(item.category)",
+v-bind:data-more-items="$store.getters.settings.items.showExtended.value",
+v-bind:data-even-more-items="$store.getters.settings.items.showSuperExtended.value",
 v-bind:data-vertical-layout="$store.getters.settings.items.verticalLayout.value",
 v-bind:style="{backgroundColor: $store.getters.settings.trackers.backgroundColor.value}",
 @click="update")
@@ -88,14 +90,10 @@ export default {
 @import '../../assets/styles/mixins';
 
 .item {
-    $size: calc(100% / 8);
-    $verticalSize: calc(100% / 4);
-
-    float: left;
-    padding-bottom: $size;
-    width: $size;
+    grid-column-start: span 2;
     position: relative;
     user-select: none;
+    display: flex;
     cursor: pointer;
 
     &[data-category='goat'],
@@ -110,19 +108,27 @@ export default {
     }
 
     &[data-vertical-layout='true'] {
-        padding-bottom: $verticalSize;
-        width: $verticalSize;
+        &[data-id='dungeon1-chests'],
+        &[data-id='dungeon2-chests'],
+        &[data-id='dungeon3-chests'],
+        &[data-id='dungeon4-chests'] {
+            grid-row-start: 6;
 
-        &[data-id='mushroom'],
-        &[data-id='magic_powder'] {
-            width: calc(100% / 8);
+            &[data-even-more-items='true'],
+            &[data-more-items='true'] {
+                grid-row-start: 8;
+            }
+
+            &[data-more-items='true'][data-even-more-items='true'] {
+                grid-row-start: 10;
+            }
         }
     }
 
     &__wrap {
-        @extend %full-abs;
-
-        background-size: auto 80%;
+        width: 100%;
+        padding-bottom: 100%;
+        background-size: 85% 85%;
         background-position: center;
         background-repeat: no-repeat;
         image-rendering: pixelated;
@@ -163,19 +169,20 @@ export default {
         height: 30px;
         padding: 0;
         background-color: $blue-1;
+        grid-column: auto;
 
         &[data-show='true'] {
             display: block;
         }
 
         .item__wrap {
-            background-size: auto 100%;
+            // background-size: auto 100%;
         }
     }
 
     &[data-id='sword'] {
         .item__wrap {
-            background-size: auto 80%;
+            // background-size: auto 80%;
         }
     }
 
@@ -184,26 +191,26 @@ export default {
     &[data-id='mirror_shield'],
     &[data-category='dungeon'] {
         .item__wrap {
-            background-size: auto 70%;
+            // background-size: auto 70%;
         }
     }
 
     &[data-id='tunic'],
     &[data-category='chest'] {
         .item__wrap {
-            background-size: auto 65%;
+            // background-size: auto 65%;
         }
     }
 
     &[data-id='go_mode'] {
         .item__wrap {
-            background-size: 85% auto;
+            // background-size: 85% auto;
         }
     }
 
     &[data-id='mushroom'],
     &[data-id='magic_powder'] {
-        width: calc(100% / 16);
+        grid-column-start: span 1;
     }
 }
 </style>

@@ -1,6 +1,7 @@
 <template lang="pug">
 
-.item-tracker.tracker
+.item-tracker.tracker(
+v-bind:data-vertical-layout="$store.getters.settings.items.verticalLayout.value")
     Item(
     v-for='(data, index) in $store.getters.items',
     v-bind='{index}',
@@ -63,3 +64,20 @@ export default {
     },
 };
 </script>
+
+<style lang="scss">
+.item-tracker {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: auto;
+    grid-row-gap: 10px;
+
+    &[data-vertical-layout] {
+        grid-template-columns: repeat(8, 1fr);
+    }
+
+    &::after {
+        content: none !important;
+    }
+}
+</style>
