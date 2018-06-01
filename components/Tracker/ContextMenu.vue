@@ -28,6 +28,7 @@
                     v-bind:key='i',
                     v-bind:data-id='marker.id',
                     v-bind:data-type='list.id',
+                    v-bind:style="{backgroundImage: marker.id.length > 1? `url(/images/sprites/${marker.id}.png)`: 'none'}"
                     v-bind:title='marker.title') {{marker.id}}
 
 </template>
@@ -112,7 +113,7 @@ export default {
 .context-menu {
     position: absolute;
     z-index: 300;
-    width: 300px;
+    width: 260px;
     left: 0;
     top: 0;
     right: auto;
@@ -164,7 +165,7 @@ export default {
 
             &[data-id='npc'] {
                 .menu-item {
-                    width: calc(100% / 8);
+                    width: calc(100% / 7);
                 }
             }
 
@@ -213,142 +214,6 @@ export default {
                     &.active {
                         border: 1px solid $gold-2;
                         box-sizing: border-box;
-                    }
-
-                    &[data-id='blocked'] {
-                        background-image: url($image-marker-blocked);
-                    }
-
-                    &[data-id='passage'] {
-                        background-image: url($image-marker-passage);
-                    }
-
-                    &[data-id='important'] {
-                        background-image: url($image-marker-important);
-                    }
-
-                    &[data-id='chest'] {
-                        background-image: url($image-marker-chest);
-                    }
-
-                    &[data-id='shop'] {
-                        background-image: url($image-marker-shop);
-                    }
-
-                    &[data-id='manbo'] {
-                        background-image: url($image-marker-manbo);
-                    }
-
-                    &[data-id='mamu'] {
-                        background-image: url($image-marker-mamu);
-                    }
-
-                    &[data-id='shrine'] {
-                        background-image: url($image-marker-shrine);
-                    }
-
-                    &[data-id='rooster'] {
-                        background-image: url($image-marker-rooster);
-                    }
-
-                    &[data-id='tracy'] {
-                        background-image: url($image-marker-tracy);
-                    }
-
-                    &[data-id='madbatter'] {
-                        background-image: url($image-marker-madbatter);
-                    }
-
-                    &[data-id='witch'] {
-                        background-image: url($image-marker-witch);
-                    }
-
-                    &[data-id='trendy'] {
-                        background-image: url($image-marker-trendy);
-                    }
-
-                    &[data-id='richard'] {
-                        background-image: url($image-marker-richard);
-                    }
-
-                    &[data-id='egg'] {
-                        background-image: url($image-marker-egg);
-                    }
-
-                    &[data-id='phone'] {
-                        background-image: url($image-marker-phone);
-                    }
-
-                    &[data-id='dungeon-color'] {
-                        background-image: url($image-marker-dungeon-color);
-                    }
-
-                    &[data-id='madame'] {
-                        background-image: url($image-marker-madame);
-                    }
-
-                    &[data-id='christine'] {
-                        background-image: url($image-marker-christine);
-                    }
-
-                    &[data-id='papahl'] {
-                        background-image: url($image-marker-papahl);
-                    }
-
-                    &[data-id='mrspapahl'] {
-                        background-image: url($image-marker-mrspapahl);
-                    }
-
-                    &[data-id='sale'] {
-                        background-image: url($image-marker-sale);
-                    }
-
-                    &[data-id='mrwrite'] {
-                        background-image: url($image-marker-mrwrite);
-                    }
-
-                    &[data-id='chefbear'] {
-                        background-image: url($image-marker-chefbear);
-                    }
-
-                    &[data-id='boomerang'] {
-                        background-image: url($image-marker-boomerang);
-                    }
-
-                    &[data-id='sword'] {
-                        background-image: url($image-marker-sword);
-                    }
-
-                    &[data-id='rocs_feather'] {
-                        background-image: url($image-marker-rocs-feather);
-                    }
-
-                    &[data-id='power_bracelet'] {
-                        background-image: url($image-marker-power-bracelet);
-                    }
-
-                    &[data-id='power_bracelet_l2'] {
-                        background-image: url($image-marker-power-bracelet-l2);
-                    }
-
-                    &[data-id='pegasus_boots'] {
-                        background-image: url($image-marker-pegasus-boots);
-                    }
-
-                    &[data-id='zoras_flippers'] {
-                        background-image: url($image-marker-zoras-flippers);
-                    }
-
-                    &[data-id='hookshot'] {
-                        background-image: url($image-marker-hookshot);
-                    }
-
-                    &[data-id='bomb'] {
-                        background-image: url($image-marker-bomb);
-                    }
-
-                    &[data-id='mirror_shield'] {
-                        background-image: url($image-marker-mirror_shield);
                     }
                 }
 

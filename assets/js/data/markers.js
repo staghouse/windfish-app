@@ -20,7 +20,7 @@ export default [
                 title: 'Location has the Shop',
             },
             {
-                id: 'trendy',
+                id: 'yoshi_doll',
                 title: 'Location has the Trendy game',
             },
             {
@@ -28,7 +28,7 @@ export default [
                 title: 'Location has a phone booth',
             },
             {
-                id: 'dungeon-color',
+                id: 'dungeon_color',
                 title: 'Location has the Color Dungeon entrance',
             },
             {
@@ -55,10 +55,6 @@ export default [
                 title: 'Location has Tracy',
             },
             {
-                id: 'madbatter',
-                title: 'Location has Mad Batter',
-            },
-            {
                 id: 'witch',
                 title: 'Location has Witch',
             },
@@ -70,36 +66,36 @@ export default [
                 id: 'mamu',
                 title: 'Location has Manu',
             },
-            // {
-            //     id: 'mrspapahl',
-            //     title: 'Location has Mrs. Papahl',
-            // },
-            // {
-            //     id: 'madame',
-            //     title: "Location has Madame' Bow Wow",
-            // },
-            // {
-            //     id: 'sale',
-            //     title: 'Location has Sale',
-            // },
-            // {
-            //     id: 'chefbear',
-            //     title: 'Location has Chef Bear',
-            // },
-            // {
-            //     id: 'papahl',
-            //     title: 'Location has Papahl',
-            // },
-            // {
-            //     id: 'christine',
-            //     title: 'Location has Christine',
-            // },
-            // {
-            //     id: 'mrwrite',
-            //     title: 'Location has Mr. Write',
-            // },
             {
-                id: 'boomerang',
+                id: 'mrspapahl',
+                title: 'Location has Mrs. Papahl',
+            },
+            {
+                id: 'madame',
+                title: "Location has Madame' Bow Wow",
+            },
+            {
+                id: 'sale',
+                title: 'Location has Sale',
+            },
+            {
+                id: 'chefbear',
+                title: 'Location has Chef Bear',
+            },
+            {
+                id: 'papahl',
+                title: 'Location has Papahl',
+            },
+            {
+                id: 'christine',
+                title: 'Location has Christine',
+            },
+            {
+                id: 'mrwrite',
+                title: 'Location has Mr. Write',
+            },
+            {
+                id: 'boomerang_salesman',
                 title: 'Location has boomerang salesman',
             },
         ],

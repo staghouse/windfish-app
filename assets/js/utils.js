@@ -117,12 +117,14 @@ export function generateStateItemUpdateData(itemStore, command) {
             }
 
             // If the count can still go, keep the active state,
-            // otherwise make it look inactive;
+            // otherwise make it look inactive
             item.listPosition = item.currentCounter > 0 ? 1 : 0;
         } else {
             item.listPosition =
                 item.list.length === item.listPosition
-                    ? 0
+                    ? item.permanent
+                        ? 1
+                        : 0
                     : item.listPosition + 1;
         }
     }

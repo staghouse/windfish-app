@@ -70,7 +70,6 @@ export default {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: auto;
-    grid-row-gap: 10px;
 
     &[data-vertical-layout] {
         grid-template-columns: repeat(8, 1fr);

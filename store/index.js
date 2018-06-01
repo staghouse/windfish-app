@@ -32,77 +32,77 @@ const store = () => {
         },
         actions: {
             'update socket': async function(store, socket) {
-                return await store.commit('update socket', socket);
+                return await store.commit('UPDATE_SOCKET', socket);
             },
             'update socket connection': function(store, newSocketStatus) {
-                store.commit('update socket connection', newSocketStatus);
+                store.commit('UPDATE_SOCKET_CONNECTION', newSocketStatus);
             },
             'update socket available': function(store, newServerStatus) {
-                store.commit('update socket available', newServerStatus);
+                store.commit('UPDATE_SOCKET_AVAILABLE', newServerStatus);
             },
             'update dungeon states': function(store, newDungeonStates) {
-                store.commit('update dungeon states', newDungeonStates);
+                store.commit('UPDATE_DUNGEON_STATES', newDungeonStates);
             },
             'update item data': function(store, newItemData) {
-                store.commit('update item data', newItemData);
+                store.commit('UPDATE_ITEM_DATA', newItemData);
             },
             'update screen markers': function(store, newScreenData) {
-                store.commit('update screen markers', newScreenData);
+                store.commit('UPDATE_SCREEN_MARKERS', newScreenData);
             },
             'update setting value': function(store, newOption) {
-                store.commit('update setting value', newOption);
+                store.commit('UPDATE_SETTING_VALUE', newOption);
             },
             'update settings': async function(store, newSettings) {
-                return await store.commit('update settings', newSettings);
+                return await store.commit('UPDATE_SETTINGS', newSettings);
             },
             'update screen context': function(store, newContext) {
-                store.commit('update screen context', newContext);
+                store.commit('UPDATE_SCREEN_CONTEXT', newContext);
             },
             'update user time': async function(store, savedTime) {
-                return await store.commit('update user time', savedTime);
+                return await store.commit('UPDATE_USER_TIME', savedTime);
             },
             'update broadcast data': function(store, newItemsData) {
-                store.commit('update broadcast data', newItemsData);
+                store.commit('UPDATE_BROADCAST_DATA', newItemsData);
             },
             'update item data': async function(store, data) {
-                return await store.commit('update item data', data);
+                return await store.commit('UPDATE_ITEM_DATA', data);
             },
         },
         mutations: {
-            'update socket': function(state, data) {
+            UPDATE_SOCKET: function(state, data) {
                 state.socket = data;
             },
-            'update socket connection': function(state, data) {
+            UPDATE_SOCKET_CONNECTION: function(state, data) {
                 state.socketConnected = data;
             },
-            'update socket available': function(state, data) {
+            UPDATE_SOCKET_AVAILABLE: function(state, data) {
                 state.socketAvailable = data;
             },
-            'update dungeon states': function(state, data) {
+            UPDATE_DUNGEON_STATES: function(state, data) {
                 state.dungeonStates = data;
             },
-            'update item data': function(state, data) {
+            UPDATE_ITEM_DATA: function(state, data) {
                 state.items[data.index] = data;
             },
-            'update screen markers': function(state, data) {
+            UPDATE_SCREEN_MARKERS: function(state, data) {
                 Vue.set(state.screensMarkersList, data.id, data.markers);
             },
-            'update setting value': function(state, data) {
+            UPDATE_SETTING_VALUE: function(state, data) {
                 state.settings[data.index][data.id].value = data.value;
             },
-            'update settings': function(state, data) {
+            UPDATE_SETTINGS: function(state, data) {
                 state.settings = data;
             },
-            'update screen context': function(state, data) {
+            UPDATE_SCREEN_CONTEXT: function(state, data) {
                 state.screenContext = data;
             },
-            'update user time': function(state, data) {
+            UPDATE_USER_TIME: function(state, data) {
                 state.settings.user.savedTime = data;
             },
-            'update broadcast data': function(state, data) {
+            UPDATE_BROADCAST_DATA: function(state, data) {
                 state.items = data;
             },
-            'update item data': function(state, data) {
+            UPDATE_ITEM_DATA: function(state, data) {
                 Vue.set(state.items, data.index, data.item);
             },
         },

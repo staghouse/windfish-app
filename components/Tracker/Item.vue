@@ -13,7 +13,7 @@ v-bind:style="{backgroundColor: $store.getters.settings.trackers.backgroundColor
     .item__wrap(
     v-bind:data-active="item.listPosition > 0",
     v-bind:data-desaturate="$store.getters.settings.items.desaturateInactive.value",
-    v-bind:style="{backgroundImage: `url(${imagePath + item.list[item.listPosition > 0? item.listPosition-1: 0] + spriteExtension})` }")
+    v-bind:style="{backgroundImage: `url(${imagePath}${item.list[item.listPosition > 0? item.listPosition-1: 0] + spriteExtension})` }")
         
         .item__wrap-text(
         v-if="item.text || item.currentCounter") {{item.text || item.currentCounter}}
@@ -128,7 +128,7 @@ export default {
     &__wrap {
         width: 100%;
         padding-bottom: 100%;
-        background-size: 85% 85%;
+        background-size: 85%;
         background-position: center;
         background-repeat: no-repeat;
         image-rendering: pixelated;
@@ -174,43 +174,14 @@ export default {
         &[data-show='true'] {
             display: block;
         }
-
-        .item__wrap {
-            // background-size: auto 100%;
-        }
-    }
-
-    &[data-id='sword'] {
-        .item__wrap {
-            // background-size: auto 80%;
-        }
-    }
-
-    &[data-id='bomb'],
-    &[data-id='shield'],
-    &[data-id='mirror_shield'],
-    &[data-category='dungeon'] {
-        .item__wrap {
-            // background-size: auto 70%;
-        }
-    }
-
-    &[data-id='tunic'],
-    &[data-category='chest'] {
-        .item__wrap {
-            // background-size: auto 65%;
-        }
-    }
-
-    &[data-id='go_mode'] {
-        .item__wrap {
-            // background-size: 85% auto;
-        }
     }
 
     &[data-id='mushroom'],
     &[data-id='magic_powder'] {
         grid-column-start: span 1;
+        .item__wrap {
+            background-size: auto 75%;
+        }
     }
 }
 </style>

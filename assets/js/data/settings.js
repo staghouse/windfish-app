@@ -91,12 +91,12 @@ export default {
             type: 'checkbox',
             value: true,
         },
-        dungeonTracking: {
+        disableDungeonTracking: {
             heading: 'Dungeon Tracking',
             label: 'Disable Dungeon Requirements',
             name: 'dungeonReqs',
             type: 'checkbox',
-            value: true,
+            value: false,
         },
         mapTypeOriginal: {
             heading: 'Map Type',
