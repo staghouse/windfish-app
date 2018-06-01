@@ -28,11 +28,10 @@ Then
 $ npm run dev
 ```
 
-Finally
-
-```bash
-# test mock production build
-$ npm run heroku-mock
-```
-
 For more information on how Nuxt works, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+
+`precommit` will run `heroku-mock` before pushing to the remote
+
+## Contributors
+
+Please create your own branch with a unique name to make your changes on

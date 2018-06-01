@@ -4,9 +4,10 @@ const { Nuxt, Builder } = require('nuxt');
 const { colors } = require('./utils');
 const bot = require('./assets/js/twitch-bot');
 const app = require('./routes');
-const server = require('http').Server(app);
+const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const isProd = process.env.NODE_ENV === 'production';
+const isPrecommit = process.env.PRECOMMIT === 'true';
 
 // We instantiate Nuxt.js with the options
 let config = require('./nuxt.config.js');
@@ -14,19 +15,19 @@ config.dev = !isProd;
 
 const nuxt = new Nuxt(config);
 
-// Start build process in dev mode
-if (config.dev) {
-    const builder = new Builder(nuxt);
-    builder.build();
-}
-app.use(nuxt.render);
-
 // Listen the server
 server.listen(process.env.PORT, process.env.HOST);
 console.log(
     `The Windfish is dreaming on ${process.env.HOST}:${process.env.PORT}\n\n`
         .warn
 );
+
+// Start build process in dev mode
+if (config.dev && !isPrecommit) {
+    const builder = new Builder(nuxt);
+    builder.build();
+}
+app.use(nuxt.render);
 
 let sessions = {};
 // Socket.io
@@ -124,3 +125,8 @@ io.on('connection', socket => {
         });
     });
 });
+
+if (isPrecommit) {
+    console.log('No issues found in start mock'.warn);
+    process.exit();
+}
