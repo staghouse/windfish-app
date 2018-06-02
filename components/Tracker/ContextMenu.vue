@@ -15,11 +15,10 @@
             v-for='(list, index) in markers',
             v-bind:key='index'
             v-bind:data-id='list.id',
-            v-bind:data-compact='$store.getters.settings.screens.compactMarkers.value')
+            v-bind:data-compact='$store.getters.settings.screens.compactMarkers.value',
+            v-bind:data-extra='list.isExtra')
 
-                ol.marker-context-list(
-                v-bind:data-extra='list.isExtra')
-
+                ol.marker-context-list
                     li.heading {{list.heading}}
 
                     li.menu-item(
@@ -143,6 +142,11 @@ export default {
         .marker-category {
             border: 1px solid $blue-3;
             border-top-width: 0;
+            border-bottom-width: 0;
+
+            &:last-of-type {
+                border-bottom-width: 1px;
+            }
 
             .menu-item {
                 width: calc(100% / 8);
@@ -157,10 +161,8 @@ export default {
                 }
             }
 
-            &[data-compact='true'] {
-                .marker-context-list[data-extra='true'] {
-                    display: none;
-                }
+            &[data-compact='true'][data-extra='true'] {
+                display: none;
             }
 
             &[data-id='npc'] {

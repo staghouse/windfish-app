@@ -157,30 +157,34 @@ export default {
         }
     }
 
-    &[data-id='goat_mode'] {
-        position: absolute;
-        display: none;
-        left: 0;
-        right: 0;
-        top: -15px;
-        bottom: auto;
-        margin: 0 auto;
-        width: 60px;
-        height: 30px;
-        padding: 0;
-        background-color: $blue-1;
-        grid-column: auto;
-
-        &[data-show='true'] {
-            display: block;
-        }
-    }
-
     &[data-id='mushroom'],
     &[data-id='magic_powder'] {
         grid-column-start: span 1;
         .item__wrap {
             background-size: auto 75%;
+        }
+    }
+
+    &[data-id='goat_mode'] {
+        position: absolute;
+        display: none;
+        left: 0;
+        right: 0;
+        top: -20px;
+        bottom: auto;
+        margin: 0 auto;
+        width: 60px;
+        padding: 0;
+        background-color: $blue-1;
+        grid-column: auto;
+
+        .item__wrap {
+            background-size: auto 85% !important;
+            padding-bottom: 30px !important;
+        }
+
+        &[data-show='true'] {
+            display: block;
         }
     }
 }
