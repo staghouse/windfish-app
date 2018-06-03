@@ -1,6 +1,7 @@
 <template lang="pug">
     div.twitch-auth(
     v-bind:class="{hide: hideAuthModal}",
+    v-if="!$store.getters.settings.configuration.ignoreTwitch.value",
     @click.stop.self="hideAuthModal = true")
         div.twitch-auth__wrap
             p.title Welcome to the Windfish.io beta!

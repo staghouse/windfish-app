@@ -175,7 +175,7 @@ export async function authGetUser(uri, code) {
  *  @param {Object} requirements - Non-stateful object of data to reference
  *
  ****************************************************************************/
-export function hasRequirements(itemStore, requirements) {
+export function hasRequirements(itemStore, requirements, id) {
     let met = false;
 
     if (!requirements) return true;
@@ -197,8 +197,26 @@ export function hasRequirements(itemStore, requirements) {
                 let count = 0;
 
                 itemStore.forEach(item => {
-                    if (list.includes(item.id) && item.listPosition > 0) {
-                        count++;
+                    let itemAvailable = item.listPosition > 0; // Has first item
+                    let listIsProgressed = item.listPosition > 1; // Has second item
+                    let itemIsProgressed = list.includes(`${item.id}_l2`); // Requires second of this item
+                    let listIncludesItem = list.includes(item.id); // Requires first of this item
+
+                    // console.log(
+                    //     list,
+                    //     item.id,
+                    //     itemIsProgressed,
+                    //     listIsProgressed
+                    // );
+
+                    if (itemAvailable) {
+                        if (listIncludesItem) {
+                            count++;
+                        } else {
+                            if (itemIsProgressed && listIsProgressed) {
+                                count++;
+                            }
+                        }
                     }
                 });
 

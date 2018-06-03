@@ -23,6 +23,8 @@ v-bind:class='{guttered: $store.getters.settings.screens.showGutter.value}')
         v-on:markerIsHovered="highlightMatchingMarkers($event)"
         v-on:showContextMenu='$emit("showContextMenu", $event)')
 
+        ScreenOverlay
+
         .map(
         v-bind:style="{opacity: $store.getters.settings.screens.mapOpacity.value}",
         v-bind:data-map-original="$store.getters.settings.screens.mapTypeOriginal.value",
@@ -34,6 +36,7 @@ v-bind:class='{guttered: $store.getters.settings.screens.showGutter.value}')
 
 <script>
 import screenDataList from '~/assets/js/data/screens';
+import ScreenOverlay from '~/components/Tracker/ScreenOverlay';
 import Screen from '~/components/Tracker/Screen';
 
 let rows = 16;
@@ -41,6 +44,7 @@ let rows = 16;
 export default {
     components: {
         Screen,
+        ScreenOverlay,
     },
     data() {
         return {
@@ -101,7 +105,6 @@ export default {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: auto;
-    z-index: 101;
 
     .map {
         @extend %full-abs;
@@ -110,7 +113,7 @@ export default {
         image-rendering: pixelated;
         user-select: none;
         pointer-events: none;
-        z-index: 100;
+        z-index: 1;
 
         &[data-map-original='true'] {
             background-image: url($image-overworld-original);
@@ -139,7 +142,7 @@ export default {
             margin: 0 auto;
             top: 50%;
             transform: translateY(-50%);
-            color: white;
+            color: gray;
             text-transform: uppercase;
             text-align: center;
             width: 100%;

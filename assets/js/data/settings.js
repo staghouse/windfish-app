@@ -15,6 +15,11 @@ export default {
             type: 'checkbox',
             value: false,
         },
+        ignoreTwitch: {
+            label: 'Ignore Twitch.tv Login',
+            type: 'checkbox',
+            value: false,
+        },
         // resetCurrentSettings: {
         //     heading: 'Reset Current Settings',
         //     type: 'button',
@@ -28,15 +33,21 @@ export default {
             type: 'checkbox',
             value: false,
         },
-        layoutHybrid: {
+        layoutStream: {
             heading: 'Layout',
-            label: 'Hybrid',
+            label: 'Stream Friendly',
             name: 'trackersLayout',
             type: 'radio',
             value: true,
         },
+        layoutStacked: {
+            label: 'Stacked',
+            name: 'trackersLayout',
+            type: 'radio',
+            value: false,
+        },
         layoutReverse: {
-            label: 'Reverse',
+            label: 'Reverse-Stacked',
             name: 'trackersLayout',
             type: 'radio',
             value: false,
@@ -180,13 +191,14 @@ export default {
             type: 'checkbox',
             value: false,
         },
-        verticalLayout: {
-            heading: 'Miscellaneous',
-            label: 'Vertical Layout',
-            type: 'checkbox',
-            value: false,
-        },
+        // verticalLayout: {
+        //     heading: 'Miscellaneous',
+        //     label: 'Vertical Layout',
+        //     type: 'checkbox',
+        //     value: false,
+        // },
         desaturateInactive: {
+            heading: 'Miscellaneous',
             label: 'Desaturate Inactive Items',
             type: 'checkbox',
             value: false,

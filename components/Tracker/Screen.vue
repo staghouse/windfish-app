@@ -57,7 +57,7 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 101;
+    z-index: 301;
 
     &[data-cleared] {
         background-color: $blue-1;

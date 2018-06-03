@@ -5,7 +5,8 @@ v-bind:style="{backgroundColor: $store.getters.settings.trackers.backgroundColor
 v-bind:data-border="$store.getters.settings.trackers.showBorder.value",
 v-bind:data-border-silver="$store.getters.settings.trackers.borderImageSilver.value",
 v-bind:data-border-gold="$store.getters.settings.trackers.borderImageGold.value",
-v-bind:data-layout-hybrid="$store.getters.settings.trackers.layoutHybrid.value",
+v-bind:data-layout-stream="$store.getters.settings.trackers.layoutStream.value",
+v-bind:data-layout-stacked="$store.getters.settings.trackers.layoutStacked.value",
 v-bind:data-layout-reverse="$store.getters.settings.trackers.layoutReverse.value",
 v-bind:data-layout-map="$store.getters.settings.trackers.layoutMap.value",
 v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
@@ -16,8 +17,6 @@ v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
     .layout-wrap
         ScreenTracker
         ItemTracker
-
-    .beta-mark B-v4.0.1
 
 </template>
 
@@ -48,18 +47,6 @@ export default {
     position: relative;
     max-width: $tracker-max-width;
     background-color: $blue-1;
-
-    @include clearfix;
-
-    .beta-mark {
-        font-size: 10px;
-        background-color: $blue-1;
-        position: absolute;
-        padding: 0 5px;
-        right: 10px;
-        bottom: 0;
-        color: $blue-4;
-    }
 
     .layout-wrap {
         display: flex;
@@ -94,7 +81,7 @@ export default {
         }
     }
 
-    &[data-layout-hybrid='true'] {
+    &[data-layout-stacked='true'] {
         .item-tracker {
             border-top-width: 0;
         }
@@ -119,6 +106,60 @@ export default {
     &[data-layout-map='true'] {
         .item-tracker {
             display: none;
+        }
+    }
+
+    &[data-layout-stream='true'] {
+        max-width: $tracker-max-width + 200px;
+        min-width: $tracker-max-width;
+
+        .layout-wrap {
+            display: grid;
+            grid-template-columns: repeat(18, 1fr);
+            grid-template-rows: auto;
+
+            .screen-tracker {
+                grid-column-start: span 12;
+            }
+
+            .item-tracker {
+                grid-column-start: span 6;
+                border-top-width: 11px;
+                border-left-width: 0;
+                grid-template-columns: repeat(8, 1fr);
+                grid-row-gap: 5px;
+
+                .item {
+                    .item__wrap {
+                        background-size: contain;
+                        padding-bottom: 0;
+
+                        &-text {
+                            font-size: 1.2rem;
+
+                            @include mediaMax(400px) {
+                                font-size: 0.8rem;
+                            }
+                        }
+                    }
+
+                    &[data-id='dungeon1-chests'],
+                    &[data-id='dungeon2-chests'],
+                    &[data-id='dungeon3-chests'],
+                    &[data-id='dungeon4-chests'] {
+                        grid-row-start: 6;
+
+                        &[data-even-more-items='true'],
+                        &[data-more-items='true'] {
+                            grid-row-start: 8;
+                        }
+
+                        &[data-more-items='true'][data-even-more-items='true'] {
+                            grid-row-start: 10;
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ v-bind:data-category="item.category",
 v-bind:data-available="checkIfAvailable(item.category)",
 v-bind:data-more-items="$store.getters.settings.items.showExtended.value",
 v-bind:data-even-more-items="$store.getters.settings.items.showSuperExtended.value",
-v-bind:data-vertical-layout="$store.getters.settings.items.verticalLayout.value",
+v-bind:data-layout-stream="$store.getters.settings.trackers.layoutStream.value",
 v-bind:style="{backgroundColor: $store.getters.settings.trackers.backgroundColor.value}",
 @click="update")
     
@@ -103,32 +103,32 @@ export default {
         display: none;
 
         &[data-available='true'] {
-            display: block;
+            display: flex;
         }
     }
 
-    &[data-vertical-layout='true'] {
-        &[data-id='dungeon1-chests'],
-        &[data-id='dungeon2-chests'],
-        &[data-id='dungeon3-chests'],
-        &[data-id='dungeon4-chests'] {
-            grid-row-start: 6;
+    // &[data-vertical-layout='true'] {
+    //     &[data-id='dungeon1-chests'],
+    //     &[data-id='dungeon2-chests'],
+    //     &[data-id='dungeon3-chests'],
+    //     &[data-id='dungeon4-chests'] {
+    //         grid-row-start: 6;
 
-            &[data-even-more-items='true'],
-            &[data-more-items='true'] {
-                grid-row-start: 8;
-            }
+    //         &[data-even-more-items='true'],
+    //         &[data-more-items='true'] {
+    //             grid-row-start: 8;
+    //         }
 
-            &[data-more-items='true'][data-even-more-items='true'] {
-                grid-row-start: 10;
-            }
-        }
-    }
+    //         &[data-more-items='true'][data-even-more-items='true'] {
+    //             grid-row-start: 10;
+    //         }
+    //     }
+    // }
 
     &__wrap {
         width: 100%;
         padding-bottom: 100%;
-        background-size: 85%;
+        background-size: 80%;
         background-position: center;
         background-repeat: no-repeat;
         image-rendering: pixelated;
@@ -157,21 +157,14 @@ export default {
         }
     }
 
-    &[data-id='mushroom'],
-    &[data-id='magic_powder'] {
-        grid-column-start: span 1;
+    // &[data-id='mushroom'],
+    // &[data-id='magic_powder'] {
+    //     grid-column-start: span 1;
 
-        .item__wrap {
-            background-size: auto 75%;
-        }
-    }
-
-    &[data-category='dungeon'],
-    &[data-category='chest'] {
-        .item__wrap {
-            background-size: auto 75%;
-        }
-    }
+    //     .item__wrap {
+    //         background-size: auto 75%;
+    //     }
+    // }
 
     &[data-id='goat_mode'] {
         position: absolute;
@@ -183,8 +176,8 @@ export default {
         margin: 0 auto;
         width: 60px;
         padding: 0;
-        background-color: $blue-1;
         grid-column: auto;
+        // background-color: transparent !important;
 
         .item__wrap {
             background-size: auto 85% !important;

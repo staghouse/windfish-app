@@ -1,7 +1,6 @@
 <template lang="pug">
 
-.item-tracker.tracker(
-v-bind:data-vertical-layout="$store.getters.settings.items.verticalLayout.value")
+.item-tracker.tracker
     Item(
     v-for='(data, index) in $store.getters.items',
     v-bind='{index}',
@@ -37,20 +36,33 @@ export default {
 
                 newDungeon.accessible = hasRequirements(
                     itemMap,
-                    dungeon.requirements.accessible
+                    dungeon.requirements.accessible,
+                    dungeon.id
                 );
 
                 newDungeon.clearable =
                     newDungeon.accessible &&
-                    hasRequirements(itemMap, dungeon.requirements.clearable);
+                    hasRequirements(
+                        itemMap,
+                        dungeon.requirements.clearable,
+                        dungeon.id
+                    );
 
                 newDungeon.finishable =
                     newDungeon.clearable &&
-                    hasRequirements(itemMap, dungeon.requirements.finishable);
+                    hasRequirements(
+                        itemMap,
+                        dungeon.requirements.finishable,
+                        dungeon.id
+                    );
 
                 newDungeon.complete =
                     newDungeon.finishable &&
-                    hasRequirements(itemMap, dungeon.requirements.complete);
+                    hasRequirements(
+                        itemMap,
+                        dungeon.requirements.complete,
+                        dungeon.id
+                    );
 
                 newDungeonStates.push(newDungeon);
             });
@@ -66,10 +78,6 @@ export default {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: auto;
-
-    &[data-vertical-layout] {
-        grid-template-columns: repeat(8, 1fr);
-    }
 
     &::after {
         content: none !important;

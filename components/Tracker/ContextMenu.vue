@@ -1,7 +1,8 @@
 <template lang="pug">
 
 .context-menu(
-    v-bind:style="{left: contextMenuPosition.x, top: contextMenuPosition.y}")
+    v-bind:style="{left: contextMenuPosition.x, top: contextMenuPosition.y}",
+    v-bind:data-layout-stream="$store.getters.settings.trackers.layoutStream.value")
     .close(
     @click='$emit("closeContextMenu")') x
 
@@ -111,7 +112,7 @@ export default {
 
 .context-menu {
     position: absolute;
-    z-index: 300;
+    z-index: 400;
     width: 260px;
     left: 0;
     top: 0;
@@ -230,6 +231,27 @@ export default {
                     padding-bottom: 6px;
                 }
             }
+        }
+    }
+
+    &[data-layout-stream='true'] {
+        left: 0 !important;
+        top: 0 !important;
+
+        .marker-category {
+            &:first-of-type {
+                // border-top-width: 1px;
+
+                // .heading {
+                //     display: none;
+                // }
+            }
+        }
+
+        .heading {
+            padding: 7px 7px 0;
+            line-height: 7px;
+            font-size: 10px;
         }
     }
 }

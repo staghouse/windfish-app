@@ -66,7 +66,7 @@ export default {
 .overlays {
     @extend %full-abs;
     pointer-events: none;
-    z-index: 200;
+    z-index: 100;
 
     .overlay {
         @extend %full-abs;
@@ -75,7 +75,7 @@ export default {
         image-rendering: pixelated;
         user-select: none;
         pointer-events: none;
-        z-index: 201;
+        z-index: 101;
 
         &.guttered {
             width: calc(100% - (100% / 17));
@@ -98,12 +98,12 @@ export default {
 
         &[data-id='chests'] {
             background-image: url($image-overworld-overlay-chests);
-            z-index: 200;
+            z-index: 100;
         }
 
         &[data-id='advanced'] {
             background-image: url($image-overworld-overlay-advanced);
-            z-index: 202;
+            z-index: 102;
         }
     }
 }
