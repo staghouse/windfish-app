@@ -16,10 +16,10 @@ ref="screen")
         v-bind:key='i',
         v-bind:data-id='marker.id',
         v-bind:data-index-id='index',
-        v-bind:data-minimum="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].minimum: false",
         v-bind:data-accessible="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].accessible: false",
-        v-bind:data-completable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].completable: false",
-        v-bind:data-finished="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].finished: false",
+        v-bind:data-clearable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].clearable: false",
+        v-bind:data-finishable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].finishable: false",
+        v-bind:data-complete="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].complete: false",
         v-bind:class='{passage: (marker.id.length < 2), hovered: marker.hover, canBeTracked: !$store.getters.settings.screens.disableDungeonTracking.value }',
         v-bind:style="{backgroundImage: marker.id.length < 2? `none`: `url('/images/sprites/${marker.id}.png')`}")
             span.text(v-if='marker.id.length < 2') {{marker.id}}
@@ -139,25 +139,25 @@ export default {
                 }
             }
 
-            &[data-minimum='true'] {
+            &[data-accessible='true'] {
                 &.canBeTracked {
                     background-color: darken(darkorange, 5%) !important;
                 }
             }
 
-            &[data-accessible='true'] {
+            &[data-clearable='true'] {
                 &.canBeTracked {
                     background-color: darken(gold, 5%) !important;
                 }
             }
 
-            &[data-completable='true'] {
+            &[data-finishable='true'] {
                 &.canBeTracked {
                     background-color: darken(mediumseagreen, 5%) !important;
                 }
             }
 
-            &[data-finished='true'] {
+            &[data-complete='true'] {
                 &.canBeTracked {
                     background-color: $blue-1 !important;
                 }

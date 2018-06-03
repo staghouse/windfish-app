@@ -68,7 +68,7 @@
                     output(v-bind:for='name') {{option.value}}
                     button(
                     @click='$store.getters.settings.trackers.backgroundColor.value = $store.getters.settings.trackers.backgroundColor.defaultValue') Reset
-    Translate
+    //- Translate
 </template>
 
 <script>

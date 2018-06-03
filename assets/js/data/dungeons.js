@@ -1,49 +1,41 @@
-/*
-*
-* Note: Need to add color dungeon data
-*
-* id {Int}: Numeric identifier, matches literal dungeon number
-* genericName {String}: Data safe name, matches overall object name including image names
-* fancyName {String}: Display name
-* chestCount {Int}: Literal count of chests within dungeon
-* requirements {Object}: Contains Arrays of Objects defining the `any` required and `all` requirements for certain levels of access
-*     -> minimum: Requirements for access to a single chest
-*     -> accessible: Requirements for access to all chests
-*     -> clearable: Requirements to access instrument
-*     -> finished: Superfluous self requirement
-*
-*/
+/******************************************************
+ *
+ * @prop {Int} id - Numeric identification
+ * @prop {String} genericName - Data safe identification
+ * @prop {String} fancyName - Display identification
+ * @prop {Int} chestCount - Numeric chest count
+ * @prop {Object} requirements
+ *   @prop {Array => Object} accessible - Can access at least 1 chest
+ *   @prop {Array => Object} clearable - Can access all chests
+ *   @prop {Array => Object} finishable - Can defeat boss
+ *   @prop {Array => Object} complete - Superfluous to track completed
+ *
+ *****************************************************/
 
-export let requirements = [
+export const requirements = [
     {
         id: 1,
         genericName: 'dungeon_1',
         fancyName: 'Tail Cave',
         chestCount: 8,
         requirements: {
-            minimum: false,
-            accessible: [
-                {
-                    all: ['bomb', 'shield', 'rocs_feather'],
-                    any: [
-                        'sword',
-                        'bow',
-                        'hookshot',
-                        'magic_rod',
-                        'magic_powder',
-                    ],
-                },
-            ],
+            accessible: null,
             clearable: [
                 {
-                    all: ['sword'],
-                    any: false,
+                    all: ['bomb', 'shield', 'rocs_feather'],
+                    any: null,
                 },
             ],
-            finished: [
+            finishable: [
+                {
+                    all: ['sword'],
+                    any: null,
+                },
+            ],
+            complete: [
                 {
                     all: ['dungeon_1'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
@@ -54,28 +46,35 @@ export let requirements = [
         fancyName: 'Bottle Grotto',
         chestCount: 10,
         requirements: {
-            minimum: [
+            accessible: [
                 {
-                    all: false,
-                    any: ['sword', 'bomb', 'bow', 'magic_rod', 'hookshot'],
+                    all: null,
+                    any: [
+                        'sword',
+                        'bomb',
+                        'bow',
+                        'magic_rod',
+                        'hookshot',
+                        'power_bracelet',
+                    ],
                 },
             ],
-            accessible: [
+            clearable: [
                 {
                     all: ['power_bracelet', 'rocs_feather'],
                     any: ['sword', 'bomb', 'bow', 'hookshot', 'magic_rod'],
                 },
             ],
-            clearable: [
+            finishable: [
                 {
-                    all: false,
+                    all: null,
                     any: ['sword', 'magic_rod'],
                 },
             ],
-            finished: [
+            complete: [
                 {
                     all: ['dungeon_2'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
@@ -86,23 +85,23 @@ export let requirements = [
         fancyName: 'Key Cavern',
         chestCount: 10,
         requirements: {
-            minimum: false,
-            accessible: [
-                {
-                    all: ['rocs_feather', 'pegasus_boots'],
-                    any: ['sword', 'bomb', 'bow', 'hookshot', 'magic_rod'],
-                },
-            ],
+            accessible: null,
             clearable: [
                 {
-                    all: false,
-                    any: ['sword', 'firerod'],
+                    all: ['rocs_feather', 'pegasus_boots', 'bomb'],
+                    any: null,
                 },
             ],
-            finished: [
+            finishable: [
+                {
+                    all: ['sword'],
+                    any: null,
+                },
+            ],
+            complete: [
                 {
                     all: ['dungeon_3'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
@@ -113,23 +112,30 @@ export let requirements = [
         fancyName: "Angler's Tunnel",
         chestCount: 12,
         requirements: {
-            minimum: false,
-            accessible: [
-                {
-                    all: ['rocs_feather', 'pegasus_boots', 'bomb', 'shield'],
-                    any: ['sword', 'bow'],
-                },
-            ],
+            accessible: null,
             clearable: [
                 {
-                    all: ['zoras_flippers'],
-                    any: ['sword', 'bow', 'magic_rod'],
+                    all: [
+                        'sword',
+                        'rocs_feather',
+                        'pegasus_boots',
+                        'zoras_flippers',
+                        'bomb',
+                        'shield',
+                    ],
+                    any: null,
                 },
             ],
-            finished: [
+            finishable: [
+                {
+                    all: null,
+                    any: null,
+                },
+            ],
+            complete: [
                 {
                     all: ['dungeon_4'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
@@ -140,13 +146,9 @@ export let requirements = [
         fancyName: "Catfish's Maw",
         chestCount: 10,
         requirements: {
-            minimum: [
+            accessible: [
                 {
-                    all: ['hookshot'],
-                    any: false,
-                },
-                {
-                    all: false,
+                    all: null,
                     any: [
                         'sword',
                         'bomb',
@@ -157,7 +159,7 @@ export let requirements = [
                     ],
                 },
             ],
-            accessible: [
+            clearable: [
                 {
                     all: [
                         'sword',
@@ -166,19 +168,19 @@ export let requirements = [
                         'power_bracelet',
                         'zoras_flippers',
                     ],
-                    any: ['bow', 'magic_rod', 'magic_powder'],
+                    any: null,
                 },
             ],
-            clearable: [
+            finishable: [
                 {
-                    all: false,
-                    any: false,
+                    all: ['rocs_feather'],
+                    any: null,
                 },
             ],
-            finished: [
+            complete: [
                 {
                     all: ['dungeon_5'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
@@ -189,41 +191,33 @@ export let requirements = [
         fancyName: 'Face Shrine',
         chestCount: 12,
         requirements: {
-            minimum: [
-                {
-                    all: false,
-                    any: [
-                        'power_bracelet_l2',
-                        'magic_rod',
-                        'hookshot',
-                        'sword',
-                        'bomb',
-                        'bow',
-                    ],
-                },
-            ],
             accessible: [
                 {
-                    all: [
-                        'power_bracelet_l2',
-                        'pegasus_boots',
-                        'rocs_feather',
-                        'hookshot',
-                        'bomb',
-                    ],
-                    any: ['magic_rod', 'bow'],
+                    all: null,
+                    any: ['power_bracelet_l2', 'magic_rod', 'bomb', 'bow'],
                 },
             ],
             clearable: [
                 {
-                    all: false,
-                    any: false,
+                    all: [
+                        'power_bracelet_l2',
+                        'rocs_feather',
+                        'hookshot',
+                        'bomb',
+                    ],
+                    any: ['bow', 'pegasus_boots', 'sword', 'shield'],
                 },
             ],
-            finished: [
+            finishable: [
+                {
+                    all: null,
+                    any: null,
+                },
+            ],
+            complete: [
                 {
                     all: ['dungeon_6'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
@@ -234,28 +228,28 @@ export let requirements = [
         fancyName: "Eagle's Tower",
         chestCount: 9,
         requirements: {
-            minimum: [
+            accessible: [
                 {
-                    all: false,
+                    all: null,
                     any: ['sword', 'bomb', 'bow', 'magic_rod', 'hookshot'],
                 },
             ],
-            accessible: [
+            clearable: [
                 {
                     all: ['hookshot', 'bomb'],
                     any: ['power_bracelet', 'power_bracelet_l2'],
                 },
             ],
-            clearable: [
+            finishable: [
                 {
-                    all: false,
-                    any: false,
+                    all: null,
+                    any: null,
                 },
             ],
-            finished: [
+            complete: [
                 {
                     all: ['dungeon_7'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
@@ -266,9 +260,9 @@ export let requirements = [
         fancyName: 'Turtle Rock',
         chestCount: 13,
         requirements: {
-            minimum: [
+            accessible: [
                 {
-                    all: false,
+                    all: null,
                     any: [
                         'sword',
                         'rocs_feather',
@@ -277,8 +271,11 @@ export let requirements = [
                         'bow',
                     ],
                 },
+                {
+                    all: ['bomb', 'power_bracelet'],
+                },
             ],
-            accessible: [
+            clearable: [
                 {
                     all: [
                         'sword',
@@ -290,38 +287,34 @@ export let requirements = [
                     any: ['power_bracelet', 'power_bracelet_l2'],
                 },
             ],
-            clearable: [
+            finishable: [
                 {
-                    all: false,
-                    any: false,
+                    all: null,
+                    any: null,
                 },
             ],
-            finished: [
+            complete: [
                 {
                     all: ['dungeon_8'],
-                    any: false,
+                    any: null,
                 },
             ],
         },
     },
 ];
 
-export function dungeons() {
+export async function dungeons() {
     let dungeons = [];
-    let offset = 1;
 
     requirements.forEach((dungeon, index) => {
-        let d = {
-            id: index + offset,
-            minimum: false,
-            accessible: false,
-            clearable: false,
-            completable: false,
-            finished: false,
-        };
-
-        dungeons.push(d);
+        dungeons.push({
+            id: index + 1,
+            accessible: null,
+            clearable: null,
+            finishable: null,
+            complete: null,
+        });
     });
 
-    return dungeons;
+    return await dungeons;
 }

@@ -205,11 +205,11 @@ export function hasRequirements(itemStore, requirements) {
                 if (count > 0) {
                     if (type === 'all' && count === list.length) {
                         allMet = true;
-                        // console.log('All requirements met for ' + type);
+                        // console.log('Requirements met for ' + type);
                     }
                     if (type === 'any') {
                         anyMet = true;
-                        // console.log('All requirements met for ' + type);
+                        // console.log('Requirements met for ' + type);
                     }
                 }
             }
@@ -219,31 +219,6 @@ export function hasRequirements(itemStore, requirements) {
 
         return met;
     }
-}
-
-/**************************************************************************
- *
- *  notice
- *
- *  @param {String} str - String to apply in DOM markup
- *  @param {String} customClass - Custom CSS class to apply to DOM markup
- *
- **************************************************************************/
-export function notice(str, customClass) {
-    var className = customClass || '';
-    document.body.insertAdjacentHTML(
-        'beforeend',
-        '<div id="warning-overlay"><div class="warn-box ' +
-            className +
-            '">' +
-            str +
-            '</div></div>'
-    );
-
-    var msg = document.getElementById('warning-overlay');
-    msg.addEventListener('click', function() {
-        msg.parentNode.removeChild(msg);
-    });
 }
 
 /***********************************************************

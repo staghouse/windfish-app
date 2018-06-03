@@ -3,6 +3,9 @@
     v-bind:class="{hide: hideAuthModal}",
     @click.stop.self="hideAuthModal = true")
         div.twitch-auth__wrap
+            p.title Welcome to the Windfish.io beta!
+            span Please provide feedback whereever you may have any. You can log an issue on github by clicking the bug icon in the menu or by messaging in the Discord server  
+                a(href="https://discord.gg/RRuA34C") here
             p.title Log in with Twitch.tv?
             span (Twitch chat integration)
             span.error(v-if="authHadError") Sorry, we couldn't validate you...
@@ -75,7 +78,7 @@ export default {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: rgba(1, 6, 25, 0.5);
+    background-color: rgba(1, 6, 25, 0.3);
     cursor: pointer;
 
     &.hide {
@@ -90,6 +93,10 @@ export default {
 
         .title {
             font-size: 24px;
+        }
+
+        a {
+            color: white;
         }
 
         span {

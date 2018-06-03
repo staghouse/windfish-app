@@ -17,6 +17,8 @@ v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
         ScreenTracker
         ItemTracker
 
+    .beta-mark B-v4.0.1
+
 </template>
 
 <script>
@@ -48,6 +50,16 @@ export default {
     background-color: $blue-1;
 
     @include clearfix;
+
+    .beta-mark {
+        font-size: 10px;
+        background-color: $blue-1;
+        position: absolute;
+        padding: 0 5px;
+        right: 10px;
+        bottom: 0;
+        color: $blue-4;
+    }
 
     .layout-wrap {
         display: flex;

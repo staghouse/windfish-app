@@ -160,6 +160,14 @@ export default {
     &[data-id='mushroom'],
     &[data-id='magic_powder'] {
         grid-column-start: span 1;
+
+        .item__wrap {
+            background-size: auto 75%;
+        }
+    }
+
+    &[data-category='dungeon'],
+    &[data-category='chest'] {
         .item__wrap {
             background-size: auto 75%;
         }

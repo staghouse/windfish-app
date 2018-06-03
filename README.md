@@ -1,9 +1,7 @@
 # Windfish.io
 
 [![Generic badge](https://img.shields.io/badge/Made_with_Vue-2.0-green.svg)](https://shields.io/)
-[![Website windfish.io/beta](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://windfish.io/beta)
 [![Maintenance](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://GitHub.com/ericlakatos/windfish-app/graphs/commit-activity)
-[![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://GitHub.com/ericlakatos/windfish-app/issues/)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ericlakatos/windfish-app/blob/master/LICENSE.md)
 
 > Windfish.io is a Node WebSocket Server and Client built in Nuxt/Vue
