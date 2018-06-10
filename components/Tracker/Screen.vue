@@ -5,7 +5,6 @@
 @contextmenu.prevent='$emit("showContextMenu", $event)',
 v-bind:data-id='index',
 v-bind:data-cleared='screenCleared',
-v-bind:style="{backgroundImage: screenCleared? `url('/images/sprites/cleared.png')`: `none`}",
 ref="screen")
 
     .screen__marker-wrap
@@ -60,9 +59,15 @@ export default {
     z-index: 301;
 
     &[data-cleared] {
-        background-color: $blue-1;
-        background-size: contain;
-        background-position: center;
+        &::after {
+            content: '';
+            @extend %full-abs;
+            background-image: url('../../static/images/sprites/cleared.png');
+            background-color: $blue-1;
+            background-size: contain;
+            background-position: center;
+            z-index: 1;
+        }
     }
 
     &__marker-wrap {
