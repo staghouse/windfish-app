@@ -8,7 +8,6 @@
 
 // components
 @import '_modal';
-@import '_settings';
 
 html {
     min-width: 320px;
@@ -16,7 +15,6 @@ html {
     &,
     body {
         @extend %full-abs;
-        overflow-x: hidden;
         background-color: $blue-1;
         color: white;
         background-image: url($image-asset-path+'display/bg-tile-kanalet.gif');

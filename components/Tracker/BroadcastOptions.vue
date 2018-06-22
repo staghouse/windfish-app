@@ -113,9 +113,15 @@ export default {
             switch (connectionType) {
                 case 'socket':
                     if (this.hasConnectedSocket) {
-                        this.$store.getters.socket.disconnect();
+                        if (this.hasConnectedBot) {
+                            this.$store.getters.socket.emit('disconnect bot');
+                            this.hasConnectedBot = false;
+                        }
+
                         this.hasConnectedSocket = false;
                         this.$store.dispatch('update socket connection', false);
+
+                        this.$store.getters.socket.disconnect();
                     } else {
                         if (this.hasGeneratedSeed) {
                             this.$store
@@ -296,10 +302,6 @@ export default {
 
         button {
             margin-top: 10px;
-
-            &:first-of-type {
-                margin-top: 0;
-            }
         }
 
         .connect-btn {

@@ -1,7 +1,5 @@
 const TMI = require('tmi.js');
 
-// TODO: Event Queue that is Promise based on the client say method
-
 class TwitchBot {
     constructor(options) {
         this.debug = true;
@@ -10,6 +8,7 @@ class TwitchBot {
         this.client = null;
         this.eventQueue = [];
         this.channel = null;
+        this.owner = null;
         this.whitelist = false;
         this.disableWhitelist = false;
         this.botActivated = false;
@@ -53,8 +52,10 @@ class TwitchBot {
         this.enqueue();
     }
 
-    updateWhitelist(whitelist) {
-        this.whitelist = whitelist.whitelist;
+    async updateWhitelist(whitelist) {
+        this.whitelist = await whitelist.whitelist;
+
+        console.log(this.whitelist);
 
         switch (whitelist.response.type) {
             case 'add':
@@ -72,6 +73,7 @@ class TwitchBot {
 
         this.identity = config.identity.username.toLowerCase();
         this.channel = config.channels[0];
+        this.owner = this.channel.substr(1);
         this.socket = config.socket;
 
         this.client = new TMI.client(config);
@@ -128,29 +130,18 @@ class TwitchBot {
         let whitelisted = this.whitelist.indexOf(userData.username) > -1;
 
         userData.isAuthorized =
-            this.debug ||
-            userData.isBroadcaster ||
-            (this.allowModAsAdmin && userData.isMod);
+            userData.isBroadcaster || (this.allowModAsAdmin && userData.isMod);
 
         userData.isWhitelisted =
             userData.isAuthorized || this.disableWhitelist || whitelisted;
 
         userData.isPleb = !userData.isAuthorized;
 
-        if (userData.username === 'staghouse') {
-            if (userData.argument1 === 'cheer') {
-                this.client.say(this.channel, 'Cheer1').catch(error => {
-                    console.error(error);
-                });
-                return;
-            }
-        }
-
         if (userData.isWhitelisted) {
             if (userData.isAuthorized) {
                 this.parseInputCommand(userData);
             } else {
-                if (this.permissions.pleb.indexOf(useData.argument1) > -1) {
+                if (this.permissions.pleb.indexOf(userData.argument1) > -1) {
                     this.parseInputCommand(userData);
                 } else {
                     this.parseMessage('invalid', userData.displayName);
@@ -250,9 +241,7 @@ class TwitchBot {
             // +-------------------+
             case 'help':
                 this.sendMessage(
-                    `/me ~> Hey ${
-                        this.channel
-                    }, it looks like ${argument} is trying to use the tracker. Would you like to add them to the whitelist?`
+                    `/me ~> It looks like ${argument} is trying to use the tracker. Would you like to add them to the whitelist?`
                 );
                 break;
 
@@ -277,7 +266,7 @@ class TwitchBot {
 
             case 'offline':
                 this.sendMessage(
-                    `/me ~> The Windfish is leaving the channel. WHRRRRRRLLL.`
+                    `/me ~> The Windfish is leaving the channel. WHRRRRRRLLL!`
                 );
                 break;
 

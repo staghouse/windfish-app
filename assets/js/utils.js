@@ -12,10 +12,12 @@ export class BotWhitelist {
 
     get() {
         if (window !== undefined) {
-            this.whitelist =
-                JSON.parse(
-                    window.localStorage.getItem('windfishBotWhitelist')
-                ) || [];
+            if (window.localStorage) {
+                this.whitelist =
+                    JSON.parse(
+                        window.localStorage.getItem('windfishBotWhitelist')
+                    ) || [];
+            }
 
             return this.whitelist;
         } else {
@@ -32,18 +34,18 @@ export class BotWhitelist {
                     ? this.whitelist
                     : [];
 
-            whitelist.push(user.toLowerCase());
+            this.whitelist = [...whitelist, user.toLowerCase()];
 
-            if (whitelist.length > this.whitelist.length) {
+            if (this.whitelist.length > whitelist.length) {
                 this.response.success = true;
             }
 
-            window.localStorage.setItem(
-                'windfishBotWhitelist',
-                JSON.stringify(whitelist)
-            );
-
-            this.whitelist = whitelist;
+            if (window.localStorage) {
+                window.localStorage.setItem(
+                    'windfishBotWhitelist',
+                    JSON.stringify(this.whitelist)
+                );
+            }
 
             this.response.type = 'add';
             this.response.username = user;
@@ -251,7 +253,7 @@ export function createSessionID() {
     var possible =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    for (var i = 0; i < 100; i++)
+    for (var i = 0; i < 10; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
