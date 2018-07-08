@@ -104,12 +104,12 @@ io.on('connection', socket => {
             connection: {
                 reconnect: true,
             },
-            channels: channels,
             identity: {
                 username: process.env.TWITCH_BOT_NAME,
                 password: process.env.TWITCH_BOT_TOKEN,
             },
-            socket: socket,
+            channels,
+            socket,
         });
 
         socket.on('disconnect bot', () => {

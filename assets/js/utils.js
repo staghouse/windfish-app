@@ -1,7 +1,17 @@
+/**
+ *
+ * BotWhitelist
+ *
+ * Utilize browser localStorage to keep username values but default to
+ * a class array reference as backup
+ *
+ */
 export class BotWhitelist {
     constructor() {
+        this.storageKeyName = 'windfishBotWhitelist';
         this.whitelist = [];
-        this.response = {
+        this.responseTpl = {
+            whitelist: null,
             type: null,
             success: null,
             username: null,
@@ -11,81 +21,80 @@ export class BotWhitelist {
     }
 
     get() {
-        if (window !== undefined) {
-            if (window.localStorage) {
-                this.whitelist =
-                    JSON.parse(
-                        window.localStorage.getItem('windfishBotWhitelist')
-                    ) || [];
-            }
+        if (window && window.localStorage) {
+            let whitelist = window.localStorage.getItem(this.storageKeyName);
 
-            return this.whitelist;
-        } else {
-            return {
-                message: 'Window is not defined.',
-            };
+            if (
+                typeof whitelist === 'string' &&
+                whitelist !== 'undefined' &&
+                whitelist.length > 0
+            ) {
+                this.whitelist = JSON.parse(whitelist);
+            }
         }
+
+        return this.whitelist;
     }
 
     add(user) {
-        if (window !== undefined) {
-            let whitelist =
-                this.whitelist && typeof whitelist === 'array'
-                    ? this.whitelist
-                    : [];
+        let response = { ...this.responseTpl };
 
-            this.whitelist = [...whitelist, user.toLowerCase()];
+        if (this.whitelist.indexOf(user) === -1) {
+            this.whitelist = [...this.whitelist, user.toLowerCase()];
 
-            if (this.whitelist.length > whitelist.length) {
-                this.response.success = true;
-            }
-
-            if (window.localStorage) {
+            if (window && window.localStorage) {
                 window.localStorage.setItem(
-                    'windfishBotWhitelist',
+                    this.storageKeyName,
                     JSON.stringify(this.whitelist)
                 );
             }
 
-            this.response.type = 'add';
-            this.response.username = user;
-
-            return this;
+            response.success = true;
         } else {
-            return {
-                message: 'Window is not defined.',
-            };
+            response.success = false;
         }
+
+        response.type = 'add';
+        response.username = user;
+        response.whitelist = this.whitelist;
+
+        return response;
     }
 
     remove(user) {
-        this.whitelist =
-            this.whitelist && typeof this.whitelist === 'array'
-                ? this.whitelist
-                : [];
+        let response = { ...this.responseTpl };
 
-        if (this.whitelist) {
-            if (this.whitelist.indexOf(user) > -1) {
-                this.whitelist.splice(1, this.whitelist.indexOf(user));
-                this.response.success = true;
+        if (this.whitelist.indexOf(user) > -1) {
+            this.whitelist.splice(1, this.whitelist.indexOf(user));
+
+            if (window && window.localStorage) {
+                window.localStorage.setItem(
+                    this.storageKeyName,
+                    JSON.stringify(this.whitelist)
+                );
             }
+
+            response.success = true;
+        } else {
+            response.success = false;
         }
 
-        this.response.type = 'remove';
-        this.response.username = user;
+        response.type = 'remove';
+        response.username = user;
+        response.whitelist = this.whitelist;
 
-        return this;
+        return response;
     }
 }
 
-/****************************************************************
+/**
  *
  *  generateStateItemUpdateData
  *
  *  @param {Object} itemStore - Stateful item object from Vuex
  *  @param {String} command - String data sent from Twitch chat
  *
- ****************************************************************/
+ */
 export function generateStateItemUpdateData(itemStore, command) {
     let item = null;
     let index = null;
@@ -137,14 +146,14 @@ export function generateStateItemUpdateData(itemStore, command) {
     };
 }
 
-/********************************************************
+/**
  *
  *  authGetUser
  *
  *  @param {String} uri - Server path to validate token
  *  @param {String} token - OAUTH returned token
  *
- ********************************************************/
+ */
 export async function authGetUser(uri, code) {
     let newResponse = await fetch(uri + 'validate', {
         method: 'post',
@@ -169,14 +178,14 @@ export async function authGetUser(uri, code) {
     return newResponse;
 }
 
-/****************************************************************************
+/**
  *
  *  hasRequirements
  *
  *  @param {Object} itemStore - Stateful item object from Vuex
  *  @param {Object} requirements - Non-stateful object of data to reference
  *
- ****************************************************************************/
+ */
 export function hasRequirements(itemStore, requirements, id) {
     let met = false;
 
@@ -241,13 +250,13 @@ export function hasRequirements(itemStore, requirements, id) {
     }
 }
 
-/***********************************************************
+/**
  *
  *  createSessionID
  *
  *  Generate a unique session ID for WebSocket sessioning
  *
- ***********************************************************/
+ */
 export function createSessionID() {
     var text = '';
     var possible =

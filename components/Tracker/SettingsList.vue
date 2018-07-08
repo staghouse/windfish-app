@@ -92,7 +92,11 @@ export default {
         let settings = this.$store.getters.settings;
         let storedSettings = window.localStorage.getItem(this.storageName);
 
-        if (storedSettings !== 'undefined') {
+        if (
+            typeof storedSettings === 'string' &&
+            storedSettings !== 'undefined' &&
+            storedSettings.length > 0
+        ) {
             let stored = JSON.parse(storedSettings);
 
             if (Object.keys(stored).length === Object.keys(settings).length) {

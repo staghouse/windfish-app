@@ -2,28 +2,23 @@
 .overlays
     .overlay(
     data-id="advanced",
-    v-if="$store.getters.settings.screens.overlayAdvanced.value",
-    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+    v-if="$store.getters.settings.screens.overlayAdvanced.value")
 
     .overlay(
     data-id="pohExterior",
-    v-if="$store.getters.settings.screens.overlayPOHExterior.value",
-    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+    v-if="$store.getters.settings.screens.overlayPOHExterior.value")
 
     .overlay(
     data-id="pohInterior",
-    v-if="$store.getters.settings.screens.overlayPOHInterior.value",
-    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+    v-if="$store.getters.settings.screens.overlayPOHInterior.value")
 
     .overlay(
     data-id="shells",
-    v-if="$store.getters.settings.screens.overlayShells.value",
-    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+    v-if="$store.getters.settings.screens.overlayShells.value")
 
     .overlay(
     data-id="chests",
-    v-if="$store.getters.settings.screens.overlayChests.value",
-    v-bind:class="{guttered: $store.getters.settings.screens.showGutter.value}")
+    v-if="$store.getters.settings.screens.overlayChests.value")
 
 </template>
 
@@ -76,13 +71,6 @@ export default {
         user-select: none;
         pointer-events: none;
         z-index: 101;
-
-        &.guttered {
-            width: calc(100% - (100% / 17));
-            height: calc(100% - (100% / 17));
-            left: calc(100% / 17);
-            top: calc(100% / 17);
-        }
 
         &[data-id='pohExterior'] {
             background-image: url($image-overworld-overlay-poh-exterior);

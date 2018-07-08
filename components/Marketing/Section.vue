@@ -1,5 +1,5 @@
 <template lang="pug">
-section
+section#features
     .grid-container
         .copy
             h4 {{ feature.title }}
@@ -28,8 +28,7 @@ export default {
     props: ['feature'],
     data() {
         return {
-            extension:
-                this.feature.title.toLowerCase() === 'misc' ? 'gif' : 'png',
+            extension: this.feature.title.toLowerCase() === 'misc' ? 'gif' : 'png',
         };
     },
 };
