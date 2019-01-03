@@ -39,8 +39,7 @@
                 class="connect-btn",
                 v-if="authedUser",
                 @click="toggleConnection('bot')",
-                v-bind:disabled="!hasConnectedSocket",
-                v-bind:class="{connected: hasConnectedBot}") {{hasConnectedBot? "Disconnect Bot": "Connect Bot"}}
+                v-bind:class="{connected: hasConnectedBot, disabled: !hasConnectedSocket}") {{hasConnectedBot? "Disconnect Bot": "Connect Bot"}}
 
         ol.inner-settings-list(v-else)
             li
@@ -48,11 +47,7 @@
 </template>
 
 <script>
-import {
-    BotWhitelist,
-    generateStateItemUpdateData,
-    createSessionID,
-} from '~/assets/js/utils';
+import { BotWhitelist, generateStateItemUpdateData, createSessionID } from '~/assets/js/utils';
 
 import io from 'socket.io-client';
 
@@ -113,25 +108,22 @@ export default {
             switch (connectionType) {
                 case 'socket':
                     if (this.hasConnectedSocket) {
-                        this.$store.getters.socket.disconnect();
+                        if (this.hasConnectedBot) {
+                            this.$store.getters.socket.emit('disconnect bot');
+                            this.hasConnectedBot = false;
+                        }
+
                         this.hasConnectedSocket = false;
                         this.$store.dispatch('update socket connection', false);
+
+                        this.$store.getters.socket.disconnect();
                     } else {
                         if (this.hasGeneratedSeed) {
                             this.$store
-                                .dispatch(
-                                    'update socket',
-                                    io(/* should default to root */)
-                                )
+                                .dispatch('update socket', io(/* should default to root */))
                                 .then(() => {
-                                    this.$store.getters.socket.emit(
-                                        'connection broadcast',
-                                        this.stashedSeedValue
-                                    );
-                                    this.$store.dispatch(
-                                        'update socket connection',
-                                        true
-                                    );
+                                    this.$store.getters.socket.emit('connection broadcast', this.stashedSeedValue);
+                                    this.$store.dispatch('update socket connection', true);
                                     this.hasConnectedSocket = true;
                                     this.bindAllSockets();
                                     this.bindDisconnect();
@@ -150,10 +142,7 @@ export default {
                             channel: this.authedUser,
                         };
 
-                        this.$store.getters.socket.emit(
-                            'connection bot',
-                            botConfig
-                        );
+                        this.$store.getters.socket.emit('connection bot', botConfig);
 
                         this.hasConnectedBot = true;
                     } else {
@@ -175,48 +164,30 @@ export default {
             this.$store.getters.socket.on('update whitelist add', user => {
                 let whitelist = self.botWhitelist.add(user);
 
-                this.$store.getters.socket.emit(
-                    'update bot whitelist',
-                    whitelist
-                );
+                this.$store.getters.socket.emit('update bot whitelist', whitelist);
             });
 
             this.$store.getters.socket.on('update whitelist remove', user => {
                 let whitelist = self.botWhitelist.remove(user);
 
-                this.$store.getters.socket.emit(
-                    'update bot whitelist',
-                    whitelist
-                );
+                this.$store.getters.socket.emit('update bot whitelist', whitelist);
             });
 
-            this.$store.getters.socket.on(
-                'update broadcast data',
-                newItemData => {
-                    this.$store.dispatch('update broadcast data', newItemData);
-                }
-            );
+            this.$store.getters.socket.on('update broadcast data', newItemData => {
+                this.$store.dispatch('update broadcast data', newItemData);
+            });
 
             this.$store.getters.socket.on('update tracker data', userData => {
-                let dataToUpdate = generateStateItemUpdateData(
-                    self.$store.getters.items,
-                    userData.argument2
-                );
+                let dataToUpdate = generateStateItemUpdateData(self.$store.getters.items, userData.argument2);
 
                 if (dataToUpdate.index !== null && dataToUpdate.item !== null) {
                     userData.resolved = true;
                     self.$store
                         .dispatch('update item data', dataToUpdate)
                         .then(() => {
-                            this.$store.getters.socket.emit(
-                                'bot dequeue',
-                                userData
-                            );
+                            this.$store.getters.socket.emit('bot dequeue', userData);
 
-                            this.$store.getters.socket.emit(
-                                'send broadcast data',
-                                self.$store.getters.items
-                            );
+                            this.$store.getters.socket.emit('send broadcast data', self.$store.getters.items);
                         })
                         .catch(error => {
                             console.log('Promise failed: ' + error);
@@ -296,10 +267,6 @@ export default {
 
         button {
             margin-top: 10px;
-
-            &:first-of-type {
-                margin-top: 0;
-            }
         }
 
         .connect-btn {
@@ -311,6 +278,10 @@ export default {
                 background-color: darken(salmon, 10%);
                 border-color: salmon;
                 color: white;
+            }
+
+            &.disabled {
+                display: none;
             }
         }
     }

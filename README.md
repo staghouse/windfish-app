@@ -1,22 +1,38 @@
 # Windfish.io
 
-> Windfish.io is a Node Server/Client built in Nuxt/Vue and uses WebSockets and a Twitch chat bot to track game play while playing LADX Randomizer
+[![Generic badge](https://img.shields.io/badge/Made_with_Vue-2.0-green.svg)](https://shields.io/)
+[![Maintenance](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://GitHub.com/ericlakatos/windfish-app/graphs/commit-activity)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ericlakatos/windfish-app/blob/master/LICENSE.md)
+
+> Windfish.io is a Node WebSocket Server and Client built in Nuxt/Vue
+
+## Project Dependencies
+
+*   Node
+*   Nuxt/Vue
+*   Pug
+*   SCSS
+*   ES5+
+*   Twitch OAUTH Token (Bot Testing)
 
 ## Build Setup
 
+First
+
 ```bash
 # install dependencies
-$ npm install # Or yarn install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
+$ npm install
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+Then
+
+```bash
+# serve with hot reload at 0.0.0.0:3000
+$ npm run dev
+```
+
+For more information on how Nuxt works, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+
+## Contributors
+
+Please create your own branch with a unique name to make your changes on. PR's will be merged in to the `dev` branch.

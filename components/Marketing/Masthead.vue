@@ -16,18 +16,10 @@
                 target="_blank")
                     u Randomizer
             a(
-            href="/beta/tracker",
+            href="/tracker",
             class="btn-link")
                 button.green
                     span Use It Now
-
-            span or
-            
-            a(class="btn-link")
-                button.download(
-                title="Download not available during beta",
-                disabled)
-                    span Download
 
             
 

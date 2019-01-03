@@ -1,7 +1,17 @@
+/**
+ *
+ * BotWhitelist
+ *
+ * Utilize browser localStorage to keep username values but default to
+ * a class array reference as backup
+ *
+ */
 export class BotWhitelist {
     constructor() {
+        this.storageKeyName = 'windfishBotWhitelist';
         this.whitelist = [];
-        this.response = {
+        this.responseTpl = {
+            whitelist: null,
             type: null,
             success: null,
             username: null,
@@ -11,79 +21,80 @@ export class BotWhitelist {
     }
 
     get() {
-        if (window !== undefined) {
-            this.whitelist =
-                JSON.parse(
-                    window.localStorage.getItem('windfishBotWhitelist')
-                ) || [];
+        if (window && window.localStorage) {
+            let whitelist = window.localStorage.getItem(this.storageKeyName);
 
-            return this.whitelist;
-        } else {
-            return {
-                message: 'Window is not defined.',
-            };
+            if (
+                typeof whitelist === 'string' &&
+                whitelist !== 'undefined' &&
+                whitelist.length > 0
+            ) {
+                this.whitelist = JSON.parse(whitelist);
+            }
         }
+
+        return this.whitelist;
     }
 
     add(user) {
-        if (window !== undefined) {
-            let whitelist =
-                this.whitelist && typeof whitelist === 'array'
-                    ? this.whitelist
-                    : [];
+        let response = { ...this.responseTpl };
 
-            whitelist.push(user.toLowerCase());
+        if (this.whitelist.indexOf(user) === -1) {
+            this.whitelist = [...this.whitelist, user.toLowerCase()];
 
-            if (whitelist.length > this.whitelist.length) {
-                this.response.success = true;
+            if (window && window.localStorage) {
+                window.localStorage.setItem(
+                    this.storageKeyName,
+                    JSON.stringify(this.whitelist)
+                );
             }
 
-            window.localStorage.setItem(
-                'windfishBotWhitelist',
-                JSON.stringify(whitelist)
-            );
-
-            this.whitelist = whitelist;
-
-            this.response.type = 'add';
-            this.response.username = user;
-
-            return this;
+            response.success = true;
         } else {
-            return {
-                message: 'Window is not defined.',
-            };
+            response.success = false;
         }
+
+        response.type = 'add';
+        response.username = user;
+        response.whitelist = this.whitelist;
+
+        return response;
     }
 
     remove(user) {
-        this.whitelist =
-            this.whitelist && typeof this.whitelist === 'array'
-                ? this.whitelist
-                : [];
+        let response = { ...this.responseTpl };
 
-        if (this.whitelist) {
-            if (this.whitelist.indexOf(user) > -1) {
-                this.whitelist.splice(1, this.whitelist.indexOf(user));
-                this.response.success = true;
+        if (this.whitelist.indexOf(user) > -1) {
+            this.whitelist.splice(1, this.whitelist.indexOf(user));
+
+            if (window && window.localStorage) {
+                window.localStorage.setItem(
+                    this.storageKeyName,
+                    JSON.stringify(this.whitelist)
+                );
             }
+
+            response.success = true;
+        } else {
+            response.success = false;
         }
 
-        this.response.type = 'remove';
-        this.response.username = user;
+        response.type = 'remove';
+        response.username = user;
+        response.whitelist = this.whitelist;
 
-        return this;
+        return response;
     }
 }
 
-/****************************************************************
+/**
  *
  *  generateStateItemUpdateData
  *
  *  @param {Object} itemStore - Stateful item object from Vuex
  *  @param {String} command - String data sent from Twitch chat
  *
- ****************************************************************/
+ */
 export function generateStateItemUpdateData(itemStore, command) {
     let item = null;
     let index = null;
@@ -117,12 +128,14 @@ export function generateStateItemUpdateData(itemStore, command) {
             }
 
             // If the count can still go, keep the active state,
-            // otherwise make it look inactive;
+            // otherwise make it look inactive
             item.listPosition = item.currentCounter > 0 ? 1 : 0;
         } else {
             item.listPosition =
                 item.list.length === item.listPosition
-                    ? 0
+                    ? item.permanent
+                        ? 1
+                        : 0
                     : item.listPosition + 1;
         }
     }
@@ -133,14 +146,14 @@ export function generateStateItemUpdateData(itemStore, command) {
     };
 }
 
-/********************************************************
+/**
  *
  *  authGetUser
  *
  *  @param {String} uri - Server path to validate token
  *  @param {String} token - OAUTH returned token
  *
- ********************************************************/
+ */
 export async function authGetUser(uri, code) {
     let newResponse = await fetch(uri + 'validate', {
         method: 'post',
@@ -165,15 +178,15 @@ export async function authGetUser(uri, code) {
     return newResponse;
 }
 
-/****************************************************************************
+/**
  *
  *  hasRequirements
  *
  *  @param {Object} itemStore - Stateful item object from Vuex
  *  @param {Object} requirements - Non-stateful object of data to reference
  *
- ****************************************************************************/
-export function hasRequirements(itemStore, requirements) {
+ */
+export function hasRequirements(itemStore, requirements, id) {
     let met = false;
 
     if (!requirements) return true;
@@ -195,19 +208,37 @@ export function hasRequirements(itemStore, requirements) {
                 let count = 0;
 
                 itemStore.forEach(item => {
-                    if (list.includes(item.id) && item.listPosition > 0) {
-                        count++;
+                    let itemAvailable = item.listPosition > 0; // Has first item
+                    let listIsProgressed = item.listPosition > 1; // Has second item
+                    let itemIsProgressed = list.includes(`${item.id}_l2`); // Requires second of this item
+                    let listIncludesItem = list.includes(item.id); // Requires first of this item
+
+                    // console.log(
+                    //     list,
+                    //     item.id,
+                    //     itemIsProgressed,
+                    //     listIsProgressed
+                    // );
+
+                    if (itemAvailable) {
+                        if (listIncludesItem) {
+                            count++;
+                        } else {
+                            if (itemIsProgressed && listIsProgressed) {
+                                count++;
+                            }
+                        }
                     }
                 });
 
                 if (count > 0) {
                     if (type === 'all' && count === list.length) {
                         allMet = true;
-                        // console.log('All requirements met for ' + type);
+                        // console.log('Requirements met for ' + type);
                     }
                     if (type === 'any') {
                         anyMet = true;
-                        // console.log('All requirements met for ' + type);
+                        // console.log('Requirements met for ' + type);
                     }
                 }
             }
@@ -219,44 +250,19 @@ export function hasRequirements(itemStore, requirements) {
     }
 }
 
-/**************************************************************************
- *
- *  notice
- *
- *  @param {String} str - String to apply in DOM markup
- *  @param {String} customClass - Custom CSS class to apply to DOM markup
- *
- **************************************************************************/
-export function notice(str, customClass) {
-    var className = customClass || '';
-    document.body.insertAdjacentHTML(
-        'beforeend',
-        '<div id="warning-overlay"><div class="warn-box ' +
-            className +
-            '">' +
-            str +
-            '</div></div>'
-    );
-
-    var msg = document.getElementById('warning-overlay');
-    msg.addEventListener('click', function() {
-        msg.parentNode.removeChild(msg);
-    });
-}
-
-/***********************************************************
+/**
  *
  *  createSessionID
  *
  *  Generate a unique session ID for WebSocket sessioning
  *
- ***********************************************************/
+ */
 export function createSessionID() {
     var text = '';
     var possible =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    for (var i = 0; i < 100; i++)
+    for (var i = 0; i < 10; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;

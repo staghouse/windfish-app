@@ -5,8 +5,9 @@ module.exports = function() {
     // overwrite nuxt.listen()
     this.nuxt.listen = (port, host) =>
         new Promise(resolve =>
-            server.listen(port || 3000, host || 'localhost', resolve)
+            server.listen(port || 3000, host || '/', resolve)
         );
+
     // close this server on 'close' event
     this.nuxt.plugin(
         'close',

@@ -1,7 +1,5 @@
 const TMI = require('tmi.js');
 
-// TODO: Event Queue that is Promise based on the client say method
-
 class TwitchBot {
     constructor(options) {
         this.debug = true;
@@ -10,6 +8,7 @@ class TwitchBot {
         this.client = null;
         this.eventQueue = [];
         this.channel = null;
+        this.owner = null;
         this.whitelist = false;
         this.disableWhitelist = false;
         this.botActivated = false;
@@ -53,16 +52,18 @@ class TwitchBot {
         this.enqueue();
     }
 
-    updateWhitelist(whitelist) {
-        this.whitelist = whitelist.whitelist;
+    updateWhitelist(response) {
+        console.log(response);
 
-        switch (whitelist.response.type) {
+        this.whitelist = response.whitelist;
+
+        switch (response.type) {
             case 'add':
-                this.parseMessage('add', whitelist.response.username);
+                this.parseMessage('add', response.username);
                 break;
 
             case 'remove':
-                this.parseMessage('remove', whitelist.response.username);
+                this.parseMessage('remove', response.username);
                 break;
         }
     }
@@ -72,6 +73,7 @@ class TwitchBot {
 
         this.identity = config.identity.username.toLowerCase();
         this.channel = config.channels[0];
+        this.owner = this.channel.substr(1);
         this.socket = config.socket;
 
         this.client = new TMI.client(config);
@@ -107,9 +109,7 @@ class TwitchBot {
                         message: message,
                         displayName: user['display-name'],
                         username: user.username,
-                        isBroadcaster: user.badges
-                            ? Boolean(parseInt(user.badges.broadcaster))
-                            : false,
+                        isBroadcaster: user.badges ? Boolean(parseInt(user.badges.broadcaster)) : false,
                         isMod: user.mod,
                         argument1: argument1,
                         argument2: argument2,
@@ -127,30 +127,17 @@ class TwitchBot {
     doUserCommand(userData) {
         let whitelisted = this.whitelist.indexOf(userData.username) > -1;
 
-        userData.isAuthorized =
-            this.debug ||
-            userData.isBroadcaster ||
-            (this.allowModAsAdmin && userData.isMod);
+        userData.isAuthorized = userData.isBroadcaster || (this.allowModAsAdmin && userData.isMod);
 
-        userData.isWhitelisted =
-            userData.isAuthorized || this.disableWhitelist || whitelisted;
+        userData.isWhitelisted = userData.isAuthorized || this.disableWhitelist || whitelisted;
 
         userData.isPleb = !userData.isAuthorized;
-
-        if (userData.username === 'staghouse') {
-            if (userData.argument1 === 'cheer') {
-                this.client.say(this.channel, 'Cheer1').catch(error => {
-                    console.error(error);
-                });
-                return;
-            }
-        }
 
         if (userData.isWhitelisted) {
             if (userData.isAuthorized) {
                 this.parseInputCommand(userData);
             } else {
-                if (this.permissions.pleb.indexOf(useData.argument1) > -1) {
+                if (this.permissions.pleb.indexOf(userData.argument1) > -1) {
                     this.parseInputCommand(userData);
                 } else {
                     this.parseMessage('invalid', userData.displayName);
@@ -169,18 +156,20 @@ class TwitchBot {
 
         if (userData.isAuthorized || this.botActivated) {
             switch (userData.argument1) {
+                case 'check':
+                    let argument = {
+                        name: userData.argument2,
+                        status: this.whitelist.indexOf(userData.argument2) > -1 ? 'is' : 'is not',
+                    };
+
+                    this.parseMessage('check', argument);
+
                 case 'add':
-                    this.socket.emit(
-                        'update whitelist add',
-                        userData.argument2
-                    );
+                    this.socket.emit('update whitelist add', userData.argument2);
                     break;
 
                 case 'remove':
-                    this.socket.emit(
-                        'update whitelist remove',
-                        userData.argument2
-                    );
+                    this.socket.emit('update whitelist remove', userData.argument2);
                     break;
 
                 case 'enable':
@@ -250,16 +239,12 @@ class TwitchBot {
             // +-------------------+
             case 'help':
                 this.sendMessage(
-                    `/me ~> Hey ${
-                        this.channel
-                    }, it looks like ${argument} is trying to use the tracker. Would you like to add them to the whitelist?`
+                    `/me ~> It looks like ${argument} is trying to use the tracker. Would you like to add them to the whitelist?`
                 );
                 break;
 
             case 'invalid':
-                this.sendMessage(
-                    `/me ~> Sorry ${argument}, this is not a valid command.`
-                );
+                this.sendMessage(`/me ~> Sorry ${argument}, this is not a valid command.`);
                 break;
 
             // +------------------+
@@ -276,9 +261,7 @@ class TwitchBot {
                 break;
 
             case 'offline':
-                this.sendMessage(
-                    `/me ~> The Windfish is leaving the channel. WHRRRRRRLLL.`
-                );
+                this.sendMessage(`/me ~> The Windfish is leaving the channel. WHRRRRRRLLL!`);
                 break;
 
             case 'activate':
@@ -308,6 +291,10 @@ class TwitchBot {
             // |  User Whitelist  |
             // |                  |
             // +------------------+
+            case 'check':
+                this.sendMessage(`/me ~> ${argument.name} ${argument.status} on the whitelist!`);
+                break;
+
             case 'enable':
                 this.sendMessage(`/me ~> The whitelist has been enabled.`);
                 break;
@@ -321,9 +308,7 @@ class TwitchBot {
                 break;
 
             case 'remove':
-                this.sendMessage(
-                    `/me ~> Removed ${argument} from the whitelist!`
-                );
+                this.sendMessage(`/me ~> Removed ${argument} from the whitelist!`);
                 break;
 
             // +---------+

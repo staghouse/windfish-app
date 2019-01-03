@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const { createSessionID } = require('./utils');
 const jwt = require('jwt-decode');
-const path = require('path');
 const fetch = require('node-fetch');
 const redirectSSL = require('redirect-ssl');
 const express = require('express');
@@ -10,6 +9,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 let client_referrer = process.env.TWITCH_AUTH_REFERRER_HOST;
+let referrer_scope = process.env.TWITCH_AUTH_REFERRER_SCOPE;
 let client_id = process.env.TWITCH_AUTH_CLIENT_ID;
 let client_secret = process.env.TWITCH_AUTH_CLIENT_SECRET;
 
@@ -17,11 +17,11 @@ app.use(redirectSSL);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/beta/auth/twitch', (req, res) => {
+app.get('/api/auth/twitch', (req, res) => {
     res.redirect(
         `https://id.twitch.tv/oauth2/authorize` +
             `?client_id=${client_id}` +
-            `&redirect_uri=${client_referrer}/beta/tracker/` +
+            `&redirect_uri=${client_referrer}${referrer_scope}` +
             `&response_type=code` +
             `&scope=openid` +
             `&force_verify=true` +
@@ -30,7 +30,7 @@ app.get('/beta/auth/twitch', (req, res) => {
     );
 });
 
-app.post('/beta/auth/twitch/validate', (req, res) => {
+app.post('/api/auth/twitch/validate', (req, res) => {
     let headers = {};
     let requested = {
         valid: false,
@@ -46,7 +46,7 @@ app.post('/beta/auth/twitch/validate', (req, res) => {
                 `&client_secret=${client_secret}` +
                 `&code=${requested.code}` +
                 `&grant_type=authorization_code` +
-                `&redirect_uri=${client_referrer}/beta/tracker/`,
+                `&redirect_uri=${client_referrer}${referrer_scope}`,
             {
                 method: 'POST',
             }

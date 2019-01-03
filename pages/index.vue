@@ -1,9 +1,12 @@
 <template lang="pug">
-#app
+    App
 </template>
 
 <script>
+import App from '~/components/Marketing/App';
 export default {
-    middleware: 'redirect-github-index',
+    components: {
+        App,
+    },
 };
 </script>

@@ -20,7 +20,7 @@ export default [
                 title: 'Location has the Shop',
             },
             {
-                id: 'trendy',
+                id: 'yoshi_doll',
                 title: 'Location has the Trendy game',
             },
             {
@@ -28,7 +28,7 @@ export default [
                 title: 'Location has a phone booth',
             },
             {
-                id: 'dungeon-color',
+                id: 'dungeon_color',
                 title: 'Location has the Color Dungeon entrance',
             },
             {
@@ -47,16 +47,16 @@ export default [
                 title: 'Location has the Rooster grave',
             },
             {
+                id: 'flying_cucco',
+                title: 'Location has Flying Cucco',
+            },
+            {
                 id: 'richard',
                 title: 'Location has Richard',
             },
             {
                 id: 'tracy',
                 title: 'Location has Tracy',
-            },
-            {
-                id: 'madbatter',
-                title: 'Location has Mad Batter',
             },
             {
                 id: 'witch',
@@ -70,37 +70,57 @@ export default [
                 id: 'mamu',
                 title: 'Location has Manu',
             },
-            // {
-            //     id: 'mrspapahl',
-            //     title: 'Location has Mrs. Papahl',
-            // },
-            // {
-            //     id: 'madame',
-            //     title: "Location has Madame' Bow Wow",
-            // },
-            // {
-            //     id: 'sale',
-            //     title: 'Location has Sale',
-            // },
-            // {
-            //     id: 'chefbear',
-            //     title: 'Location has Chef Bear',
-            // },
-            // {
-            //     id: 'papahl',
-            //     title: 'Location has Papahl',
-            // },
-            // {
-            //     id: 'christine',
-            //     title: 'Location has Christine',
-            // },
-            // {
-            //     id: 'mrwrite',
-            //     title: 'Location has Mr. Write',
-            // },
             {
-                id: 'boomerang',
+                id: 'mrspapahl',
+                title: 'Location has Mrs. Papahl',
+            },
+            {
+                id: 'madame',
+                title: "Location has Madame' Bow Wow",
+            },
+            {
+                id: 'sale',
+                title: 'Location has Sale',
+            },
+            {
+                id: 'chefbear',
+                title: 'Location has Chef Bear',
+            },
+            {
+                id: 'papahl',
+                title: 'Location has Papahl',
+            },
+            {
+                id: 'christine',
+                title: 'Location has Christine',
+            },
+            {
+                id: 'mrwrite',
+                title: 'Location has Mr. Write',
+            },
+            {
+                id: 'boomerang_salesman',
                 title: 'Location has boomerang salesman',
+            },
+            {
+                id: 'madbatter',
+                title: 'Location has Madbatter',
+            },
+            {
+                id: 'piece_of_heart',
+                title: 'Location has Piece of Heart',
+            },
+            {
+                id: 'sea_shell',
+                title: 'Location has Secret Seashell',
+            },
+            {
+                id: 'yipyip',
+                title: 'Location has YipYip',
+            },
+            {
+                id: 'king_moblin',
+                title: 'Location has Moblin Cave',
             },
         ],
     },

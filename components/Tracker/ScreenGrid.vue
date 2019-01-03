@@ -23,10 +23,20 @@ v-bind:class='{guttered: $store.getters.settings.screens.showGutter.value}')
         v-on:markerIsHovered="highlightMatchingMarkers($event)"
         v-on:showContextMenu='$emit("showContextMenu", $event)')
 
+        ScreenOverlay
+
+        .map(
+        v-bind:style="{opacity: $store.getters.settings.screens.mapOpacity.value}",
+        v-bind:data-map-original="$store.getters.settings.screens.mapTypeOriginal.value",
+        v-bind:data-map-improved="$store.getters.settings.screens.mapTypeImproved.value",
+        v-bind:data-map-detailed="$store.getters.settings.screens.mapTypeDetailed.value")
+
+
 </template>
 
 <script>
 import screenDataList from '~/assets/js/data/screens';
+import ScreenOverlay from '~/components/Tracker/ScreenOverlay';
 import Screen from '~/components/Tracker/Screen';
 
 let rows = 16;
@@ -34,6 +44,7 @@ let rows = 16;
 export default {
     components: {
         Screen,
+        ScreenOverlay,
     },
     data() {
         return {
@@ -47,18 +58,39 @@ export default {
     methods: {
         highlightMatchingMarkers(event) {
             let screensMarkersList = this.$store.getters.screensMarkersList;
+            let listOfCouldHover = [];
 
-            screensMarkersList.forEach(markersList => {
-                markersList.forEach(marker => {
-                    if (event !== null) {
-                        let hoveredId = event.target.dataset.id;
-                        let hoveredIndexId = event.target.dataset.indexId;
-                        if (marker.id === hoveredId && marker.isPassage)
-                            marker.hover = true;
-                    } else {
-                        marker.hover = false;
+            screensMarkersList.map(screenMarkerList => {
+                let filtered = screenMarkerList.filter(
+                    marker => marker.isPassage
+                );
+
+                if (filtered.length < 1) {
+                    return;
+                } else {
+                    let listOfShouldHover = [];
+                    listOfCouldHover = [...listOfCouldHover, ...filtered];
+
+                    listOfCouldHover.map(marker => {
+                        if (event !== null) {
+                            let hoveredId = event.target.dataset.id;
+                            let hoveredIndexId = event.target.dataset.indexId;
+
+                            if (hoveredId === marker.id) {
+                                listOfShouldHover = [
+                                    ...listOfShouldHover,
+                                    marker,
+                                ];
+                            }
+                        } else {
+                            marker.hover = false;
+                        }
+                    });
+
+                    if (listOfShouldHover.length > 1) {
+                        listOfShouldHover.map(marker => (marker.hover = true));
                     }
-                });
+                }
             });
         },
     },
@@ -73,7 +105,28 @@ export default {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: auto;
-    z-index: 201;
+
+    .map {
+        @extend %full-abs;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        image-rendering: pixelated;
+        user-select: none;
+        pointer-events: none;
+        z-index: 1;
+
+        &[data-map-original='true'] {
+            background-image: url($image-overworld-original);
+        }
+
+        &[data-map-improved='true'] {
+            background-image: url($image-overworld-improved);
+        }
+
+        &[data-map-detailed='true'] {
+            background-image: url($image-overworld-detailed);
+        }
+    }
 
     .gutter {
         position: relative;
@@ -89,11 +142,13 @@ export default {
             margin: 0 auto;
             top: 50%;
             transform: translateY(-50%);
-            color: white;
+            color: gray;
             text-transform: uppercase;
             text-align: center;
             width: 100%;
             line-height: 1.2em;
+            font-size: 2vw;
+            user-select: none;
         }
     }
 

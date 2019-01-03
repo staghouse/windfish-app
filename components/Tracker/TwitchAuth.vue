@@ -1,9 +1,15 @@
 <template lang="pug">
-    div.twitch-auth(v-bind:class="{hide: hideAuthModal}")
+    div.twitch-auth(
+    v-bind:class="{hide: hideAuthModal}",
+    v-if="!$store.getters.settings.configuration.ignoreTwitch.value",
+    @click.stop.self="hideAuthModal = true")
         div.twitch-auth__wrap
+            p.title Welcome to the Windfish.io!
+            span Please provide feedback whereever you may have any. You can log an issue on github by clicking the bug icon in the menu or by messaging in the Discord server  
+                a(href="https://discord.gg/RRuA34C") here
             p.title Log in with Twitch.tv?
             span (Twitch chat integration)
-            span.error(v-if="authHadError") Sorry, we couldn't valid you...
+            span.error(v-if="authHadError") Sorry, we couldn't validate you...
             a.button(v-bind:href="authURI")
                 button.login Log In
             button.cancel(
@@ -18,7 +24,7 @@ export default {
     name: 'TwitchAuth',
     data() {
         return {
-            authURI: '/beta/auth/twitch/',
+            authURI: '/api/auth/twitch/',
             authHadError: false,
             hideAuthModal: window.location.search.length > 0 ? true : false,
         };
@@ -73,6 +79,8 @@ export default {
     align-items: center;
     justify-content: center;
     text-align: center;
+    background-color: rgba(1, 6, 25, 0.3);
+    cursor: pointer;
 
     &.hide {
         display: none;
@@ -86,6 +94,10 @@ export default {
 
         .title {
             font-size: 24px;
+        }
+
+        a {
+            color: white;
         }
 
         span {

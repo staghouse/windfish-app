@@ -98,9 +98,9 @@ $showSpeed: 0.15s;
                 align-items: center;
                 margin-bottom: 10px;
 
-                input {
-                    flex: 0;
-                }
+                // input {
+                //     flex: 0;
+                // }
 
                 label {
                     flex: 1;

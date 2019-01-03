@@ -1,17 +1,13 @@
 export default {
-    user: {
-        savedTime: {
-            asString: '00:00:00',
-            hours: 0,
-            minutes: 0,
-            seconds: 0,
-            milis: 0,
-        },
-    },
     configuration: {
         keepSettings: {
             heading: 'Persistant Settings',
             label: 'Store My Settings',
+            type: 'checkbox',
+            value: false,
+        },
+        ignoreTwitch: {
+            label: 'Ignore Twitch.tv Login',
             type: 'checkbox',
             value: false,
         },
@@ -22,21 +18,21 @@ export default {
         // },
     },
     trackers: {
-        timerVisible: {
-            heading: 'Timer',
-            label: 'Show Timer',
-            type: 'checkbox',
-            value: false,
-        },
-        layoutHybrid: {
+        layoutStream: {
             heading: 'Layout',
-            label: 'Hybrid',
+            label: 'Stream Friendly',
             name: 'trackersLayout',
             type: 'radio',
             value: true,
         },
+        layoutStacked: {
+            label: 'Stacked',
+            name: 'trackersLayout',
+            type: 'radio',
+            value: false,
+        },
         layoutReverse: {
-            label: 'Reverse',
+            label: 'Reverse-Stacked',
             name: 'trackersLayout',
             type: 'radio',
             value: false,
@@ -90,6 +86,13 @@ export default {
             label: 'Auto-close on select',
             type: 'checkbox',
             value: true,
+        },
+        disableDungeonTracking: {
+            heading: 'Dungeon Tracking',
+            label: 'Disable Dungeon Requirements',
+            name: 'dungeonReqs',
+            type: 'checkbox',
+            value: false,
         },
         mapTypeOriginal: {
             heading: 'Map Type',
@@ -173,13 +176,14 @@ export default {
             type: 'checkbox',
             value: false,
         },
-        verticalLayout: {
-            heading: 'Miscellaneous',
-            label: 'Vertical Layout',
-            type: 'checkbox',
-            value: false,
-        },
+        // verticalLayout: {
+        //     heading: 'Miscellaneous',
+        //     label: 'Vertical Layout',
+        //     type: 'checkbox',
+        //     value: false,
+        // },
         desaturateInactive: {
+            heading: 'Miscellaneous',
             label: 'Desaturate Inactive Items',
             type: 'checkbox',
             value: false,

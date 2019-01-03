@@ -68,7 +68,7 @@
                     output(v-bind:for='name') {{option.value}}
                     button(
                     @click='$store.getters.settings.trackers.backgroundColor.value = $store.getters.settings.trackers.backgroundColor.defaultValue') Reset
-    Translate
+    //- Translate
 </template>
 
 <script>
@@ -92,7 +92,11 @@ export default {
         let settings = this.$store.getters.settings;
         let storedSettings = window.localStorage.getItem(this.storageName);
 
-        if (storedSettings !== 'undefined') {
+        if (
+            typeof storedSettings === 'string' &&
+            storedSettings !== 'undefined' &&
+            storedSettings.length > 0
+        ) {
             let stored = JSON.parse(storedSettings);
 
             if (Object.keys(stored).length === Object.keys(settings).length) {

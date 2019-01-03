@@ -9,20 +9,18 @@
         v-if="showContextMenu",
         v-on:closeContextMenu="showContextMenu = false"
         v-bind='{ contextMenuPosition }')
+
         ScreenGrid(
         v-on:showContextMenu='toggleContextMenu($event)')
-        ScreenOverlay
 
 </template>
 
 <script>
 import ContextMenu from '~/components/Tracker/ContextMenu';
-import ScreenOverlay from '~/components/Tracker/ScreenOverlay';
 import ScreenGrid from '~/components/Tracker/ScreenGrid';
 export default {
     components: {
         ContextMenu,
-        ScreenOverlay,
         ScreenGrid,
     },
     data() {
@@ -77,6 +75,7 @@ export default {
 .screen-tracker {
     position: relative;
     padding: 10px;
+    z-index: 300;
 
     .screens {
         position: relative;

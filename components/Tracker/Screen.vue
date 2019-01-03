@@ -3,28 +3,28 @@
 .screen(
 @click='screenCleared = !screenCleared',
 @contextmenu.prevent='$emit("showContextMenu", $event)',
+v-bind:data-id='index',
 v-bind:data-cleared='screenCleared',
-v-bind:data-id='position',
 ref="screen")
 
     .screen__marker-wrap
         .marker(
         @mouseenter='$emit("markerIsHovered", $event)',
         @mouseleave='$emit("markerIsHovered", null)',
-        v-for='(marker, i) in markerData',
+        v-for='(marker, i) in $store.getters.screensMarkersList[index]',
         v-bind:key='i',
         v-bind:data-id='marker.id',
-        v-bind:data-index-id='position',
-        v-bind:data-minimum="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].minimum: false",
+        v-bind:data-index-id='index',
         v-bind:data-accessible="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].accessible: false",
-        v-bind:data-completable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].completable: false",
-        v-bind:data-finished="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].finished: false",
-        v-bind:class='{passage: (marker.id.length < 2), hovered: marker.hover}',
-        v-bind:style="{backgroundImage: `url('/images/markers/marker_${marker.id}.png')`}")
+        v-bind:data-clearable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].clearable: false",
+        v-bind:data-finishable="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].finishable: false",
+        v-bind:data-complete="!isNaN(parseInt(marker.id))? $store.getters.dungeonStates[parseInt(marker.id) - 1].complete: false",
+        v-bind:class='{passage: (marker.id.length < 2), hovered: marker.hover, canBeTracked: !$store.getters.settings.screens.disableDungeonTracking.value }',
+        v-bind:style="{backgroundImage: marker.id.length < 2? `none`: `url('/images/sprites/${marker.id}.png')`}")
             span.text(v-if='marker.id.length < 2') {{marker.id}}
 
         span.no-entrance(
-        v-if='$store.getters.settings.screens.showEntrances.value && !screenData[position].hasEntrance')
+        v-if='$store.getters.settings.screens.showEntrances.value && !screenData[index].hasEntrance')
 
 </template>
 
@@ -35,23 +35,10 @@ export default {
     props: ['data', 'index'],
     data() {
         return {
-            screenData: screenDataList,
             screenCleared: false,
-            position: this.index,
+            screenData: screenDataList,
         };
     },
-    computed: {
-        markerData() {
-            return this.$store.getters.screensMarkersList[this.index];
-        },
-    },
-    // watch: {
-    //     newMarkerData: function(newValue) {
-    //         if (newValue.id === this.markerData.id) {
-    //             this.markerData = newValue.markers;
-    //         }
-    //     },
-    // },
 };
 </script>
 
@@ -69,23 +56,22 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 101;
+    z-index: 301;
 
     &[data-cleared] {
         &::after {
+            content: '';
             @extend %full-abs;
-            z-index: 1;
+            background-image: url('../../static/images/sprites/cleared.png');
             background-color: $blue-1;
             background-size: contain;
             background-position: center;
-            background-image: url($image-marker-cleared);
-            opacity: 1;
+            z-index: 1;
         }
     }
 
     &__marker-wrap {
         @extend %full-abs;
-        // pointer-events: none;
         display: flex;
         flex-wrap: wrap;
         overflow: hidden;
@@ -153,53 +139,46 @@ export default {
             &[data-id='6'],
             &[data-id='7'],
             &[data-id='8'] {
-                background-color: darken(tomato, 10%);
-            }
-
-            &[data-minimum='true'] {
-                background-color: darken(darkorange, 5%) !important;
+                &.canBeTracked {
+                    background-color: darken(tomato, 10%);
+                }
             }
 
             &[data-accessible='true'] {
-                background-color: darken(gold, 5%) !important;
+                &.canBeTracked {
+                    background-color: darken(darkorange, 5%) !important;
+                }
             }
 
-            &[data-completable='true'] {
-                background-color: darken(mediumseagreen, 5%) !important;
+            &[data-clearable='true'] {
+                &.canBeTracked {
+                    background-color: darken(gold, 5%) !important;
+                }
             }
 
-            &[data-finished='true'] {
-                background-color: $blue-1 !important;
+            &[data-finishable='true'] {
+                &.canBeTracked {
+                    background-color: darken(mediumseagreen, 5%) !important;
+                }
+            }
+
+            &[data-complete='true'] {
+                &.canBeTracked {
+                    background-color: $blue-1 !important;
+                }
             }
 
             &.hovered {
                 background-color: white !important;
 
+                &.canBeTracked {
+                    background-color: white !important;
+                }
+
                 * {
                     color: $blue-1 !important;
                 }
             }
-        }
-    }
-
-    &.hovered {
-        &::after {
-            @extend %full-abs;
-            z-index: 9;
-            content: '';
-            background-color: lightgreen;
-            opacity: 0.8;
-        }
-    }
-
-    &.cleared {
-        &::after {
-            @extend %full-abs;
-            z-index: 10;
-            background-color: $blue-1;
-            background-size: contain;
-            background-position: center;
-            background-image: url($image-marker-cleared);
         }
     }
 }

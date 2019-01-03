@@ -2,8 +2,6 @@
 
 Vanilla commands for Twitch chat integration.
 
-In this beta phase commands are still new and only trigger events of the sprite container, not the sprites themselves. So for sprite that have multiple states, like the trade sequence, mushroom, items with quantity like shells and leaves all have to be trigger in progression order.
-
 | Sprite              | Commands                                        |
 | ------------------- | ----------------------------------------------- |
 | **Items Row 1**     |                                                 |

@@ -11,7 +11,7 @@
 
 <script>
 import { requirements } from '~/assets/js/data/dungeons';
-import { hasRequirements, checkRequirements } from '~/assets/js/utils';
+import { hasRequirements } from '~/assets/js/utils';
 import Item from '~/components/Tracker/Item';
 export default {
     components: {
@@ -31,29 +31,38 @@ export default {
 
             let newDungeonStates = [];
 
-            requirements.forEach(dungeon => {
+            requirements.forEach((dungeon, index) => {
                 let newDungeon = {};
 
-                newDungeon.minimum = hasRequirements(
-                    itemMap,
-                    dungeon.requirements.minimum
-                );
                 newDungeon.accessible = hasRequirements(
                     itemMap,
-                    dungeon.requirements.accessible
+                    dungeon.requirements.accessible,
+                    dungeon.id
                 );
-                newDungeon.clearable = hasRequirements(
-                    itemMap,
-                    dungeon.requirements.clearable
-                );
-                newDungeon.finished = hasRequirements(
-                    itemMap,
-                    dungeon.requirements.finished
-                );
-                newDungeon.completable =
-                    newDungeon.minimum &&
+
+                newDungeon.clearable =
                     newDungeon.accessible &&
-                    newDungeon.clearable;
+                    hasRequirements(
+                        itemMap,
+                        dungeon.requirements.clearable,
+                        dungeon.id
+                    );
+
+                newDungeon.finishable =
+                    newDungeon.clearable &&
+                    hasRequirements(
+                        itemMap,
+                        dungeon.requirements.finishable,
+                        dungeon.id
+                    );
+
+                newDungeon.complete =
+                    newDungeon.finishable &&
+                    hasRequirements(
+                        itemMap,
+                        dungeon.requirements.complete,
+                        dungeon.id
+                    );
 
                 newDungeonStates.push(newDungeon);
             });
@@ -63,3 +72,15 @@ export default {
     },
 };
 </script>
+
+<style lang="scss">
+.item-tracker {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: auto;
+
+    &::after {
+        content: none !important;
+    }
+}
+</style>
