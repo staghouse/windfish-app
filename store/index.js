@@ -19,6 +19,7 @@ const store = () => {
             socketConnected: false,
             socketAvailable: true,
             socket: null,
+            flushSettings: process.env.flushSettings
         },
         getters: {
             items: state => state.items,
@@ -30,6 +31,7 @@ const store = () => {
             socketAvailable: state => state.socketAvailable,
             socket: state => state.socket,
             state: state => state,
+            flushSettings: state => state.flushSettings
         },
         actions: {
             'update socket': async function(store, socket) {

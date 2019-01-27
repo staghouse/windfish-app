@@ -267,3 +267,13 @@ export function createSessionID() {
 
     return text;
 }
+
+/**
+ * 
+ * @param {Object} data User settings
+ */
+export function storeUserDataInLocalStorage(name, data) {
+    if (typeof window !== 'undefined' || window) {
+        window.localStorage.setItem(name, JSON.stringify(data));
+    }
+}

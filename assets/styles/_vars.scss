@@ -10,7 +10,7 @@ $font-family-display: 'Playball', Georgia, sans-serif;
 $blue-1: #010619;
 $blue-2: lighten($blue-1, 15%);
 $blue-3: lighten($blue-1, 30%);
-$blue-4: lighten($blue-1, 50%);
+$blue-4: lighten($blue-1, 45%);
 
 $gold-1: #9fa037;
 $gold-2: darken($gold-1, 15%);
@@ -19,7 +19,7 @@ $gold-3: darken($gold-1, 30%);
 $green: #9fa037;
 
 // Sizes
-$document-max-width: 590px;
-$tracker-max-width: 570px;
+$document-max-width: 590px; // deprecated?
+$tracker-max-width: 570px; // deprecated?
 $settings-width: 320px;
 $grid-gutter-size: 1px;

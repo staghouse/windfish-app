@@ -8,5 +8,12 @@ export default {
     components: {
         App,
     },
+    head(){
+        return {
+            htmlAttrs: {
+                class: 'marketing-page'
+            }
+        }
+    }
 };
 </script>

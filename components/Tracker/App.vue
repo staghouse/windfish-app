@@ -14,6 +14,7 @@ import TwitchAuth from '~/components/Tracker/TwitchAuth';
 import MenuBar from '~/components/Tracker/MenuBar';
 import Settings from '~/components/Tracker/Settings';
 import Trackers from '~/components/Tracker/Trackers';
+import { storeUserDataInLocalStorage } from '@/assets/js/utils';
 
 export default {
     name: 'App',
@@ -28,7 +29,7 @@ export default {
             showSettingsMenu: false,
             authedUser: null,
         };
-    },
+    }
 };
 </script>
 

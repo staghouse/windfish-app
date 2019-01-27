@@ -9,7 +9,8 @@ v-bind:data-layout-stream="$store.getters.settings.trackers.layoutStream.value",
 v-bind:data-layout-stacked="$store.getters.settings.trackers.layoutStacked.value",
 v-bind:data-layout-reverse="$store.getters.settings.trackers.layoutReverse.value",
 v-bind:data-layout-map="$store.getters.settings.trackers.layoutMap.value",
-v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value")
+v-bind:data-layout-items="$store.getters.settings.trackers.layoutItems.value",
+v-bind:data-layout-no-max-width="$store.getters.settings.trackers.layoutNoMaxWidth.value")
 
     .layout-wrap
         ScreenTracker
@@ -40,7 +41,8 @@ export default {
     margin: 0 auto;
     box-sizing: border-box;
     position: relative;
-    max-width: 100vw;
+    max-width: 960px;
+    min-width: 320px;
     background-color: $blue-1;
 
     .layout-wrap {
@@ -153,6 +155,10 @@ export default {
                 }
             }
         }
+    }
+
+    &[data-layout-no-max-width='true'] {
+        max-width: 100%;
     }
 }
 </style>

@@ -13,5 +13,5 @@ dist
 # Environment variables
 .env
 
-$ Node Modules
+# Node Modules
 node_modules

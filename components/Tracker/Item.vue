@@ -28,15 +28,23 @@ export default {
     data() {
         return {
             imagePath: '/images/sprites/',
-            spriteExtension:
-                this.$store.getters.items[this.index].category === 'dungeon'
-                    ? '.gif'
-                    : '.png',
         };
     },
     computed: {
         item() {
             return this.$store.getters.items[this.index];
+        },
+        spriteExtension() {
+            const isInstrument =
+                this.$store.getters.items[this.index].category === 'dungeon';
+            const animateInstruments = this.$store.getters.settings.items.animateInstruments.value;
+
+            if (isInstrument ){
+                if( animateInstruments) return '.gif';
+                else return '_freeze.png';
+            }
+
+            return '.png';
         },
     },
     methods: {
@@ -132,7 +140,7 @@ export default {
         background-position: center;
         background-repeat: no-repeat;
         image-rendering: pixelated;
-        opacity: 0.4;
+        opacity: 0.3;
 
         &[data-desaturate='true'] {
             filter: grayscale(100%);
@@ -143,7 +151,7 @@ export default {
         }
 
         &[data-active='true'] {
-            opacity: 1;
+            opacity: 1 !important;
         }
 
         &-text {

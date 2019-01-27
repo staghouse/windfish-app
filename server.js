@@ -32,7 +32,7 @@ let sessions = {};
 
 /**
  * Socket.io
- * 
+ *
  * Here is where we set up all out socket connections, handlers, events
  * responses and any other behaviour we need to happen during a connection
  */
@@ -66,7 +66,7 @@ io.on('connection', socket => {
     });
 
     /**
-     * Send the complete tracker data between two multiple connections 
+     * Send the complete tracker data between two multiple connections
      */
     socket.on('send broadcast data', data => {
         let currentSocket = socket;

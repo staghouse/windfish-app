@@ -1,7 +1,10 @@
 module.exports = {
+    env: {
+        flushSettings: process.env.FLUSH_SETTINGS || false
+    },
     /*
-  ** Headers of the page
-  */
+     ** Headers of the page
+     */
     head: {
         title:
             "Windfish.io :: Windfish.io - A game tracker for The Legend of Zelda: Link's Awakening DX Randomizer",
@@ -12,7 +15,7 @@ module.exports = {
                 content: 'width=device-width, initial-scale=1',
             },
             {
-                name: 'og:title',
+                property: 'og:title',
                 content:
                     "Windfish.io :: Windfish.io - A game tracker for The Legend of Zelda: Link's Awakening DX Randomizer",
             },
@@ -22,16 +25,16 @@ module.exports = {
                     "Windfish is a web-based game tracker designed for streaming The Legend of Zelda: Link's Awakening DX that tracks the overworld, items and much more!",
             },
             {
-                name: 'og:description',
+                property: 'og:description',
                 content:
                     "Windfish is a web-based game tracker designed for streaming The Legend of Zelda: Link's Awakening DX that tracks the overworld, items and much more!",
             },
             {
-                name: 'og:image',
+                property: 'og:image',
                 content: '/images/display/master.jpg',
             },
             {
-                name: 'og:url',
+                property: 'og:url',
                 content: 'https://www.windfish.io',
             },
         ],
@@ -44,16 +47,16 @@ module.exports = {
         ],
     },
     /*
-  ** Customize the progress bar color
-  */
+     ** Customize the progress bar color
+     */
     loading: { color: '#3B8070' },
     /*
-  ** Build configuration
-  */
+     ** Build configuration
+     */
     build: {
         /*
-    ** Run ESLint on save
-    */
+         ** Run ESLint on save
+         */
         extend(config, { isDev, isClient }) {
             if (isDev && isClient) {
                 config.module.rules.push({

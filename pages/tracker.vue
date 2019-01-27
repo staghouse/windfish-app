@@ -4,6 +4,7 @@
 
 <script>
 import App from '~/components/Tracker/App';
+
 export default {
     components: {
         App,
