@@ -49,6 +49,12 @@ export default {
             type: 'radio',
             value: false,
         },
+        layoutNoMaxWidth: {
+            heading: 'Trackers Width',
+            label: 'No Max Width',
+            type: 'checkbox',
+            value: false
+        },
         showBorder: {
             heading: 'Border',
             label: 'Show Border',
@@ -123,6 +129,7 @@ export default {
             maximum: '1',
         },
         showGutter: {
+            heading: 'X/Y Coordinates',
             label: 'Show Coordinates',
             type: 'checkbox',
             value: false,
@@ -160,19 +167,36 @@ export default {
         },
     },
     items: {
+        desaturateInactive: {
+            heading: 'All Sprites',
+            label: 'Desaturate Inactive Spites',
+            type: 'checkbox',
+            value: false,
+        },
+        animateInstruments: {
+            heading: 'Instrument Sprites',
+            label: 'Animate Instruments',
+            type: 'checkbox',
+            value: false,
+        },
         showChests: {
-            heading: 'Sprites',
+            heading: 'Extras Sprites',
             label: 'Show Chests',
             type: 'checkbox',
             value: false,
         },
         showExtended: {
-            label: 'Show More Items',
+            label: 'Show More Sprites',
             type: 'checkbox',
             value: false,
         },
         showSuperExtended: {
-            label: 'Show Even More Items',
+            label: 'Show Even More Sprites',
+            type: 'checkbox',
+            value: false,
+        },
+        showGoatMode: {
+            label: 'Enable Goat Mode Tracking',
             type: 'checkbox',
             value: false,
         },
@@ -182,16 +206,5 @@ export default {
         //     type: 'checkbox',
         //     value: false,
         // },
-        desaturateInactive: {
-            heading: 'Miscellaneous',
-            label: 'Desaturate Inactive Items',
-            type: 'checkbox',
-            value: false,
-        },
-        showGoatMode: {
-            label: 'Enable Goat Mode Tracking',
-            type: 'checkbox',
-            value: false,
-        },
     },
 };

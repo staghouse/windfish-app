@@ -12,10 +12,13 @@
 html {
     min-width: 320px;
 
+    &.marketing-page {
+        background-color: white;
+    }
+
     &,
     body {
         @extend %full-abs;
-        background-color: $blue-1;
         color: white;
         background-image: url($image-asset-path+'display/bg-tile-kanalet.gif');
     }
@@ -24,6 +27,7 @@ html {
         padding: 0;
         margin: 0;
         background-position: center;
+        background-color: $blue-1;
         font-family: $font-family;
 
         .tracker {
@@ -75,6 +79,10 @@ html {
         a.button {
             text-decoration: none;
             color: inherit;
+        }
+
+        small {
+            font-size: 12px;
         }
 
         .grid-container {

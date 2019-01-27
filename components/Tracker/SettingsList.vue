@@ -65,32 +65,30 @@
                 v-bind:for='name') {{option.label}}
                 
                 .color-options(v-if="option.type === 'color'")
-                    output(v-bind:for='name') {{option.value}}
+                    //- disabling for now as it has no value
+                    //- output(v-bind:for='name') {{option.value}}
                     button(
                     @click='$store.getters.settings.trackers.backgroundColor.value = $store.getters.settings.trackers.backgroundColor.defaultValue') Reset
     //- Translate
 </template>
 
 <script>
-import settings from '~/assets/js/data/settings';
-import Translate from '~/components/Shared/Translate';
-import SettingsList from '~/components/Tracker/SettingsList';
-
 export default {
     name: 'SettingsList',
-    components: {
-        SettingsList,
-        Translate,
-    },
     data() {
         return {
             storageName: 'windfishUserSettings',
-            // defaultSettings: settings,
         };
     },
     beforeMount() {
         let settings = this.$store.getters.settings;
         let storedSettings = window.localStorage.getItem(this.storageName);
+
+        // Environment variables equate Bools to Strings
+        if (this.$store.getters.flushSettings == 'true') {
+            this.handleLocalData(this.storageName);
+            return;
+        }
 
         if (
             typeof storedSettings === 'string' &&
@@ -106,16 +104,6 @@ export default {
         }
     },
     methods: {
-        // activateSettingButton(which) {
-        //     switch (which) {
-        //         case 'resetCurrentSettings':
-        //             this.$store.dispatch(
-        //                 'reset settings',
-        //                 this.defaultSettings
-        //             );
-        //             break;
-        //     }
-        // },
         inputChange(event) {
             let target = event.target;
             let option = {
@@ -159,14 +147,26 @@ export default {
             this.$store.dispatch('update setting value', option);
 
             if (this.$store.getters.settings.configuration.keepSettings.value) {
-                this.storeUserData(this.$store.getters.settings);
+                this.handleLocalData(this.storageName, this.$store.getters.settings);
             } else {
-                this.storeUserData(this.defaultSettings);
+                this.handleLocalData(this.storageName);
             }
         },
-        storeUserData(data) {
-            window.localStorage.setItem(this.storageName, JSON.stringify(data));
-        },
+        handleLocalData( key, data ){
+            if (typeof window !== 'undefined' || window) {
+                if(data){
+                    window.localStorage.setItem(key, JSON.stringify(data));
+                } else {
+                    window.localStorage.removeItem(key);
+                }
+            }
+        }
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.color-options {
+    margin-top: 10px;
+}
+</style>

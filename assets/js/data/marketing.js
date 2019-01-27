@@ -42,22 +42,22 @@ export default {
                 },
             ],
         },
-        {
-            title: 'Timer',
-            description: 'Track your current run with just a click!',
-            content: [
-                {
-                    title: 'Timer can start and stop whenever you like',
-                },
-                {
-                    title: 'Save your best time to compare against later',
-                },
-                {
-                    title:
-                        '"Light Splitting" will show when you exceed your last best record',
-                },
-            ],
-        },
+        // {
+        //     title: 'Timer',
+        //     description: 'Track your current run with just a click!',
+        //     content: [
+        //         {
+        //             title: 'Timer can start and stop whenever you like',
+        //         },
+        //         {
+        //             title: 'Save your best time to compare against later',
+        //         },
+        //         {
+        //             title:
+        //                 '"Light Splitting" will show when you exceed your last best record',
+        //         },
+        //     ],
+        // },
         {
             title: 'Broadcast',
             description: 'Options for Streamers and Re-Streamers',
