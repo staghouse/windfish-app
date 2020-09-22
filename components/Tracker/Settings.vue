@@ -1,20 +1,20 @@
 <template lang="pug">
 .settings-menu(
     v-bind:class="{show: showSettingsMenu }")
-    BroadcastOptions(
-        v-bind="{ authedUser }")
+    //- BroadcastOptions(
+    //-     v-bind="{ authedUser }")
     SettingsList
 </template>
 
 <script>
-import BroadcastOptions from '~/components/Tracker/BroadcastOptions';
+// import BroadcastOptions from '~/components/Tracker/BroadcastOptions';
 import SettingsList from '~/components/Tracker/SettingsList';
 
 export default {
     name: 'Settings',
     props: ['showSettingsMenu', 'authedUser'],
     components: {
-        BroadcastOptions,
+        // BroadcastOptions,
         SettingsList,
     },
 };

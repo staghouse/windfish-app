@@ -3,8 +3,8 @@
     MenuBar(v-on:toggleSettings='showSettingsMenu = !showSettingsMenu')
     Trackers
     
-    no-ssr
-        TwitchAuth(v-on:gotAuthedUser='authedUser = $event')
+    //- no-ssr
+    //-     TwitchAuth(v-on:gotAuthedUser='authedUser = $event')
     no-ssr
         Settings(v-bind='{showSettingsMenu, authedUser}')
 </template>
