@@ -44,6 +44,15 @@ module.exports = {
                 type: 'image/x-icon',
                 href: '/images/favicons/favicon.ico',
             },
+        ],
+        script: [
+            {
+                src: '/js/ads.js'
+            },
+            {
+                src: 'https://contextual.media.net/dmedianet.js?cid=8CU1L3768',
+                async: "async"
+            }
         ]
     },
     /*
@@ -68,12 +77,9 @@ module.exports = {
             }
         },
     },
-    modules: [/*'~/io', */ '@nuxtjs/google-analytics', '@nuxtjs/google-adsense'],
+    modules: [/*'~/io', */ '@nuxtjs/google-analytics'],
 
     'google-analytics': {
         id: 'UA-119957645-1',
-    },
-    'google-adsense': {
-        id: 'ca-pub-3221943064215224'
     }
 };

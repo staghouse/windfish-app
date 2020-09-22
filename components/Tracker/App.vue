@@ -2,7 +2,7 @@
 #app
     MenuBar(v-on:toggleSettings='showSettingsMenu = !showSettingsMenu')
     Trackers
-    
+    #823117887
     //- no-ssr
     //-     TwitchAuth(v-on:gotAuthedUser='authedUser = $event')
     no-ssr
@@ -29,6 +29,14 @@ export default {
             showSettingsMenu: false,
             authedUser: null,
         };
+    },
+    mounted(){
+        try {
+            window._mNHandle.queue.push(function (){
+                window._mNDetails.loadTag("823117887", "728x90", "823117887");
+            });
+        }
+        catch (error) {}
     }
 };
 </script>
