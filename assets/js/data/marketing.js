@@ -58,28 +58,28 @@ export default {
         //         },
         //     ],
         // },
-        {
-            title: 'Broadcast',
-            description: 'Options for Streamers and Re-Streamers',
-            content: [
-                {
-                    title: 'Integrate with Twitch.tv chat',
-                    list: [
-                        'Chat can activate anything in the Items tracker',
-                        'A bot at your control - joins and parts your channel at will',
-                        'Whitelisting features to prevent spam',
-                        'Virtually ZERO permissions required and no personal data needed',
-                    ],
-                },
-                {
-                    title: 'Create a session with your friends',
-                    list: [
-                        'Sessioning allows multi people to control the same tracker in real-time',
-                        'Broadcast your window and let someone across the world update it',
-                    ],
-                },
-            ],
-        },
+        // {
+        //     title: 'Broadcast',
+        //     description: 'Options for Streamers and Re-Streamers',
+        //     content: [
+        //         {
+        //             title: 'Integrate with Twitch.tv chat',
+        //             list: [
+        //                 'Chat can activate anything in the Items tracker',
+        //                 'A bot at your control - joins and parts your channel at will',
+        //                 'Whitelisting features to prevent spam',
+        //                 'Virtually ZERO permissions required and no personal data needed',
+        //             ],
+        //         },
+        //         {
+        //             title: 'Create a session with your friends',
+        //             list: [
+        //                 'Sessioning allows multi people to control the same tracker in real-time',
+        //                 'Broadcast your window and let someone across the world update it',
+        //             ],
+        //         },
+        //     ],
+        // },
         {
             title: 'Misc',
             description: 'Let the Windfish work for you!',
