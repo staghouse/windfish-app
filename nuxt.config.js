@@ -44,7 +44,7 @@ module.exports = {
                 type: 'image/x-icon',
                 href: '/images/favicons/favicon.ico',
             },
-        ],
+        ]
     },
     /*
      ** Customize the progress bar color
@@ -68,9 +68,12 @@ module.exports = {
             }
         },
     },
-    modules: [/*'~/io', */ '@nuxtjs/google-analytics'],
+    modules: [/*'~/io', */ '@nuxtjs/google-analytics', '@nuxtjs/google-adsense'],
 
     'google-analytics': {
         id: 'UA-119957645-1',
     },
+    'google-adsense': {
+        id: 'ca-pub-3221943064215224'
+    }
 };
