@@ -8,16 +8,16 @@
         "node": ">=10.0.0"
     },
     "scripts": {
-        "dev": "nodemon -w nuxt.config.js server.js",
-        "dev:settings": "FLUSH_SETTINGS=true yarn run dev",
+        "dev": "nuxt",
+        "dev:settings": "FLUSH_SETTINGS=true npm run dev",
         "build": "nuxt build",
-        "start": "node server.js",
-        "start:plain": "nuxt",
-        "start-prod-mock": "PRECOMMIT=true yarn run heroku-mock",
-        "heroku-mock": " yarn run heroku-postbuild && NODE_ENV=production  yarn run start",
+        "start": "nuxt start",
+        "start:server": "node server.js",
+        "start-prod-mock": "PRECOMMIT=true npm run heroku-mock",
+        "heroku-mock": "npm run heroku-postbuild && NODE_ENV=production npm run start",
         "heroku-postbuild": "nuxt build",
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-        "precommit": " yarn run lint &&  yarn run start-prod-mock"
+        "precommit": "npm run lint && npm run start-prod-mock"
     },
     "dependencies": {
         "@nuxtjs/google-analytics": "^2.4.0",
