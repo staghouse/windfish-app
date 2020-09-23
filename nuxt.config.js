@@ -44,15 +44,6 @@ module.exports = {
                 type: 'image/x-icon',
                 href: '/images/favicons/favicon.ico',
             },
-        ],
-        script: [
-            {
-                src: '/js/ads.js'
-            },
-            {
-                src: 'https://contextual.media.net/dmedianet.js?cid=8CU1L3768',
-                async: "async"
-            }
         ]
     },
     /*
