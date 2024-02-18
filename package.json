@@ -31,7 +31,7 @@
         "redirect-ssl": "^2.0.0",
         "socket.io": "^2.3.0",
         "socket.io-client": "^2.3.0",
-        "tmi.js": "^1.5.0"
+        "tmi.js": "^1.8.5"
     },
     "devDependencies": {
         "babel-eslint": "^10.1.0",
@@ -40,7 +40,7 @@
         "eslint-loader": "^4.0.2",
         "eslint-plugin-vue": "^6.2.2",
         "husky": "^4.3.0",
-        "node-sass": "^4.14.1",
+        "node-sass": "^9.0.0",
         "nodemon": "^2.0.4",
         "pug": "^3.0.0",
         "pug-loader": "^2.4.0",
