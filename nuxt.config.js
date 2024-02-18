@@ -1,6 +1,6 @@
 module.exports = {
     env: {
-        flushSettings: process.env.FLUSH_SETTINGS || false
+        flushSettings: process.env.FLUSH_SETTINGS || false,
     },
     /*
      ** Headers of the page
@@ -44,7 +44,16 @@ module.exports = {
                 type: 'image/x-icon',
                 href: '/images/favicons/favicon.ico',
             },
-        ]
+        ],
+        script: [
+            {
+                src: 'https://www.googletagmanager.com/gtag/js?id=G-W9T9V40P4Z',
+                async: true,
+            },
+            {
+                src: 'js/ga.js',
+            },
+        ],
     },
     /*
      ** Customize the progress bar color
@@ -68,9 +77,4 @@ module.exports = {
             }
         },
     },
-    modules: [/*'~/io', */ '@nuxtjs/google-analytics'],
-
-    'google-analytics': {
-        id: 'UA-119957645-1',
-    }
 };
