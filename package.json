@@ -40,7 +40,7 @@
         "eslint-loader": "^4.0.2",
         "eslint-plugin-vue": "^6.2.2",
         "husky": "^4.3.0",
-        "node-sass": "^4.14.1",
+        "node-sass": "^9.0.0",
         "nodemon": "^2.0.4",
         "pug": "^3.0.0",
         "pug-loader": "^2.4.0",
